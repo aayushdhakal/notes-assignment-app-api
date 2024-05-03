@@ -137,12 +137,13 @@ var NotesService = /** @class */ (function () {
     };
     // -----------------this is collection of the public api --------------------------
     //this is a data available to the public where the view_type:'public'
-    NotesService.prototype.findAllPublicNotes = function () {
+    NotesService.prototype.findAllPublicNotes = function (_a) {
+        var limit = _a.limit, offset = _a.offset;
         return __awaiter(this, void 0, Promise, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.noteRepository.findAll({ where: { view_type: 'public', is_active: true } })];
-                    case 1: return [2 /*return*/, _a.sent()];
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, this.noteRepository.findAll({ where: { view_type: 'public', is_active: true }, offset: offset, limit: limit })];
+                    case 1: return [2 /*return*/, _b.sent()];
                 }
             });
         });

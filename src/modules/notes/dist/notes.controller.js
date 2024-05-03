@@ -64,12 +64,16 @@ var NotesController = /** @class */ (function () {
         this.notesService = notesService;
     }
     // this is a notes list we send when the particular notes is available to the public
-    NotesController.prototype.getNotesForPublic = function (page, offset) {
+    NotesController.prototype.getNotesForPublic = function (page, notesCount) {
         return __awaiter(this, void 0, void 0, function () {
-            var notes;
+            var limitsAndPagination, notes;
             return __generator(this, function (_a) {
-                console.log(page, offset);
-                notes = this.notesService.findAllPublicNotes();
+                limitsAndPagination = {
+                    limit: notesCount,
+                    offset: ((notesCount * page) - notesCount)
+                };
+                console.log(limitsAndPagination);
+                notes = this.notesService.findAllPublicNotes(limitsAndPagination);
                 return [2 /*return*/, notes];
             });
         });
@@ -106,7 +110,7 @@ var NotesController = /** @class */ (function () {
     __decorate([
         common_1.Get('public-notes'),
         jwt_guard_1.SkipAuth(),
-        __param(0, common_1.Query('page')), __param(1, common_1.Query('offset'))
+        __param(0, common_1.Query('page')), __param(1, common_1.Query('notesCount'))
     ], NotesController.prototype, "getNotesForPublic");
     __decorate([
         common_1.Get('user-notes'),

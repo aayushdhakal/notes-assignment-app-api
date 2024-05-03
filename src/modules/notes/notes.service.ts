@@ -57,8 +57,8 @@ export class NotesService{
     // -----------------this is collection of the public api --------------------------
 
     //this is a data available to the public where the view_type:'public'
-    async findAllPublicNotes():Promise<Note[]>{
-        return await this.noteRepository.findAll<Note>({where:{view_type:'public',is_active:true}});
+    async findAllPublicNotes({limit,offset}):Promise<Note[]>{
+        return await this.noteRepository.findAll<Note>({where:{view_type:'public',is_active:true},offset,limit});
     }
 
     //this is a data/inforamtion available to the public 
