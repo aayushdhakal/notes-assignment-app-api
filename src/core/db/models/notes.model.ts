@@ -60,10 +60,11 @@ export class Note extends Model<Note> {
     })
     group_id:string
 
+    @BelongsTo(()=>User)
+    owner:User;
 }
 
-
-// Note.belongsTo(User,{foreignKey:'id'});
+// Note.belongsTo(User);
 
 
 // Post.belongsTo(User); 

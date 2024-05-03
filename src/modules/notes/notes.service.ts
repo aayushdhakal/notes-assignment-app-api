@@ -2,6 +2,9 @@ import { Inject, Injectable } from "@nestjs/common";
 import { NOTE_REPOSITORY } from "src/core/constants";
 import { Note } from "src/core/db/models/notes.model";
 import { NoteCreateDto ,NoteUpdateDto } from "./dto/notes.dto";
+import { User } from "../../core/db/models/users.model";
+
+const Sequelize = require('sequelize')
 
 
 
@@ -58,12 +61,22 @@ export class NotesService{
 
     //this is a data available to the public where the view_type:'public'
     async findAllPublicNotes({limit,offset}):Promise<Note[]>{
-        return await this.noteRepository.findAll<Note>({where:{view_type:'public',is_active:true},offset,limit});
+        return await this.noteRepository.findAll<Note>({
+            where:{view_type:'public',is_active:true},
+            offset,
+            limit,
+            include:[
+                { model:User, as:'owner', attributes:['username'] }
+            ]
+        });
     }
 
     //this is a data/inforamtion available to the public 
     async findOneByNoteId(noteId:string):Promise<Note>{
-        return await this.noteRepository.findOne({where:{id:noteId,view_type:'public',is_active:true}});
+        return await this.noteRepository.findOne({
+            where:{id:noteId,view_type:'public',is_active:true},
+            include:[{model:User,as:'owner',attributes:['username']}]
+        });
     }
     
 

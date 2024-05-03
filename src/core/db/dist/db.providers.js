@@ -66,7 +66,7 @@ exports.databaseProviders = [{
                         }
                         sequelize = new sequelize_typescript_1.Sequelize(config);
                         //adding all the models for the User and Note
-                        sequelize.addModels([users_model_1.User, notes_model_1.Note]);
+                        sequelize.addModels([notes_model_1.Note, users_model_1.User]);
                         //await sequelize.sync({alter:true}); //create a table if present and alter table if any changes
                         return [4 /*yield*/, sequelize.sync({ force: true })];
                     case 1:

@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table, Unique } from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Table, Unique } from "sequelize-typescript";
+import { Note } from "./notes.model";
 
 @Table({ tableName: 'User' })
 export class User extends Model<User> {
@@ -41,4 +42,13 @@ export class User extends Model<User> {
         allowNull:true
     })
     phoneNumber:string;
+
+    // This is the relation specification on the side of the User
+    // if it is CASCADE then the context follows. like if it is onDelete:'CASCADE' it will delete the following notes on another table LIKEWISE same for the CASCADE
+    // if it is RESTRICT it will prevents the deletion or update
+    // if it is SET NULL it will set null when deletion 
+    // Just like other are NO ACTION
+    @HasMany(()=>Note,{ onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+    notes:Note[];
 }
+

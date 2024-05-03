@@ -48,6 +48,8 @@ exports.__esModule = true;
 exports.NotesService = void 0;
 var common_1 = require("@nestjs/common");
 var constants_1 = require("src/core/constants");
+var users_model_1 = require("../../core/db/models/users.model");
+var Sequelize = require('sequelize');
 var NotesService = /** @class */ (function () {
     function NotesService(noteRepository) {
         this.noteRepository = noteRepository;
@@ -142,7 +144,19 @@ var NotesService = /** @class */ (function () {
         return __awaiter(this, void 0, Promise, function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.noteRepository.findAll({ where: { view_type: 'public', is_active: true }, offset: offset, limit: limit })];
+                    case 0: return [4 /*yield*/, this.noteRepository.findAll({
+                            where: { view_type: 'public', is_active: true },
+                            offset: offset,
+                            limit: limit,
+                            include: {
+                                model: users_model_1.User,
+                                as: 'owner',
+                                attributes: ['username']
+                            },
+                            attributes: {
+                                exclude: ['owner_id']
+                            }
+                        })];
                     case 1: return [2 /*return*/, _b.sent()];
                 }
             });

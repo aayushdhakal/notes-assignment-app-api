@@ -21,6 +21,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.User = void 0;
 var sequelize_typescript_1 = require("sequelize-typescript");
+var notes_model_1 = require("./notes.model");
 var User = /** @class */ (function (_super) {
     __extends(User, _super);
     function User() {
@@ -66,6 +67,9 @@ var User = /** @class */ (function (_super) {
             allowNull: true
         })
     ], User.prototype, "phoneNumber");
+    __decorate([
+        sequelize_typescript_1.HasMany(function () { return notes_model_1.Note; }, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+    ], User.prototype, "notes");
     User = __decorate([
         sequelize_typescript_1.Table({ tableName: 'User' })
     ], User);

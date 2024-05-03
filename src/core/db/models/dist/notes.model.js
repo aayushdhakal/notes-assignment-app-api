@@ -79,16 +79,19 @@ var Note = /** @class */ (function (_super) {
     __decorate([
         sequelize_typescript_1.Column({
             type: sequelize_typescript_1.DataType.STRING,
-            allowNull: false
+            allowNull: true
         })
     ], Note.prototype, "group_id");
+    __decorate([
+        sequelize_typescript_1.BelongsTo(function () { return users_model_1.User; })
+    ], Note.prototype, "owner");
     Note = __decorate([
         sequelize_typescript_1.Table({ tableName: 'Note' })
     ], Note);
     return Note;
 }(sequelize_typescript_1.Model));
 exports.Note = Note;
-// Note.belongsTo(User,{foreignKey:'id'});
+// Note.belongsTo(User);
 // Post.belongsTo(User); 
 // This adds a foreign key column 'UserId' in the 'Posts' table
 // Alternatively, if you want to explicitly specify the foreign key column name:
