@@ -23,9 +23,9 @@ export class NotesService{
         return await this.noteRepository.findOne({where:{note_code:notesCode}});
     }
 
-    async updateNote(noteId,updateInfo:NoteUpdateDto):Promise<Note>{
+    async updateNote(noteId:string,updateInfo:NoteUpdateDto,userId:string):Promise<Note>{
 
-        const note = await this.findOneByNoteId(noteId);
+        const note = await this.findOneByNoteId(noteId,userId);
         if(!note){
             throw new ForbiddenException('Note not found.');
         }
@@ -74,9 +74,15 @@ export class NotesService{
     }
 
     //this is a data/inforamtion available to the public 
-    async findOneByNoteId(noteId:string):Promise<Note>{
+    async findOneByNoteId(noteId:string,userId?:string):Promise<Note>{
+        
         return await this.noteRepository.findOne({
-            where:{id:noteId,view_type:'public',is_active:true},
+        where:{
+                id:noteId,
+                view_type:'public',
+                is_active:true,
+                ...(userId && {owner_id:userId})
+            },
             include:[{model:User,as:'owner',attributes:['username']}]
         });
     }

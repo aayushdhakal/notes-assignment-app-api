@@ -85,12 +85,12 @@ var NotesService = /** @class */ (function () {
             });
         });
     };
-    NotesService.prototype.updateNote = function (noteId, updateInfo) {
+    NotesService.prototype.updateNote = function (noteId, updateInfo, userId) {
         return __awaiter(this, void 0, Promise, function () {
             var note, newNote;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.findOneByNoteId(noteId)];
+                    case 0: return [4 /*yield*/, this.findOneByNoteId(noteId, userId)];
                     case 1:
                         note = _a.sent();
                         if (!note) {
@@ -173,12 +173,12 @@ var NotesService = /** @class */ (function () {
         });
     };
     //this is a data/inforamtion available to the public 
-    NotesService.prototype.findOneByNoteId = function (noteId) {
+    NotesService.prototype.findOneByNoteId = function (noteId, userId) {
         return __awaiter(this, void 0, Promise, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.noteRepository.findOne({
-                            where: { id: noteId, view_type: 'public', is_active: true },
+                            where: __assign({ id: noteId, view_type: 'public', is_active: true }, (userId && { owner_id: userId })),
                             include: [{ model: users_model_1.User, as: 'owner', attributes: ['username'] }]
                         })];
                     case 1: return [2 /*return*/, _a.sent()];

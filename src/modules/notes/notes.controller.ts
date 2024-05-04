@@ -1,4 +1,4 @@
-import { Body, Controller,Get, Post ,Request,Query, Param, ParseUUIDPipe, Req, Patch } from '@nestjs/common';
+import { Body, Controller,Get, Post ,Request,Query, Param, ParseUUIDPipe, Req, Patch, Delete } from '@nestjs/common';
 import { NotesService } from './notes.service';
 import { NoteCreateDto, NoteUpdateDto, ViewTypeEnum } from './dto/notes.dto';
 import { SkipAuth } from '../auth/guards/jwt.guard';
@@ -65,7 +65,12 @@ export class NotesController {
         if(viewType){tempVal.viewType=viewType}
         if(isActive){tempVal.isActive=isActive} 
 
-        return await this.notesService.updateNote(id,tempVal);
+        return await this.notesService.updateNote(id,tempVal,req.user.id); 
+    }
+
+    @Delete(':id')
+    async deleteNote(@Param('id',ParseUUIDPipe) id:string,@Request() req){
+        
     }
 
 }

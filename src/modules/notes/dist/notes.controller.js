@@ -128,9 +128,16 @@ var NotesController = /** @class */ (function () {
                         if (isActive) {
                             tempVal.isActive = isActive;
                         }
-                        return [4 /*yield*/, this.notesService.updateNote(id, tempVal)];
+                        return [4 /*yield*/, this.notesService.updateNote(req.user.id, id, tempVal)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
+            });
+        });
+    };
+    NotesController.prototype.deleteNote = function (id, req) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
             });
         });
     };
@@ -156,6 +163,10 @@ var NotesController = /** @class */ (function () {
         common_1.Patch(':id'),
         __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Body()), __param(2, common_1.Request())
     ], NotesController.prototype, "updateNote");
+    __decorate([
+        common_1.Delete(':id'),
+        __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Request())
+    ], NotesController.prototype, "deleteNote");
     NotesController = __decorate([
         common_1.Controller('notes')
     ], NotesController);
