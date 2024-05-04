@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -74,20 +85,24 @@ var NotesService = /** @class */ (function () {
             });
         });
     };
-    NotesService.prototype.updateNote = function (noteId, _a) {
-        var name = _a.name, description = _a.description, is_active = _a.is_active;
+    NotesService.prototype.updateNote = function (noteId, updateInfo) {
         return __awaiter(this, void 0, Promise, function () {
-            var note;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var note, newNote;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0: return [4 /*yield*/, this.findOneByNoteId(noteId)];
                     case 1:
-                        note = _b.sent();
+                        note = _a.sent();
                         if (!note) {
-                            return [2 /*return*/, null];
+                            throw new common_1.ForbiddenException('Note not found.');
                         }
-                        note.update({ name: name, description: description, is_active: is_active });
-                        return [2 /*return*/, note || null];
+                        return [4 /*yield*/, note.update(__assign({}, updateInfo))];
+                    case 2:
+                        _a.sent();
+                        return [4 /*yield*/, note.save()];
+                    case 3:
+                        newNote = _a.sent();
+                        return [2 /*return*/, newNote || null];
                 }
             });
         });
@@ -148,14 +163,9 @@ var NotesService = /** @class */ (function () {
                             where: { view_type: 'public', is_active: true },
                             offset: offset,
                             limit: limit,
-                            include: {
-                                model: users_model_1.User,
-                                as: 'owner',
-                                attributes: ['username']
-                            },
-                            attributes: {
-                                exclude: ['owner_id']
-                            }
+                            include: [
+                                { model: users_model_1.User, as: 'owner', attributes: ['username'] }
+                            ]
                         })];
                     case 1: return [2 /*return*/, _b.sent()];
                 }
@@ -167,7 +177,10 @@ var NotesService = /** @class */ (function () {
         return __awaiter(this, void 0, Promise, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.noteRepository.findOne({ where: { id: noteId, view_type: 'public', is_active: true } })];
+                    case 0: return [4 /*yield*/, this.noteRepository.findOne({
+                            where: { id: noteId, view_type: 'public', is_active: true },
+                            include: [{ model: users_model_1.User, as: 'owner', attributes: ['username'] }]
+                        })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });

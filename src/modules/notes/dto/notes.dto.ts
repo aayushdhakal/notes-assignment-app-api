@@ -1,5 +1,5 @@
 import { Transform } from "class-transformer";
-import { IsBoolean, IsEnum, IsNotEmpty, IsString } from "class-validator";
+import { IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export enum ViewTypeEnum{
     PUBLIC='public',
@@ -28,7 +28,21 @@ export class NoteCreateDto{
 
 
 export class NoteUpdateDto{
+
+    @IsString()
+    @IsOptional()
     readonly name?:string;
+
+    @IsString()
+    @IsOptional()
     readonly description?:string;
-    readonly is_active?:boolean;
+
+    @IsBoolean()
+    @IsOptional()
+    readonly isActive?:boolean;
+
+    @Transform(({value}) =>(""+value).toLowerCase())
+    @IsEnum(ViewTypeEnum)
+    @IsOptional()
+    readonly viewType?:ViewTypeEnum;
 }

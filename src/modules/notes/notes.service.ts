@@ -1,8 +1,9 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { ForbiddenException, Inject, Injectable } from "@nestjs/common";
 import { NOTE_REPOSITORY } from "src/core/constants";
 import { Note } from "src/core/db/models/notes.model";
 import { NoteCreateDto ,NoteUpdateDto } from "./dto/notes.dto";
 import { User } from "../../core/db/models/users.model";
+import { log } from "console";
 
 const Sequelize = require('sequelize')
 
@@ -22,16 +23,17 @@ export class NotesService{
         return await this.noteRepository.findOne({where:{note_code:notesCode}});
     }
 
-    async updateNote(noteId,{name,description,is_active}:NoteUpdateDto):Promise<Note>{
+    async updateNote(noteId,updateInfo:NoteUpdateDto):Promise<Note>{
 
         const note = await this.findOneByNoteId(noteId);
         if(!note){
-            return null;
+            throw new ForbiddenException('Note not found.');
         }
 
-        note.update({name,description,is_active});
+        await note.update({...updateInfo});
+        const newNote = await note.save();
 
-        return  note || null;
+        return  newNote || null;
     }
 
     async deleteNote(noteId:string):Promise<Boolean>{

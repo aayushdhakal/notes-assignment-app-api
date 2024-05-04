@@ -1,6 +1,6 @@
-import { Body, Controller,Get, Post ,Request,Query, Param, ParseUUIDPipe } from '@nestjs/common';
+import { Body, Controller,Get, Post ,Request,Query, Param, ParseUUIDPipe, Req, Patch } from '@nestjs/common';
 import { NotesService } from './notes.service';
-import { NoteCreateDto } from './dto/notes.dto';
+import { NoteCreateDto, NoteUpdateDto, ViewTypeEnum } from './dto/notes.dto';
 import { SkipAuth } from '../auth/guards/jwt.guard';
 
 @Controller('notes')
@@ -12,8 +12,7 @@ export class NotesController {
     // this is a notes list we send when the particular notes is available to the public
     @Get('public-notes')
     @SkipAuth()
-    async getNotesForPublic(@Query('page') page?:number,@Query('notesCount') notesCount?:number){
-        
+    async getNotesForPublic(@Query('page') page:number = 1,@Query('notesCount') notesCount:number = 9){
         //check for the page and the count the number of the notes
         // offset is the amoun to be skipped
         // page = 1 notesCount=10(this is the amount of the notes to be shown)
@@ -26,8 +25,6 @@ export class NotesController {
             limit:notesCount,
             offset:((notesCount*page)-notesCount)
         }
-
-        console.log(limitsAndPagination)
         const notes = this.notesService.findAllPublicNotes(limitsAndPagination);
         return notes;
     }
@@ -50,6 +47,25 @@ export class NotesController {
     @Post('')
     async createNote(@Body() note:NoteCreateDto,@Request() req){
         return await this.notesService.create({...note,owner_id:req.user.id });
+    }
+
+    @Patch(':id')
+    async updateNote(@Param('id',ParseUUIDPipe) id:string ,@Body() note:NoteUpdateDto,@Request() req){
+
+        const {name,description,viewType,isActive} = note;
+        const tempVal:{
+            name?: string,
+            description?: string,
+            viewType?: ViewTypeEnum,
+            isActive?: boolean 
+        }= {};
+
+        if(name){tempVal.name=name}
+        if(description){tempVal.description=description}
+        if(viewType){tempVal.viewType=viewType}
+        if(isActive){tempVal.isActive=isActive} 
+
+        return await this.notesService.updateNote(id,tempVal);
     }
 
 }

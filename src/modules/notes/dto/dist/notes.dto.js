@@ -43,6 +43,26 @@ exports.NoteCreateDto = NoteCreateDto;
 var NoteUpdateDto = /** @class */ (function () {
     function NoteUpdateDto() {
     }
+    __decorate([
+        class_validator_1.IsString(),
+        class_validator_1.IsOptional()
+    ], NoteUpdateDto.prototype, "name");
+    __decorate([
+        class_validator_1.IsString(),
+        class_validator_1.IsOptional()
+    ], NoteUpdateDto.prototype, "description");
+    __decorate([
+        class_validator_1.IsBoolean(),
+        class_validator_1.IsOptional()
+    ], NoteUpdateDto.prototype, "isActive");
+    __decorate([
+        class_transformer_1.Transform(function (_a) {
+            var value = _a.value;
+            return ("" + value).toLowerCase();
+        }),
+        class_validator_1.IsEnum(ViewTypeEnum),
+        class_validator_1.IsOptional()
+    ], NoteUpdateDto.prototype, "viewType");
     return NoteUpdateDto;
 }());
 exports.NoteUpdateDto = NoteUpdateDto;

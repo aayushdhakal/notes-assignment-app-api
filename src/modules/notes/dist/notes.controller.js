@@ -65,6 +65,8 @@ var NotesController = /** @class */ (function () {
     }
     // this is a notes list we send when the particular notes is available to the public
     NotesController.prototype.getNotesForPublic = function (page, notesCount) {
+        if (page === void 0) { page = 1; }
+        if (notesCount === void 0) { notesCount = 9; }
         return __awaiter(this, void 0, void 0, function () {
             var limitsAndPagination, notes;
             return __generator(this, function (_a) {
@@ -72,7 +74,6 @@ var NotesController = /** @class */ (function () {
                     limit: notesCount,
                     offset: ((notesCount * page) - notesCount)
                 };
-                console.log(limitsAndPagination);
                 notes = this.notesService.findAllPublicNotes(limitsAndPagination);
                 return [2 /*return*/, notes];
             });
@@ -107,6 +108,32 @@ var NotesController = /** @class */ (function () {
             });
         });
     };
+    NotesController.prototype.updateNote = function (id, note, req) {
+        return __awaiter(this, void 0, void 0, function () {
+            var name, description, viewType, isActive, tempVal;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        name = note.name, description = note.description, viewType = note.viewType, isActive = note.isActive;
+                        tempVal = {};
+                        if (name) {
+                            tempVal.name = name;
+                        }
+                        if (description) {
+                            tempVal.description = description;
+                        }
+                        if (viewType) {
+                            tempVal.viewType = viewType;
+                        }
+                        if (isActive) {
+                            tempVal.isActive = isActive;
+                        }
+                        return [4 /*yield*/, this.notesService.updateNote(id, tempVal)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     __decorate([
         common_1.Get('public-notes'),
         jwt_guard_1.SkipAuth(),
@@ -125,6 +152,10 @@ var NotesController = /** @class */ (function () {
         common_1.Post(''),
         __param(0, common_1.Body()), __param(1, common_1.Request())
     ], NotesController.prototype, "createNote");
+    __decorate([
+        common_1.Patch(':id'),
+        __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Body()), __param(2, common_1.Request())
+    ], NotesController.prototype, "updateNote");
     NotesController = __decorate([
         common_1.Controller('notes')
     ], NotesController);
