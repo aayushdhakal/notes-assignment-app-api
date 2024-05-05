@@ -29,7 +29,6 @@ export class NotesController {
         return notes;
     }
 
-
     @Get('user-notes')
     async getNotesForUser(@Request() req){
         const notes = this.notesService.findAllthePersonelNotes(req.user.id);
@@ -56,21 +55,21 @@ export class NotesController {
         const tempVal:{
             name?: string,
             description?: string,
-            viewType?: ViewTypeEnum,
-            isActive?: boolean 
+            view_type?: ViewTypeEnum,
+            is_active?: boolean 
         }= {};
 
         if(name){tempVal.name=name}
         if(description){tempVal.description=description}
-        if(viewType){tempVal.viewType=viewType}
-        if(isActive){tempVal.isActive=isActive} 
-
+        if(viewType){tempVal.view_type=viewType}
+        if(isActive){tempVal.is_active=isActive}
+        
         return await this.notesService.updateNote(id,tempVal,req.user.id); 
     }
 
     @Delete(':id')
     async deleteNote(@Param('id',ParseUUIDPipe) id:string,@Request() req){
-        
+        return await this.notesService.deleteNote(id,req.user.id)
     }
 
 }

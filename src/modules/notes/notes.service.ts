@@ -1,4 +1,4 @@
-import { ForbiddenException, Inject, Injectable } from "@nestjs/common";
+import { ForbiddenException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { NOTE_REPOSITORY } from "src/core/constants";
 import { Note } from "src/core/db/models/notes.model";
 import { NoteCreateDto ,NoteUpdateDto } from "./dto/notes.dto";
@@ -14,7 +14,7 @@ export class NotesService{
     constructor(
         @Inject(NOTE_REPOSITORY) private readonly noteRepository:typeof Note
     ){}
-
+    
     async create(note):Promise<Note>{
         return await this.noteRepository.create<Note>(note)
     }
@@ -27,7 +27,7 @@ export class NotesService{
 
         const note = await this.findOneByNoteId(noteId,userId);
         if(!note){
-            throw new ForbiddenException('Note not found.');
+            throw new NotFoundException('Note not found.');
         }
 
         await note.update({...updateInfo});
@@ -36,7 +36,7 @@ export class NotesService{
         return  newNote || null;
     }
 
-    async deleteNote(noteId:string):Promise<Boolean>{
+    async deleteNote(noteId:string,userId:string):Promise<Boolean>{
         let note = await this.findOneByNoteId(noteId);
         await note.destroy();
         return true;
@@ -79,7 +79,7 @@ export class NotesService{
         return await this.noteRepository.findOne({
         where:{
                 id:noteId,
-                view_type:'public',
+                ...(!userId && {view_type:'public'}),
                 is_active:true,
                 ...(userId && {owner_id:userId})
             },

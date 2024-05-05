@@ -94,7 +94,7 @@ var NotesService = /** @class */ (function () {
                     case 1:
                         note = _a.sent();
                         if (!note) {
-                            throw new common_1.ForbiddenException('Note not found.');
+                            throw new common_1.NotFoundException('Note not found.');
                         }
                         return [4 /*yield*/, note.update(__assign({}, updateInfo))];
                     case 2:
@@ -107,7 +107,7 @@ var NotesService = /** @class */ (function () {
             });
         });
     };
-    NotesService.prototype.deleteNote = function (noteId) {
+    NotesService.prototype.deleteNote = function (noteId, userId) {
         return __awaiter(this, void 0, Promise, function () {
             var note;
             return __generator(this, function (_a) {
@@ -178,7 +178,7 @@ var NotesService = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.noteRepository.findOne({
-                            where: __assign({ id: noteId, view_type: 'public', is_active: true }, (userId && { owner_id: userId })),
+                            where: __assign(__assign(__assign({ id: noteId }, (!userId && { view_type: 'public' })), { is_active: true }), (userId && { owner_id: userId })),
                             include: [{ model: users_model_1.User, as: 'owner', attributes: ['username'] }]
                         })];
                     case 1: return [2 /*return*/, _a.sent()];

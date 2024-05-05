@@ -123,12 +123,12 @@ var NotesController = /** @class */ (function () {
                             tempVal.description = description;
                         }
                         if (viewType) {
-                            tempVal.viewType = viewType;
+                            tempVal.view_type = viewType;
                         }
                         if (isActive) {
-                            tempVal.isActive = isActive;
+                            tempVal.is_active = isActive;
                         }
-                        return [4 /*yield*/, this.notesService.updateNote(req.user.id, id, tempVal)];
+                        return [4 /*yield*/, this.notesService.updateNote(id, tempVal, req.user.id)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -137,7 +137,10 @@ var NotesController = /** @class */ (function () {
     NotesController.prototype.deleteNote = function (id, req) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.notesService.deleteNote(id, req.user.id)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
             });
         });
     };
