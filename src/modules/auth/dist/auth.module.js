@@ -36,7 +36,7 @@ var AuthModule = /** @class */ (function () {
                 local_strategy_1.LocalStrategy,
                 jwt_strategy_1.JwtStrategy,
                 jwt_service_1["default"],
-                jwt_guard_1.JwtAuthGuardProvider
+                jwt_guard_1.JwtAuthGuardProvider //this is the JWT providers which is used for global guards and is intanciated globally in every route
             ],
             controllers: [auth_controller_1.AuthController]
         })

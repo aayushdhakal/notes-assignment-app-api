@@ -25,7 +25,7 @@ import { LocalStrategy } from './local.strategy';
     LocalStrategy,
     JwtStrategy,
     CustomJWTService,
-    JwtAuthGuardProvider
+    JwtAuthGuardProvider //this is the JWT providers which is used for global guards and is intanciated globally in every route
   ],
   controllers: [AuthController],
 })
