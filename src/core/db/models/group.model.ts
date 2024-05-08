@@ -1,11 +1,10 @@
-import { type } from "os";
 import { Model } from "sequelize";
 import { AllowNull, Column, DataType, PrimaryKey, Table } from "sequelize-typescript";
 
 
 
 @Table({tableName:'group'})
-class Group extends Model<Group>{
+export class GroupTable extends Model<GroupTable>{
 
     @Column({
         type:DataType.STRING,
@@ -47,5 +46,4 @@ class Group extends Model<Group>{
         allowNull:false,
     })
     group_code:string;
-
 }

@@ -19,11 +19,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
+exports.GroupTable = void 0;
 var sequelize_1 = require("sequelize");
 var sequelize_typescript_1 = require("sequelize-typescript");
-var Group = /** @class */ (function (_super) {
-    __extends(Group, _super);
-    function Group() {
+var GroupTable = /** @class */ (function (_super) {
+    __extends(GroupTable, _super);
+    function GroupTable() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     __decorate([
@@ -33,42 +34,43 @@ var Group = /** @class */ (function (_super) {
             allowNull: false,
             defaultValue: sequelize_typescript_1.DataType.UUIDV1
         })
-    ], Group.prototype, "id");
+    ], GroupTable.prototype, "id");
     __decorate([
         sequelize_typescript_1.Column({
             type: sequelize_typescript_1.DataType.STRING,
             allowNull: false,
             unique: true
         })
-    ], Group.prototype, "name");
+    ], GroupTable.prototype, "name");
     __decorate([
         sequelize_typescript_1.Column({
             type: sequelize_typescript_1.DataType.BOOLEAN,
             allowNull: false,
             defaultValue: true
         })
-    ], Group.prototype, "is_active");
+    ], GroupTable.prototype, "is_active");
     __decorate([
         sequelize_typescript_1.Column({
             type: sequelize_typescript_1.DataType.BOOLEAN,
             allowNull: false,
             defaultValue: true
         })
-    ], Group.prototype, "is_public");
+    ], GroupTable.prototype, "is_public");
     __decorate([
         sequelize_typescript_1.Column({
             type: sequelize_typescript_1.DataType.STRING,
             allowNull: true
         })
-    ], Group.prototype, "description");
+    ], GroupTable.prototype, "description");
     __decorate([
         sequelize_typescript_1.Column({
             type: sequelize_typescript_1.DataType.STRING,
             allowNull: false
         })
-    ], Group.prototype, "group_code");
-    Group = __decorate([
+    ], GroupTable.prototype, "group_code");
+    GroupTable = __decorate([
         sequelize_typescript_1.Table({ tableName: 'group' })
-    ], Group);
-    return Group;
+    ], GroupTable);
+    return GroupTable;
 }(sequelize_1.Model));
+exports.GroupTable = GroupTable;
