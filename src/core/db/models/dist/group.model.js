@@ -20,8 +20,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 exports.__esModule = true;
 exports.GroupTable = void 0;
-var sequelize_1 = require("sequelize");
 var sequelize_typescript_1 = require("sequelize-typescript");
+var users_model_1 = require("./users.model");
 var GroupTable = /** @class */ (function (_super) {
     __extends(GroupTable, _super);
     function GroupTable() {
@@ -31,8 +31,8 @@ var GroupTable = /** @class */ (function (_super) {
         sequelize_typescript_1.Column({
             type: sequelize_typescript_1.DataType.STRING,
             primaryKey: true,
-            allowNull: false,
-            defaultValue: sequelize_typescript_1.DataType.UUIDV1
+            defaultValue: sequelize_typescript_1.DataType.UUIDV1,
+            allowNull: false
         })
     ], GroupTable.prototype, "id");
     __decorate([
@@ -42,6 +42,14 @@ var GroupTable = /** @class */ (function (_super) {
             unique: true
         })
     ], GroupTable.prototype, "name");
+    __decorate([
+        sequelize_typescript_1.ForeignKey(function () { return users_model_1.User; }),
+        sequelize_typescript_1.Column({
+            type: sequelize_typescript_1.DataType.STRING,
+            allowNull: false,
+            unique: false
+        })
+    ], GroupTable.prototype, "is_creator");
     __decorate([
         sequelize_typescript_1.Column({
             type: sequelize_typescript_1.DataType.BOOLEAN,
@@ -68,9 +76,12 @@ var GroupTable = /** @class */ (function (_super) {
             allowNull: false
         })
     ], GroupTable.prototype, "group_code");
+    __decorate([
+        BelongsTo(function () { return users_model_1.User; })
+    ], GroupTable.prototype, "creator");
     GroupTable = __decorate([
-        sequelize_typescript_1.Table({ tableName: 'group' })
+        sequelize_typescript_1.Table({ tableName: 'GroupTable' })
     ], GroupTable);
     return GroupTable;
-}(sequelize_1.Model));
+}(sequelize_typescript_1.Model));
 exports.GroupTable = GroupTable;

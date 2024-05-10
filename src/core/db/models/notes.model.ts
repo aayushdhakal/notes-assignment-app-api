@@ -1,6 +1,5 @@
 import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
 import { User } from "./users.model";
-import { GroupTable } from "./group.model";
 
 
 @Table({ tableName: 'Note' })

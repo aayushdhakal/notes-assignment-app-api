@@ -1,16 +1,15 @@
-import { Model } from "sequelize";
-import { AllowNull, Column, DataType, PrimaryKey, Table } from "sequelize-typescript";
+import { BelongsTo, Column, DataType, ForeignKey, Table , Model } from "sequelize-typescript";
+import { User } from "./users.model";
 
 
 
-@Table({tableName:'group'})
+@Table({tableName:'GroupTable'})
 export class GroupTable extends Model<GroupTable>{
-
     @Column({
-        type:DataType.STRING,
-        primaryKey:true,
-        allowNull:false,
-        defaultValue:DataType.UUIDV1
+        type: DataType.STRING,
+        primaryKey: true,
+        defaultValue:DataType.UUIDV1,
+        allowNull:false
     })
     id:string;
 
@@ -20,6 +19,15 @@ export class GroupTable extends Model<GroupTable>{
         unique:true
     })
     name:string;
+
+    // this is to say that this group has a creator with this 
+    @ForeignKey(()=>User)
+    @Column({
+        type:DataType.STRING,
+        allowNull:false,
+        unique:false
+    })
+    is_creator:string;
 
     @Column({
         type:DataType.BOOLEAN,
@@ -46,4 +54,8 @@ export class GroupTable extends Model<GroupTable>{
         allowNull:false,
     })
     group_code:string;
+
+    // @BelongsTo(()=>User)
+    // creator:User;
 }
+

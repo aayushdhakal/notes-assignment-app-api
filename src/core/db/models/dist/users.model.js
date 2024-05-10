@@ -22,6 +22,7 @@ exports.__esModule = true;
 exports.User = void 0;
 var sequelize_typescript_1 = require("sequelize-typescript");
 var notes_model_1 = require("./notes.model");
+var group_model_1 = require("./group.model");
 var User = /** @class */ (function (_super) {
     __extends(User, _super);
     function User() {
@@ -70,6 +71,9 @@ var User = /** @class */ (function (_super) {
     __decorate([
         sequelize_typescript_1.HasMany(function () { return notes_model_1.Note; }, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     ], User.prototype, "notes");
+    __decorate([
+        sequelize_typescript_1.HasMany(function () { return group_model_1.GroupTable; }, { onDelete: 'SET NULL', onUpdate: 'SET NULL' })
+    ], User.prototype, "group");
     User = __decorate([
         sequelize_typescript_1.Table({ tableName: 'User' })
     ], User);
