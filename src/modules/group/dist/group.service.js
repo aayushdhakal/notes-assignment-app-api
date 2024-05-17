@@ -1,22 +1,12 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
 };
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -55,38 +45,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.LocalStrategy = void 0;
+exports.GroupService = void 0;
 var common_1 = require("@nestjs/common");
-var passport_1 = require("@nestjs/passport");
-var passport_local_1 = require("passport-local");
-var LocalStrategy = /** @class */ (function (_super) {
-    __extends(LocalStrategy, _super);
-    function LocalStrategy(authService) {
-        var _this = _super.call(this) || this;
-        _this.authService = authService;
-        return _this;
+var constants_1 = require("src/core/constants");
+var GroupService = /** @class */ (function () {
+    function GroupService(groupRepository) {
+        this.groupRepository = groupRepository;
     }
-    // In here the by default the passport local strategy expects properties called username and password in the request body http://www.passportjs.org/docs/configure/
-    // we add LocalStrategy to our auth.module.ts as a provider
-    LocalStrategy.prototype.validate = function (username, password) {
+    GroupService.prototype.create = function (groupInfo) {
         return __awaiter(this, void 0, Promise, function () {
-            var user;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.authService.validateUser(username, password)];
-                    case 1:
-                        user = _a.sent();
-                        if (!user) {
-                            throw new common_1.UnauthorizedException('Invalid user credentials');
-                        }
-                        return [2 /*return*/, user];
+                    case 0: return [4 /*yield*/, this.groupRepository.create(groupInfo)];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    LocalStrategy = __decorate([
-        common_1.Injectable()
-    ], LocalStrategy);
-    return LocalStrategy;
-}(passport_1.PassportStrategy(passport_local_1.Strategy)));
-exports.LocalStrategy = LocalStrategy;
+    GroupService.prototype.checkGroupPermissions = function (userMemberId, groupId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                // return await this.groupRepository.findOne<GroupTable>({where:{id,groupId}})
+                return [2 /*return*/, true];
+            });
+        });
+    };
+    GroupService = __decorate([
+        common_1.Injectable(),
+        __param(0, common_1.Inject(constants_1.GROUPTABLE_REPOSITORY))
+    ], GroupService);
+    return GroupService;
+}());
+exports.GroupService = GroupService;

@@ -1,10 +1,16 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { GroupDto } from './dto/group.dto';
+import { RolesGuard, SkipRoleGuard } from './guards/roles.guard';
 
 @Controller('group')
+@UseGuards(RolesGuard)
 export class GroupController {
-
+ 
     @Post('')
+    @SkipRoleGuard()
     public createGroup(@Body() body){
-            console.log('This is the create section of the group');
+        console.log(body);
+        return true;
     }
+
 }

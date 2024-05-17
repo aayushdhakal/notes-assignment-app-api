@@ -21,11 +21,12 @@ import { LocalStrategy } from './local.strategy';
   ],
   providers: [
     AuthService,
-    LocalAuthGuard,
-    LocalStrategy,
-    JwtStrategy,
+    LocalAuthGuard, 
+    LocalStrategy, 
+    JwtStrategy, //this is the first line of the jwt and LocalStrategy is the extension of the this File(JwtStrategy)
     CustomJWTService,
-    JwtAuthGuardProvider //this is the JWT providers which is used for global guards and is intanciated globally in every route
+    JwtAuthGuardProvider //this is the JWT providers which is used for global guards and is intanciated globally in every route,// In here we extend the strategy of JwtStrategy to ,we use  class JwtAuthGuard as provider
+    //  export const JwtAuthGuardProvider ={ provide:APP_GUARD, useClass:JwtAuthGuard }
   ],
   controllers: [AuthController],
 })

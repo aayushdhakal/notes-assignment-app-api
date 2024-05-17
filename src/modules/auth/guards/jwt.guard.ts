@@ -1,9 +1,8 @@
 // If we look closely on the documentation an the practises The name suggest that it is and AuthGuard('jwt') in the brackets we have 'jwt' which means that this file is the extention of the file jwt.strategy.ts on auth folder similarly the local-auth.guard.ts is the extention file of the local.strategy.ts file
-import { Body, ExecutionContext, Injectable, SetMetadata, UnauthorizedException } from "@nestjs/common";
+import { ExecutionContext, Injectable, SetMetadata, UnauthorizedException } from "@nestjs/common";
 import { APP_GUARD, Reflector } from "@nestjs/core";
 import { AuthGuard } from "@nestjs/passport";
 import CustomJWTService from "../jwt.service";
-import { Observable } from "rxjs";
 import { Request } from "express";
 
 const jwtConfig = process.env;

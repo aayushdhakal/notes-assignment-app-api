@@ -51,7 +51,7 @@ export class GroupTable extends Model<GroupTable>{
 
     @Column({
         type:DataType.STRING,
-        allowNull:false,
+        allowNull:true,
     })
     group_code:string;
 

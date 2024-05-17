@@ -1,17 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -55,38 +42,38 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.LocalStrategy = void 0;
+exports.SkipRoleGuard = exports.RolesGuard = void 0;
 var common_1 = require("@nestjs/common");
-var passport_1 = require("@nestjs/passport");
-var passport_local_1 = require("passport-local");
-var LocalStrategy = /** @class */ (function (_super) {
-    __extends(LocalStrategy, _super);
-    function LocalStrategy(authService) {
-        var _this = _super.call(this) || this;
-        _this.authService = authService;
-        return _this;
+var RolesGuard = /** @class */ (function () {
+    function RolesGuard(reflector) {
+        this.reflector = reflector;
     }
-    // In here the by default the passport local strategy expects properties called username and password in the request body http://www.passportjs.org/docs/configure/
-    // we add LocalStrategy to our auth.module.ts as a provider
-    LocalStrategy.prototype.validate = function (username, password) {
-        return __awaiter(this, void 0, Promise, function () {
-            var user;
+    RolesGuard.prototype.canActivate = function (context) {
+        var _this = this;
+        var request = context.switchToHttp().getRequest();
+        var isThisAuthFound = function (key) {
+            return _this.reflector.getAllAndOverride(key, [
+                context.getHandler(),
+                context.getClass(),
+            ]);
+        };
+        var isSkipRoleGuard = isThisAuthFound('SkipRoleGuard');
+        if (isSkipRoleGuard)
+            return true;
+        return this.validateGroupAndReturnRoles(request);
+    };
+    RolesGuard.prototype.validateGroupAndReturnRoles = function (request) {
+        return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.authService.validateUser(username, password)];
-                    case 1:
-                        user = _a.sent();
-                        if (!user) {
-                            throw new common_1.UnauthorizedException('Invalid user credentials');
-                        }
-                        return [2 /*return*/, user];
-                }
+                console.log(request);
+                return [2 /*return*/, request];
             });
         });
     };
-    LocalStrategy = __decorate([
+    RolesGuard = __decorate([
         common_1.Injectable()
-    ], LocalStrategy);
-    return LocalStrategy;
-}(passport_1.PassportStrategy(passport_local_1.Strategy)));
-exports.LocalStrategy = LocalStrategy;
+    ], RolesGuard);
+    return RolesGuard;
+}());
+exports.RolesGuard = RolesGuard;
+exports.SkipRoleGuard = function () { return common_1.SetMetadata('SkipRoleGuard', true); };

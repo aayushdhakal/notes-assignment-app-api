@@ -73,12 +73,9 @@ var GroupTable = /** @class */ (function (_super) {
     __decorate([
         sequelize_typescript_1.Column({
             type: sequelize_typescript_1.DataType.STRING,
-            allowNull: false
+            allowNull: true
         })
     ], GroupTable.prototype, "group_code");
-    __decorate([
-        BelongsTo(function () { return users_model_1.User; })
-    ], GroupTable.prototype, "creator");
     GroupTable = __decorate([
         sequelize_typescript_1.Table({ tableName: 'GroupTable' })
     ], GroupTable);

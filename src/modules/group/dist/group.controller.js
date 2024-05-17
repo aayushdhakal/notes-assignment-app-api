@@ -11,18 +11,22 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 exports.__esModule = true;
 exports.GroupController = void 0;
 var common_1 = require("@nestjs/common");
+var roles_guard_1 = require("./guards/roles.guard");
 var GroupController = /** @class */ (function () {
     function GroupController() {
     }
     GroupController.prototype.createGroup = function (body) {
-        console.log('This is the create section of the group');
+        console.log(body);
+        return true;
     };
     __decorate([
         common_1.Post(''),
+        roles_guard_1.SkipRoleGuard(),
         __param(0, common_1.Body())
     ], GroupController.prototype, "createGroup");
     GroupController = __decorate([
-        common_1.Controller('group')
+        common_1.Controller('group'),
+        common_1.UseGuards(roles_guard_1.RolesGuard)
     ], GroupController);
     return GroupController;
 }());
