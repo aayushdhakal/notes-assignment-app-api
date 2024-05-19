@@ -19,64 +19,41 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.User = void 0;
+exports.RolesUserGroup = void 0;
 var sequelize_typescript_1 = require("sequelize-typescript");
-var notes_model_1 = require("./notes.model");
-var group_model_1 = require("./group.model");
-var User = /** @class */ (function (_super) {
-    __extends(User, _super);
-    function User() {
+var RolesUserGroup = /** @class */ (function (_super) {
+    __extends(RolesUserGroup, _super);
+    function RolesUserGroup() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     __decorate([
         sequelize_typescript_1.Column({
-            type: sequelize_typescript_1.DataType.STRING,
-            primaryKey: true,
-            defaultValue: sequelize_typescript_1.DataType.UUIDV1,
+            type: sequelize_typescript_1.DataType.UUIDV1,
+            allowNull: false,
+            primaryKey: true
+        })
+    ], RolesUserGroup.prototype, "id");
+    __decorate([
+        sequelize_typescript_1.Column({
+            type: sequelize_typescript_1.DataType.UUIDV1,
             allowNull: false
         })
-    ], User.prototype, "id");
+    ], RolesUserGroup.prototype, "user_id");
     __decorate([
         sequelize_typescript_1.Column({
             type: sequelize_typescript_1.DataType.STRING,
             allowNull: false
         })
-    ], User.prototype, "name");
+    ], RolesUserGroup.prototype, "group_id");
     __decorate([
         sequelize_typescript_1.Column({
-            type: sequelize_typescript_1.DataType.STRING,
-            unique: true,
+            type: sequelize_typescript_1.DataType.ARRAY(sequelize_typescript_1.DataType.UUIDV1),
             allowNull: false
         })
-    ], User.prototype, "username");
-    __decorate([
-        sequelize_typescript_1.Column({
-            type: sequelize_typescript_1.DataType.STRING,
-            allowNull: false
-        })
-    ], User.prototype, "password");
-    __decorate([
-        sequelize_typescript_1.Column({
-            type: sequelize_typescript_1.DataType.STRING,
-            unique: true,
-            allowNull: false
-        })
-    ], User.prototype, "email");
-    __decorate([
-        sequelize_typescript_1.Column({
-            type: sequelize_typescript_1.DataType.STRING,
-            allowNull: true
-        })
-    ], User.prototype, "phoneNumber");
-    __decorate([
-        sequelize_typescript_1.HasMany(function () { return notes_model_1.Note; }, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
-    ], User.prototype, "notes");
-    __decorate([
-        sequelize_typescript_1.HasMany(function () { return group_model_1.GroupTable; }, { onDelete: 'SET NULL', onUpdate: 'SET NULL' })
-    ], User.prototype, "group");
-    User = __decorate([
-        sequelize_typescript_1.Table({ tableName: 'user' })
-    ], User);
-    return User;
+    ], RolesUserGroup.prototype, "roles_id");
+    RolesUserGroup = __decorate([
+        sequelize_typescript_1.Table({ tableName: 'RolesUserGroup' })
+    ], RolesUserGroup);
+    return RolesUserGroup;
 }(sequelize_typescript_1.Model));
-exports.User = User;
+exports.RolesUserGroup = RolesUserGroup;

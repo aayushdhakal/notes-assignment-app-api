@@ -2,7 +2,7 @@ import { Column, DataType, HasMany, Model, Table, Unique } from "sequelize-types
 import { Note } from "./notes.model";
 import { GroupTable } from "./group.model";
 
-@Table({ tableName: 'User' })
+@Table({ tableName: 'users' })
 export class User extends Model<User> {
     @Column({
         type: DataType.STRING,

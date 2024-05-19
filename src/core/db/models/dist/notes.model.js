@@ -86,7 +86,7 @@ var Note = /** @class */ (function (_super) {
         sequelize_typescript_1.BelongsTo(function () { return users_model_1.User; })
     ], Note.prototype, "owner");
     Note = __decorate([
-        sequelize_typescript_1.Table({ tableName: 'Note' })
+        sequelize_typescript_1.Table({ tableName: 'note' })
     ], Note);
     return Note;
 }(sequelize_typescript_1.Model));

@@ -2,7 +2,7 @@ import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from "
 import { User } from "./users.model";
 
 
-@Table({ tableName: 'Note' })
+@Table({ tableName: 'notes' })
 export class Note extends Model<Note> {
     @Column({
         type: DataType.STRING,

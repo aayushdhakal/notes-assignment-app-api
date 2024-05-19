@@ -43,6 +43,8 @@ var db_config_1 = require("./db.config");
 var users_model_1 = require("./models/users.model");
 var notes_model_1 = require("./models/notes.model");
 var group_model_1 = require("./models/group.model");
+var roles_model_1 = require("./models/roles.model");
+var rolesUserGroup_model_1 = require("./models/rolesUserGroup.model");
 exports.databaseProviders = [{
         // when other parts of your NestJS application request a dependency using the SEQUELIZE token (e.g., through constructor injection), they will receive the Sequelize instance configured according to the environment variables and database configuration specified in this factory function.
         provide: constants_1.SEQUELIZE,
@@ -67,7 +69,7 @@ exports.databaseProviders = [{
                         }
                         sequelize = new sequelize_typescript_1.Sequelize(config);
                         //adding all the models for the User and Note
-                        sequelize.addModels([users_model_1.User, notes_model_1.Note, group_model_1.GroupTable]);
+                        sequelize.addModels([users_model_1.User, notes_model_1.Note, group_model_1.GroupTable, roles_model_1.Roles, rolesUserGroup_model_1.RolesUserGroup]);
                         //await sequelize.sync({alter:true}); //create a table if present and alter table if any changes
                         return [4 /*yield*/, sequelize.sync({ force: true })];
                     case 1:

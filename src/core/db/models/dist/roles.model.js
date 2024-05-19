@@ -19,12 +19,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.Groups = void 0;
+exports.Roles = void 0;
 var sequelize_typescript_1 = require("sequelize-typescript");
-var users_model_1 = require("./users.model");
-var Groups = /** @class */ (function (_super) {
-    __extends(Groups, _super);
-    function Groups() {
+var Roles = /** @class */ (function (_super) {
+    __extends(Roles, _super);
+    function Roles() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     __decorate([
@@ -34,54 +33,23 @@ var Groups = /** @class */ (function (_super) {
             defaultValue: sequelize_typescript_1.DataType.UUIDV1,
             allowNull: false
         })
-    ], Groups.prototype, "id");
+    ], Roles.prototype, "id");
     __decorate([
         sequelize_typescript_1.Column({
             type: sequelize_typescript_1.DataType.STRING,
             allowNull: false,
             unique: true
         })
-    ], Groups.prototype, "name");
-    __decorate([
-        sequelize_typescript_1.ForeignKey(function () { return users_model_1.User; }),
-        sequelize_typescript_1.Column({
-            type: sequelize_typescript_1.DataType.STRING,
-            allowNull: false,
-            unique: false
-        })
-    ], Groups.prototype, "creator_id");
-    __decorate([
-        sequelize_typescript_1.Column({
-            type: sequelize_typescript_1.DataType.BOOLEAN,
-            allowNull: false,
-            defaultValue: true
-        })
-    ], Groups.prototype, "is_active");
-    __decorate([
-        sequelize_typescript_1.Column({
-            type: sequelize_typescript_1.DataType.BOOLEAN,
-            allowNull: false,
-            defaultValue: true
-        })
-    ], Groups.prototype, "is_public");
+    ], Roles.prototype, "name");
     __decorate([
         sequelize_typescript_1.Column({
             type: sequelize_typescript_1.DataType.STRING,
-            allowNull: true
+            allowNull: false
         })
-    ], Groups.prototype, "description");
-    __decorate([
-        sequelize_typescript_1.Column({
-            type: sequelize_typescript_1.DataType.STRING,
-            allowNull: true
-        })
-    ], Groups.prototype, "group_code");
-    __decorate([
-        sequelize_typescript_1.BelongsTo(function () { return users_model_1.User; })
-    ], Groups.prototype, "creator");
-    Groups = __decorate([
-        sequelize_typescript_1.Table({ tableName: 'groups' })
-    ], Groups);
-    return Groups;
+    ], Roles.prototype, "description");
+    Roles = __decorate([
+        sequelize_typescript_1.Table({ tableName: 'roles' })
+    ], Roles);
+    return Roles;
 }(sequelize_typescript_1.Model));
-exports.Groups = Groups;
+exports.Roles = Roles;

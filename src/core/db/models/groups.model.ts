@@ -3,8 +3,8 @@ import { User } from "./users.model";
 
 
 
-@Table({tableName:'GroupTable'})
-export class GroupTable extends Model<GroupTable>{
+@Table({tableName:'groups'})
+export class Groups extends Model<Groups>{
     @Column({
         type: DataType.STRING,
         primaryKey: true,
@@ -27,7 +27,7 @@ export class GroupTable extends Model<GroupTable>{
         allowNull:false,
         unique:false
     })
-    is_creator:string;
+    creator_id:string;
 
     @Column({
         type:DataType.BOOLEAN,
@@ -55,7 +55,7 @@ export class GroupTable extends Model<GroupTable>{
     })
     group_code:string;
 
-    // @BelongsTo(()=>User)
-    // creator:User;
+    @BelongsTo(()=>User)
+    creator:User;
 }
 
