@@ -1,6 +1,6 @@
 import { Column, DataType, HasMany, Model, Table, Unique } from "sequelize-typescript";
 import { Note } from "./notes.model";
-import { GroupTable } from "./group.model";
+import { Groups } from "./groups.model";
 
 @Table({ tableName: 'users' })
 export class User extends Model<User> {
@@ -52,7 +52,7 @@ export class User extends Model<User> {
     @HasMany(()=>Note,{ onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     notes:Note[];
 
-    @HasMany(()=>GroupTable,{ onDelete: 'SET NULL', onUpdate: 'SET NULL' })
-    group:GroupTable[];
+    @HasMany(()=>Groups,{ onDelete: 'SET NULL', onUpdate: 'SET NULL' })
+    group:Groups[];
 }
 

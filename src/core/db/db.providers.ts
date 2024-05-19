@@ -4,7 +4,7 @@ import { SEQUELIZE , DEVELOPMENT , TEST , PRODUCTION } from '../constants';
 import { databaseConfig } from './db.config';
 import { User } from './models/users.model';
 import { Note } from './models/notes.model';
-import { GroupTable } from './models/group.model';
+import { Groups } from './models/groups.model';
 import { Roles } from './models/roles.model';
 import { RolesUserGroup } from './models/rolesUserGroup.model';
 
@@ -32,7 +32,7 @@ export const databaseProviders = [{
         const sequelize = new Sequelize(config)
 
         //adding all the models for the User and Note
-        sequelize.addModels([User,Note,GroupTable,Roles,RolesUserGroup]);
+        sequelize.addModels([User,Note,Groups,Roles,RolesUserGroup]);
         //await sequelize.sync({alter:true}); //create a table if present and alter table if any changes
         await sequelize.sync({force:true}); //this delete all existing tables along with data and create all the tables
         return sequelize;
