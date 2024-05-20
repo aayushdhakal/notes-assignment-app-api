@@ -15,6 +15,7 @@ var config_1 = require("@nestjs/config");
 var users_module_1 = require("./modules/users/users.module");
 var auth_module_1 = require("./modules/auth/auth.module");
 var notes_module_1 = require("./modules/notes/notes.module");
+var group_module_1 = require("./modules/group/group.module");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -27,6 +28,7 @@ var AppModule = /** @class */ (function () {
                 users_module_1.UsersModule,
                 auth_module_1.AuthModule,
                 notes_module_1.NotesModule,
+                group_module_1.GroupModule
             ],
             controllers: [app_controller_1.AppController],
             providers: [app_service_1.AppService]

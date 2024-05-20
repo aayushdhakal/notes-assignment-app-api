@@ -16,7 +16,7 @@ import { GroupModule } from './modules/group/group.module';
     UsersModule,
     AuthModule,
     NotesModule,
-    GroupModule,
+    GroupModule
   ],
   controllers: [AppController],
   providers: [AppService],

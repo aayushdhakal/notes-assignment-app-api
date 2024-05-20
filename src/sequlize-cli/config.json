@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "admin",
+    "password": "password",
+    "database": "notes-api",
+    "host": "192.168.10.85",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "admin",
+    "password": "password",
+    "database": "notes-api",
+    "host": "192.168.10.85",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "admin",
+    "password": "password",
+    "database": "notes-api",
+    "host": "192.168.10.85",
+    "dialect": "postgres"
+  }
+}
