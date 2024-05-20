@@ -28,7 +28,7 @@ var AppModule = /** @class */ (function () {
                 users_module_1.UsersModule,
                 auth_module_1.AuthModule,
                 notes_module_1.NotesModule,
-                group_module_1.GroupModule
+                group_module_1.GroupModule,
             ],
             controllers: [app_controller_1.AppController],
             providers: [app_service_1.AppService]
