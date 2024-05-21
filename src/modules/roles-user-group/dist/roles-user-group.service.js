@@ -62,6 +62,20 @@ var RolesUserGroupService = /** @class */ (function () {
             });
         });
     };
+    RolesUserGroupService.prototype.getGroupsFromUserId = function (user_id) {
+        return __awaiter(this, void 0, Promise, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.usersRolesGroupRepository.findAll({
+                            where: {
+                                user_id: user_id
+                            }
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     RolesUserGroupService = __decorate([
         common_1.Injectable(),
         __param(0, common_1.Inject(constants_1.ROLES_USERS_GROUP_REPOSITORY))

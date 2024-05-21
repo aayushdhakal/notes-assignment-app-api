@@ -11,4 +11,12 @@ export class RolesUserGroupService {
     async getAllRUGS(){
         return await this.usersRolesGroupRepository.findAll<RolesUserGroup>();
     }
+
+    async getGroupsFromUserId(user_id:string):Promise<RolesUserGroup[]>{
+        return await this.usersRolesGroupRepository.findAll<RolesUserGroup>({
+            where:{
+                user_id
+            }
+        })
+    }
 }

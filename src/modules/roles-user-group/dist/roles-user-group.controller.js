@@ -45,6 +45,7 @@ exports.__esModule = true;
 exports.RolesUserGroupController = void 0;
 var common_1 = require("@nestjs/common");
 var jwt_guard_1 = require("../auth/guards/jwt.guard");
+// Just for testing and development of the project @SkipAuth()
 var RolesUserGroupController = /** @class */ (function () {
     function RolesUserGroupController(rolesUserGroupService) {
         this.rolesUserGroupService = rolesUserGroupService;
@@ -56,9 +57,19 @@ var RolesUserGroupController = /** @class */ (function () {
             });
         });
     };
+    RolesUserGroupController.prototype.getAllTheGroupsUsersAssociatedWith = function (userId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.rolesUserGroupService.getGroupsFromUserId(userId)];
+            });
+        });
+    };
     __decorate([
         common_1.Get('')
     ], RolesUserGroupController.prototype, "getAllRolesUserGroupService");
+    __decorate([
+        common_1.Get('get-roles')
+    ], RolesUserGroupController.prototype, "getAllTheGroupsUsersAssociatedWith");
     RolesUserGroupController = __decorate([
         jwt_guard_1.SkipAuth(),
         common_1.Controller('roles-user-group')
