@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { ROLES_REPOSITORY } from 'src/core/constants';
 import { Roles } from 'src/core/db/models/roles.model';
+import { RolesController } from './roles.controller';
 
 @Module({
   providers: [
@@ -10,6 +11,7 @@ import { Roles } from 'src/core/db/models/roles.model';
       provide:ROLES_REPOSITORY,
       useValue:Roles
     }
-  ]
+  ],
+  controllers: [RolesController]
 })
 export class RolesModule {}
