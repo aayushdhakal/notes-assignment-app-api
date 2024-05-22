@@ -19,15 +19,15 @@ module.exports = {
     return await queryInterface.bulkInsert('roles', [
       {
         id:dv.rolesCollection.roles1,
-        name: 'admin',
-        description: 'This is admin roles',
+        name: 'superuser',
+        description: 'This is superuser roles',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id:dv.rolesCollection.roles2,
-        name: 'users',
-        description: 'This is user roles',
+        name: 'admin',
+        description: 'This is admin roles',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -40,15 +40,15 @@ module.exports = {
       },
       {
         id:dv.rolesCollection.roles4,
-        name: 'guest',
-        description: 'This is guest roles',
+        name: 'users',
+        description: 'This is user roles',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id:dv.rolesCollection.roles5,
-        name: 'superuser',
-        description: 'This is superuser roles',
+        name: 'guest',
+        description: 'This is guest roles',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -63,6 +63,6 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
 
-    await queryInterface.bulkDelete('users',null,{});
+    await queryInterface.bulkDelete('roles',null,{});
   }
 };

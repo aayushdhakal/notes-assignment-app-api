@@ -24,8 +24,18 @@ const rolesUUIDv1Collection = {
     roles5:'6ffd2f1c-178f-11ef-9262-0242ac120002'
 }
 
+const rUGsCollection  = {
+    rugs1:'148bf43a-1855-11ef-9262-0242ac120002',
+    rugs2:'24b69054-1855-11ef-9262-0242ac120002',
+    rugs3:'5ba2af26-1855-11ef-9262-0242ac120002',
+    rugs4:'64d48a24-1855-11ef-9262-0242ac120002',
+    rugs5:'6eaade36-1855-11ef-9262-0242ac120002',
+    rugs6:'839e5b5e-1857-11ef-9262-0242ac120002',
+}
+
 module.exports = {
     usersCollection:usersUUIDv1Collection,
     groupsCollection:groupUUIDv1Collection,
-    rolesCollection:rolesUUIDv1Collection
+    rolesCollection:rolesUUIDv1Collection,
+    rugsCollection:rUGsCollection
 }
