@@ -1,6 +1,7 @@
-import { Column, DataType, HasMany, Model, Table, Unique } from "sequelize-typescript";
+import { BelongsToMany, Column, DataType, HasMany, Model, Table, Unique } from "sequelize-typescript";
 import { Note } from "./notes.model";
 import { Groups } from "./groups.model";
+import { RolesUserGroup } from "./rolesUserGroup.model";
 
 @Table({ tableName: 'users' })
 export class User extends Model<User> {
@@ -44,6 +45,8 @@ export class User extends Model<User> {
     })
     phoneNumber:string;
 
+    // ----------------------- Associations ------------------------
+
     // This is the relation specification on the side of the User
     // if it is CASCADE then the context follows. like if it is onDelete:'CASCADE' it will delete the following notes on another table LIKEWISE same for the CASCADE
     // if it is RESTRICT it will prevents the deletion or update
@@ -54,5 +57,13 @@ export class User extends Model<User> {
 
     @HasMany(()=>Groups,{ onDelete: 'SET NULL', onUpdate: 'SET NULL' })
     group:Groups[];
+
+    @HasMany(()=>RolesUserGroup,{ onDelete: 'SET NULL', onUpdate: 'SET NULL' })
+    rolesUserGroup:RolesUserGroup[];
+
+    // @BelongsToMany(()=>Groups,{ through:'RolesUserGroup' })
+    // rolesUserGroup:RolesUserGroup[];
+
 }
+
 

@@ -16,14 +16,14 @@ module.exports = {
             _context.next = 2;
             return regeneratorRuntime.awrap(queryInterface.bulkInsert('roles', [{
               id: dv.rolesCollection.roles1,
-              name: 'admin',
-              description: 'This is admin roles',
+              name: 'superuser',
+              description: 'This is superuser roles',
               createdAt: new Date(),
               updatedAt: new Date()
             }, {
               id: dv.rolesCollection.roles2,
-              name: 'users',
-              description: 'This is user roles',
+              name: 'admin',
+              description: 'This is admin roles',
               createdAt: new Date(),
               updatedAt: new Date()
             }, {
@@ -34,14 +34,20 @@ module.exports = {
               updatedAt: new Date()
             }, {
               id: dv.rolesCollection.roles4,
+              name: 'users',
+              description: 'This is user roles',
+              createdAt: new Date(),
+              updatedAt: new Date()
+            }, {
+              id: dv.rolesCollection.roles5,
               name: 'guest',
               description: 'This is guest roles',
               createdAt: new Date(),
               updatedAt: new Date()
             }, {
-              id: dv.rolesCollection.roles5,
-              name: 'superuser',
-              description: 'This is superuser roles',
+              id: dv.rolesCollection.roles6,
+              name: 'request',
+              description: 'This is requested user',
               createdAt: new Date(),
               updatedAt: new Date()
             }]));
@@ -62,7 +68,7 @@ module.exports = {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.next = 2;
-            return regeneratorRuntime.awrap(queryInterface.bulkDelete('users', null, {}));
+            return regeneratorRuntime.awrap(queryInterface.bulkDelete('roles', null, {}));
 
           case 2:
           case "end":

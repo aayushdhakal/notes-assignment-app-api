@@ -1,13 +1,15 @@
 import { CanActivate, ExecutionContext , SetMetadata ,Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { Observable } from "rxjs";
+import { RolesUserGroupService } from "src/modules/roles-user-group/roles-user-group.service";
 
 
 @Injectable()
 export class RolesGuard implements CanActivate{
 
     constructor(
-        private reflector:Reflector,
+        private readonly reflector:Reflector,
+        private readonly rolesUserGroupService:RolesUserGroupService
     ){}
 
     canActivate(
@@ -30,7 +32,15 @@ export class RolesGuard implements CanActivate{
 
     async validateGroupRolesAndReturnRoles(request){
 
-        console.log(request)
+        // console.log(request)
+
+        console.log(request.route.methods);
+        console.log('userId:- ' + request.user.id);
+        console.log('groupId:- ' + request.params.id)
+
+        const valueTemp = await this.rolesUserGroupService.getGroupsRolesFromUserId(request.user.id,request.params.id);
+        console.log(valueTemp[0].dataValues);
+
         return request;
     }
 

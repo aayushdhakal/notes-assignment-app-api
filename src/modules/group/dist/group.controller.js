@@ -34,7 +34,7 @@ var GroupController = /** @class */ (function () {
         //const groupInfo =  await this.groupService.create(body)
         return true;
     };
-    GroupController.prototype.updateGroup = function (id, body, req) {
+    GroupController.prototype.updateGroupInformation = function (id, body, req) {
         return true;
     };
     GroupController.prototype.deleteGroup = function (id, req) {
@@ -54,7 +54,7 @@ var GroupController = /** @class */ (function () {
     __decorate([
         common_1.Patch(':id'),
         __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Body()), __param(2, common_1.Request())
-    ], GroupController.prototype, "updateGroup");
+    ], GroupController.prototype, "updateGroupInformation");
     __decorate([
         common_1.Delete(':id'),
         __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Request())

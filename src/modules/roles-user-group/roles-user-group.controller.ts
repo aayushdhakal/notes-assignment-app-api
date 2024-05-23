@@ -10,13 +10,13 @@ export class RolesUserGroupController {
         private readonly rolesUserGroupService: RolesUserGroupService
     ) {}
 
-    @Get('')
-    async getAllRolesUserGroupService(){
-        return this.rolesUserGroupService.getAllRUGS();
-    }
+    // @Get('')
+    // async getAllRolesUserGroupService(){
+    //     return this.rolesUserGroupService.getAllRUGS();
+    // }
 
-    @Get('get-roles')
-    async getAllTheGroupsUsersAssociatedWith(userId:string){
-        return this.rolesUserGroupService.getGroupsRolesFromUserId(userId);
-    }
+    // @Get('get-roles')
+    // async getAllTheGroupsUsersAssociatedWith(userId:string){
+    //     // return this.rolesUserGroupService.getGroupsRolesFromUserId(userId);
+    // }
 }

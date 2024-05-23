@@ -60,6 +60,9 @@ export class Note extends Model<Note> {
     })
     group_id:string
 
+
+    // ----------------------- Associations ------------------------
+
     @BelongsTo(()=>User)
     owner:User;
 }

@@ -48,6 +48,8 @@ exports.__esModule = true;
 exports.RolesUserGroupService = void 0;
 var common_1 = require("@nestjs/common");
 var constants_1 = require("src/core/constants");
+var groups_model_1 = require("src/core/db/models/groups.model");
+var roles_model_1 = require("src/core/db/models/roles.model");
 var RolesUserGroupService = /** @class */ (function () {
     function RolesUserGroupService(usersRolesGroupRepository) {
         this.usersRolesGroupRepository = usersRolesGroupRepository;
@@ -62,14 +64,19 @@ var RolesUserGroupService = /** @class */ (function () {
             });
         });
     };
-    RolesUserGroupService.prototype.getGroupsFromUserId = function (user_id) {
+    RolesUserGroupService.prototype.getGroupsRolesFromUserId = function (user_id, group_id) {
         return __awaiter(this, void 0, Promise, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.usersRolesGroupRepository.findAll({
                             where: {
-                                user_id: user_id
-                            }
+                                user_id: user_id,
+                                group_id: group_id
+                            },
+                            include: [
+                                { model: groups_model_1.Groups, as: 'groupName', attributes: ['name'] },
+                                { model: roles_model_1.Roles, as: 'roles', attributes: ['name'] }
+                            ]
                         })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }

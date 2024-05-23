@@ -45,8 +45,9 @@ exports.__esModule = true;
 exports.SkipRoleGuard = exports.RolesGuard = void 0;
 var common_1 = require("@nestjs/common");
 var RolesGuard = /** @class */ (function () {
-    function RolesGuard(reflector) {
+    function RolesGuard(reflector, rolesUserGroupService) {
         this.reflector = reflector;
+        this.rolesUserGroupService = rolesUserGroupService;
     }
     RolesGuard.prototype.canActivate = function (context) {
         var _this = this;
@@ -60,13 +61,24 @@ var RolesGuard = /** @class */ (function () {
         var isSkipRoleGuard = isThisAuthFound('SkipRoleGuard');
         if (isSkipRoleGuard)
             return true;
-        return this.validateGroupAndReturnRoles(request);
+        return this.validateGroupRolesAndReturnRoles(request);
     };
-    RolesGuard.prototype.validateGroupAndReturnRoles = function (request) {
+    RolesGuard.prototype.validateGroupRolesAndReturnRoles = function (request) {
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                console.log(request);
-                return [2 /*return*/, request];
+            var _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        // console.log(request)
+                        console.log(request.route.methods);
+                        console.log('userId:- ' + request.user.id);
+                        console.log('groupId:- ' + request.params.id);
+                        _b = (_a = console).log;
+                        return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(request.user.id, request.params.id)];
+                    case 1:
+                        _b.apply(_a, [_c.sent()]);
+                        return [2 /*return*/, request];
+                }
             });
         });
     };

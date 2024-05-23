@@ -21,6 +21,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.RolesUserGroup = void 0;
 var sequelize_typescript_1 = require("sequelize-typescript");
+var users_model_1 = require("./users.model");
+var groups_model_1 = require("./groups.model");
+var roles_model_1 = require("./roles.model");
 var RolesUserGroup = /** @class */ (function (_super) {
     __extends(RolesUserGroup, _super);
     function RolesUserGroup() {
@@ -28,31 +31,37 @@ var RolesUserGroup = /** @class */ (function (_super) {
     }
     __decorate([
         sequelize_typescript_1.Column({
-            type: sequelize_typescript_1.DataType.UUIDV1,
+            type: sequelize_typescript_1.DataType.STRING,
             allowNull: false,
-            primaryKey: true
+            primaryKey: true,
+            defaultValue: sequelize_typescript_1.DataType.UUIDV1
         })
     ], RolesUserGroup.prototype, "id");
     __decorate([
+        sequelize_typescript_1.Unique('groupId-userId'),
+        sequelize_typescript_1.ForeignKey(function () { return users_model_1.User; }),
         sequelize_typescript_1.Column({
-            type: sequelize_typescript_1.DataType.UUIDV1,
+            type: sequelize_typescript_1.DataType.STRING,
             allowNull: false
         })
     ], RolesUserGroup.prototype, "user_id");
     __decorate([
+        sequelize_typescript_1.Unique('groupId-userId'),
+        sequelize_typescript_1.ForeignKey(function () { return groups_model_1.Groups; }),
         sequelize_typescript_1.Column({
             type: sequelize_typescript_1.DataType.STRING,
             allowNull: false
         })
     ], RolesUserGroup.prototype, "group_id");
     __decorate([
+        sequelize_typescript_1.ForeignKey(function () { return roles_model_1.Roles; }),
         sequelize_typescript_1.Column({
-            type: sequelize_typescript_1.DataType.ARRAY(sequelize_typescript_1.DataType.UUIDV1),
+            type: sequelize_typescript_1.DataType.ARRAY(sequelize_typescript_1.DataType.STRING),
             allowNull: false
         })
     ], RolesUserGroup.prototype, "roles_id");
     RolesUserGroup = __decorate([
-        sequelize_typescript_1.Table({ tableName: 'RolesUserGroup' })
+        sequelize_typescript_1.Table({ tableName: 'roles_user_groups' })
     ], RolesUserGroup);
     return RolesUserGroup;
 }(sequelize_typescript_1.Model));

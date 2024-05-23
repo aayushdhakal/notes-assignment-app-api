@@ -52,6 +52,13 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        id:dv.rolesCollection.roles6,
+        name: 'request',
+        description: 'This is requested user',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ]);
   },
 

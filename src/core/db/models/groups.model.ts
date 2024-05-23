@@ -1,6 +1,6 @@
-import { BelongsTo, Column, DataType, ForeignKey, Table , Model } from "sequelize-typescript";
+import { BelongsTo, Column, DataType, ForeignKey, Table , Model,HasMany } from "sequelize-typescript";
 import { User } from "./users.model";
-
+import { RolesUserGroup } from "./rolesUserGroup.model";
 
 
 @Table({tableName:'groups'})
@@ -55,7 +55,14 @@ export class Groups extends Model<Groups>{
     })
     group_code:string;
 
+    // ----------------------- Associations ------------------------
+
+    @HasMany(()=>RolesUserGroup,{ onDelete: 'SET NULL', onUpdate: 'SET NULL' })
+    rolesUserGroup:RolesUserGroup[];
+
     @BelongsTo(()=>User)
     creator:User;
+
+
 }
 

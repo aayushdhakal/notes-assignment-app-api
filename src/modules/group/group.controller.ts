@@ -22,7 +22,7 @@ export class GroupController {
     }
 
     @Patch(':id')
-    public updateGroup(@Param('id',ParseUUIDPipe) id:string,@Body() body:GroupUpdateDto,@Request() req){
+    public updateGroupInformation(@Param('id',ParseUUIDPipe) id:string,@Body() body:GroupUpdateDto,@Request() req){
         return true;
     }
 

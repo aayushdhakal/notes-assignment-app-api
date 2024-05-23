@@ -1,4 +1,5 @@
-import { AllowNull, Column, DataType, Model, PrimaryKey, Table } from "sequelize-typescript"
+import { HasMany,AllowNull, Column, DataType, Model, PrimaryKey, Table } from "sequelize-typescript"
+import { RolesUserGroup } from "./rolesUserGroup.model";
 
 @Table({ tableName: 'roles' })
 export class Roles extends Model<Roles>{
@@ -22,5 +23,8 @@ export class Roles extends Model<Roles>{
         type:DataType.STRING,
         allowNull:false,
     })
-    description:string
+    description:string;
+
+    @HasMany(()=>RolesUserGroup,{ onDelete: 'SET NULL', onUpdate: 'SET NULL' })
+    rolesUserGroup:RolesUserGroup[];
 }
