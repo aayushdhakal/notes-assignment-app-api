@@ -62,21 +62,24 @@ var RolesGuard = /** @class */ (function () {
         if (isSkipRoleGuard)
             return true;
         return this.validateGroupRolesAndReturnRoles(request);
+        // In above context we have the userId in place along with the groupId and we can view the type of user in the group and the method he is trying to access we can now set the @Roles on the methods on the group to identify the permission which can do what in the roles guard
+        // At first we need to check the permission wheather the userId belongs to the group or not 
+        // for example In group controller class we can set the patch method that can be worked on by moderator by setting @Roles('moderator','admin','superadmin') we can say he has the permission for it by checking on the logic and such
     };
     RolesGuard.prototype.validateGroupRolesAndReturnRoles = function (request) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var valueTemp;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
                         // console.log(request)
                         console.log(request.route.methods);
                         console.log('userId:- ' + request.user.id);
                         console.log('groupId:- ' + request.params.id);
-                        _b = (_a = console).log;
                         return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(request.user.id, request.params.id)];
                     case 1:
-                        _b.apply(_a, [_c.sent()]);
+                        valueTemp = _a.sent();
+                        console.log(valueTemp[0].dataValues);
                         return [2 /*return*/, request];
                 }
             });

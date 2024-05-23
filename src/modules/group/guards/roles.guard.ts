@@ -28,6 +28,9 @@ export class RolesGuard implements CanActivate{
         if(isSkipRoleGuard) return true; 
 
         return this.validateGroupRolesAndReturnRoles(request);
+        // In above context we have the userId in place along with the groupId and we can view the type of user in the group and the method he is trying to access we can now set the @Roles on the methods on the group to identify the permission which can do what in the roles guard
+        // At first we need to check the permission wheather the userId belongs to the group or not 
+        // for example In group controller class we can set the patch method that can be worked on by moderator by setting @Roles('moderator','admin','superadmin') we can say he has the permission for it by checking on the logic and such
     }
 
     async validateGroupRolesAndReturnRoles(request){
