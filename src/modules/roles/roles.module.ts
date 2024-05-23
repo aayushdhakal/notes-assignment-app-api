@@ -12,6 +12,7 @@ import { RolesController } from './roles.controller';
       useValue:Roles
     }
   ],
-  controllers: [RolesController]
+  controllers: [RolesController],
+  exports:[RolesService]
 })
 export class RolesModule {}

@@ -6,29 +6,51 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.GroupDto = void 0;
+exports.GroupUpdateDto = exports.GroupCreateDto = void 0;
 var class_validator_1 = require("class-validator");
-var GroupDto = /** @class */ (function () {
-    function GroupDto() {
+var GroupCreateDto = /** @class */ (function () {
+    function GroupCreateDto() {
         this.isActive = false;
         this.isPublic = false;
     }
     __decorate([
         class_validator_1.IsNotEmpty(),
         class_validator_1.IsString()
-    ], GroupDto.prototype, "name");
+    ], GroupCreateDto.prototype, "name");
     __decorate([
         class_validator_1.IsNotEmpty(),
         class_validator_1.IsBoolean()
-    ], GroupDto.prototype, "isActive");
+    ], GroupCreateDto.prototype, "isActive");
     __decorate([
         class_validator_1.IsNotEmpty(),
         class_validator_1.IsBoolean()
-    ], GroupDto.prototype, "isPublic");
+    ], GroupCreateDto.prototype, "isPublic");
     __decorate([
         class_validator_1.IsNotEmpty(),
         class_validator_1.IsString()
-    ], GroupDto.prototype, "description");
-    return GroupDto;
+    ], GroupCreateDto.prototype, "description");
+    return GroupCreateDto;
 }());
-exports.GroupDto = GroupDto;
+exports.GroupCreateDto = GroupCreateDto;
+var GroupUpdateDto = /** @class */ (function () {
+    function GroupUpdateDto() {
+    }
+    __decorate([
+        class_validator_1.IsOptional(),
+        class_validator_1.IsString()
+    ], GroupUpdateDto.prototype, "name");
+    __decorate([
+        class_validator_1.IsOptional(),
+        class_validator_1.IsBoolean()
+    ], GroupUpdateDto.prototype, "isActive");
+    __decorate([
+        class_validator_1.IsOptional(),
+        class_validator_1.IsBoolean()
+    ], GroupUpdateDto.prototype, "isPublic");
+    __decorate([
+        class_validator_1.IsOptional(),
+        class_validator_1.IsString()
+    ], GroupUpdateDto.prototype, "description");
+    return GroupUpdateDto;
+}());
+exports.GroupUpdateDto = GroupUpdateDto;

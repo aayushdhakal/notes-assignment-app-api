@@ -19,6 +19,8 @@ var group_service_1 = require("./group.service");
 var group_controller_1 = require("./group.controller");
 var group_providers_1 = require("./group.providers");
 var roles_guard_1 = require("./guards/roles.guard");
+var roles_module_1 = require("../roles/roles.module");
+var roles_user_group_module_1 = require("../roles-user-group/roles-user-group.module");
 var GroupModule = /** @class */ (function () {
     function GroupModule() {
     }
@@ -26,7 +28,8 @@ var GroupModule = /** @class */ (function () {
         common_1.Module({
             providers: __spreadArrays([group_service_1.GroupService], group_providers_1.groupTableProviders, [roles_guard_1.RolesGuard]),
             controllers: [group_controller_1.GroupController],
-            exports: [group_service_1.GroupService]
+            exports: [group_service_1.GroupService],
+            imports: [roles_module_1.RolesModule, roles_user_group_module_1.RolesUserGroupModule]
         })
     ], GroupModule);
     return GroupModule;

@@ -25,10 +25,10 @@ export class RolesGuard implements CanActivate{
         const isSkipRoleGuard = isThisAuthFound('SkipRoleGuard');
         if(isSkipRoleGuard) return true; 
 
-        return this.validateGroupAndReturnRoles(request);
+        return this.validateGroupRolesAndReturnRoles(request);
     }
 
-    async validateGroupAndReturnRoles(request){
+    async validateGroupRolesAndReturnRoles(request){
 
         console.log(request)
         return request;

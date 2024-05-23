@@ -17,6 +17,6 @@ export class RolesUserGroupController {
 
     @Get('get-roles')
     async getAllTheGroupsUsersAssociatedWith(userId:string){
-        return this.rolesUserGroupService.getGroupsFromUserId(userId);
+        return this.rolesUserGroupService.getGroupsRolesFromUserId(userId);
     }
 }

@@ -11,6 +11,7 @@ var common_1 = require("@nestjs/common");
 var roles_service_1 = require("./roles.service");
 var constants_1 = require("src/core/constants");
 var roles_model_1 = require("src/core/db/models/roles.model");
+var roles_controller_1 = require("./roles.controller");
 var RolesModule = /** @class */ (function () {
     function RolesModule() {
     }
@@ -22,7 +23,9 @@ var RolesModule = /** @class */ (function () {
                     provide: constants_1.ROLES_REPOSITORY,
                     useValue: roles_model_1.Roles
                 }
-            ]
+            ],
+            controllers: [roles_controller_1.RolesController],
+            exports: [roles_service_1.RolesService]
         })
     ], RolesModule);
     return RolesModule;

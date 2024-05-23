@@ -60,7 +60,7 @@ var RolesUserGroupController = /** @class */ (function () {
     RolesUserGroupController.prototype.getAllTheGroupsUsersAssociatedWith = function (userId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.rolesUserGroupService.getGroupsFromUserId(userId)];
+                return [2 /*return*/, this.rolesUserGroupService.getGroupsRolesFromUserId(userId)];
             });
         });
     };
