@@ -42,8 +42,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.SkipRoleGuard = exports.RolesGuard = void 0;
+exports.Roles = exports.SkipRoleGuard = exports.RolesGuard = void 0;
 var common_1 = require("@nestjs/common");
+var core_1 = require("@nestjs/core");
 var RolesGuard = /** @class */ (function () {
     function RolesGuard(reflector, rolesUserGroupService) {
         this.reflector = reflector;
@@ -61,25 +62,28 @@ var RolesGuard = /** @class */ (function () {
         var isSkipRoleGuard = isThisAuthFound('SkipRoleGuard');
         if (isSkipRoleGuard)
             return true;
-        return this.validateGroupRolesAndReturnRoles(request);
+        //this is to get the roles on the controller like admin,moderator,user,so on.
+        var roles = this.reflector.get(exports.Roles, context.getHandler());
+        return this.validateGroupRolesAndReturnRoles(request, roles);
         // In above context we have the userId in place along with the groupId and we can view the type of user in the group and the method he is trying to access we can now set the @Roles on the methods on the group to identify the permission which can do what in the roles guard
         // At first we need to check the permission wheather the userId belongs to the group or not 
         // for example In group controller class we can set the patch method that can be worked on by moderator by setting @Roles('moderator','admin','superadmin') we can say he has the permission for it by checking on the logic and such
     };
-    RolesGuard.prototype.validateGroupRolesAndReturnRoles = function (request) {
+    RolesGuard.prototype.validateGroupRolesAndReturnRoles = function (request, roles) {
         return __awaiter(this, void 0, void 0, function () {
-            var valueTemp;
+            var valueTemp, roleOfUserOnGroup, groupName;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        // console.log(request)
-                        console.log(request.route.methods);
-                        console.log('userId:- ' + request.user.id);
-                        console.log('groupId:- ' + request.params.id);
+                        console.log('userId :- ' + request.user.id);
+                        console.log('groupId :- ' + request.params.id);
+                        console.log('list the roles of the controller:- ' + roles);
                         return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(request.user.id, request.params.id)];
                     case 1:
                         valueTemp = _a.sent();
-                        console.log(valueTemp[0].dataValues);
+                        roleOfUserOnGroup = valueTemp[0].dataValues.role.dataValues.name;
+                        groupName = valueTemp[0].dataValues.group.dataValues.name;
+                        console.log('\n Roles of user ' + roleOfUserOnGroup, '\n Group Name ' + groupName, '\n Allowed Roles ' + roles);
                         return [2 /*return*/, request];
                 }
             });
@@ -92,3 +96,4 @@ var RolesGuard = /** @class */ (function () {
 }());
 exports.RolesGuard = RolesGuard;
 exports.SkipRoleGuard = function () { return common_1.SetMetadata('SkipRoleGuard', true); };
+exports.Roles = core_1.Reflector.createDecorator();

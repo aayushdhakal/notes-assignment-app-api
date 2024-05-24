@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, UseGuards ,Request, Param, ParseUUIDPipe, Patch, Delete } from '@nestjs/common';
 import { GroupCreateDto, GroupUpdateDto } from './dto/group.dto';
-import { RolesGuard, SkipRoleGuard } from './guards/roles.guard';
+import { Roles, RolesGuard, SkipRoleGuard } from './guards/roles.guard';
 import { GroupService } from './group.service';
 
 @Controller('group')
@@ -21,21 +21,25 @@ export class GroupController {
         return true;
     }
 
+    @Roles(['superuser','admin'])
     @Patch(':id')
-    public updateGroupInformation(@Param('id',ParseUUIDPipe) id:string,@Body() body:GroupUpdateDto,@Request() req){
+    public updateGroupInfo(@Param('id',ParseUUIDPipe) id:string,@Body() body:GroupUpdateDto,@Request() req){
         return true;
     }
 
+    @Roles(['superuser'])
     @Delete(':id')
     public deleteGroup(@Param('id',ParseUUIDPipe) id:string ,@Request() req){
         return true;
     }
 
+    @Roles(['superuser','admin','moderator','user'])
     @Get(':id')
     public getGroupInfoById(@Param('id',ParseUUIDPipe) id:string, @Request() req){
         return true
     }
 
+    @Roles(['superuser','admin','moderator','user'])
     @Get(':groupCode')
     public getGroupInfoByGroupCode(@Param('groupCode') groupCode:string,@Request() req){
         return true
