@@ -57,7 +57,7 @@ export class Groups extends Model<Groups>{
 
     // ----------------------- Associations ------------------------
 
-    @HasMany(()=>RolesUserGroup,{ onDelete: 'SET NULL', onUpdate: 'SET NULL' })
+    @HasMany(()=>RolesUserGroup,{ onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     rolesUserGroup:RolesUserGroup[];
 
     @BelongsTo(()=>User)

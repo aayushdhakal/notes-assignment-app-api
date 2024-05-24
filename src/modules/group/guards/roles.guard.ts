@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext , SetMetadata ,Injectable } from "@nestjs/common";
+import { CanActivate, ExecutionContext , SetMetadata ,Injectable, UnauthorizedException, HttpStatus, HttpException } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { Observable } from "rxjs";
 import { RolesUserGroupService } from "src/modules/roles-user-group/roles-user-group.service";
@@ -30,24 +30,33 @@ export class RolesGuard implements CanActivate{
         //this is to get the roles on the controller like admin,moderator,user,so on.
         const roles = this.reflector.get(Roles,context.getHandler());
 
-        return this.validateGroupRolesAndReturnRoles(request,roles);
+        return this.validateGroupRolesAndReturnRoles(request,roles);;
         // In above context we have the userId in place along with the groupId and we can view the type of user in the group and the method he is trying to access we can now set the @Roles on the methods on the group to identify the permission which can do what in the roles guard
         // At first we need to check the permission wheather the userId belongs to the group or not 
         // for example In group controller class we can set the patch method that can be worked on by moderator by setting @Roles('moderator','admin','superadmin') we can say he has the permission for it by checking on the logic and such
     }
 
     async validateGroupRolesAndReturnRoles(request,roles){
-
-        console.log('userId :- ' + request.user.id);
-        console.log('groupId :- ' + request.params.id);
-        console.log('list the roles of the controller:- '+roles);
-
         const valueTemp = await this.rolesUserGroupService.getGroupsRolesFromUserId(request.user.id,request.params.id);
-
         const roleOfUserOnGroup = valueTemp[0].dataValues.role.dataValues.name;
-        const groupName = valueTemp[0].dataValues.group.dataValues.name;
+        const groupInfo = { 
+            groupId:valueTemp[0].dataValues.group_id,
+            groupName:valueTemp[0].group.dataValues.name,
+        };
+            
+        // console.log('userId :- ' + request.user.id);
+        // console.log('groupId :- ' + request.params.id);
+        // console.log('list the roles of the controller:- '+roles);
+        // console.log('\n Roles of user '+roleOfUserOnGroup,'\n Group Name '+groupName,'\n Allowed Roles '+roles);
 
-        console.log('\n Roles of user '+roleOfUserOnGroup,'\n Group Name '+groupName,'\n Allowed Roles '+roles);
+        // check if the user has the valid permission or role for the group or not if id doen't return error 
+        if(!roles.includes(roleOfUserOnGroup)){
+            throw new UnauthorizedException();
+        }
+        request.userGroupInfo = await {
+            userRole:roleOfUserOnGroup,
+            group:groupInfo
+        };
 
         return request;
     }

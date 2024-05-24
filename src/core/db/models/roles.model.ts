@@ -25,6 +25,6 @@ export class Roles extends Model<Roles>{
     })
     description:string;
 
-    @HasMany(()=>RolesUserGroup,{ onDelete: 'SET NULL', onUpdate: 'SET NULL' })
+    @HasMany(()=>RolesUserGroup,{ onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     rolesUserGroup:RolesUserGroup[];
 }

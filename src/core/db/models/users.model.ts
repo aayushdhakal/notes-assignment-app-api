@@ -55,10 +55,10 @@ export class User extends Model<User> {
     @HasMany(()=>Note,{ onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     notes:Note[];
 
-    @HasMany(()=>Groups,{ onDelete: 'SET NULL', onUpdate: 'SET NULL' })
+    @HasMany(()=>Groups,{ onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     group:Groups[];
 
-    @HasMany(()=>RolesUserGroup,{ onDelete: 'SET NULL', onUpdate: 'SET NULL' })
+    @HasMany(()=>RolesUserGroup,{ onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     rolesUserGroup:RolesUserGroup[];
 
     // @BelongsToMany(()=>Groups,{ through:'RolesUserGroup' })

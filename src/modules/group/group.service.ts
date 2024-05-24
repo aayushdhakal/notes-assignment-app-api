@@ -12,9 +12,17 @@ export class GroupService {
         return await this.groupRepository.create<Groups>(groupInfo)
     }
 
+    async findGroupInfoById(id):Promise<Groups>{
+        return await this.groupRepository.findOne<Groups>({where:{id}})
+    }
+
     async checkGroupPermissions(userMemberId:String,groupId:String){
         // return await this.groupRepository.findOne<GroupTable>({where:{id,groupId}})
         return true;
+    }
+
+    async deleteGroup(groupId:string):Promise<Number>{
+        return await this.groupRepository.destroy({where:{id:groupId}})
     }
 
 }

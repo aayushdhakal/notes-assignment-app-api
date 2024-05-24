@@ -27,6 +27,12 @@ var GroupController = /** @class */ (function () {
     function GroupController(groupService) {
         this.groupService = groupService;
     }
+    GroupController.prototype.getGroupInfoById = function (id, req) {
+        return this.groupService.findGroupInfoById(req.userGroupInfo.group.groupId);
+    };
+    GroupController.prototype.deleteGroup = function (id, req) {
+        return true;
+    };
     GroupController.prototype.createNewGroup = function (body, req) {
         var ownerId = req.user.id;
         var groupInfo = __assign(__assign({}, body), { owner_id: ownerId });
@@ -37,15 +43,19 @@ var GroupController = /** @class */ (function () {
     GroupController.prototype.updateGroupInfo = function (id, body, req) {
         return true;
     };
-    GroupController.prototype.deleteGroup = function (id, req) {
-        return true;
-    };
-    GroupController.prototype.getGroupInfoById = function (id, req) {
-        return true;
-    };
     GroupController.prototype.getGroupInfoByGroupCode = function (groupCode, req) {
         return true;
     };
+    __decorate([
+        roles_guard_1.Roles(['superuser', 'admin', 'moderator', 'user']),
+        common_1.Get(':id'),
+        __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Request())
+    ], GroupController.prototype, "getGroupInfoById");
+    __decorate([
+        roles_guard_1.Roles(['superuser']),
+        common_1.Delete(':id'),
+        __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Request())
+    ], GroupController.prototype, "deleteGroup");
     __decorate([
         roles_guard_1.SkipRoleGuard(),
         common_1.Post(''),
@@ -56,16 +66,6 @@ var GroupController = /** @class */ (function () {
         common_1.Patch(':id'),
         __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Body()), __param(2, common_1.Request())
     ], GroupController.prototype, "updateGroupInfo");
-    __decorate([
-        roles_guard_1.Roles(['superuser']),
-        common_1.Delete(':id'),
-        __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Request())
-    ], GroupController.prototype, "deleteGroup");
-    __decorate([
-        roles_guard_1.Roles(['superuser', 'admin', 'moderator', 'user']),
-        common_1.Get(':id'),
-        __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Request())
-    ], GroupController.prototype, "getGroupInfoById");
     __decorate([
         roles_guard_1.Roles(['superuser', 'admin', 'moderator', 'user']),
         common_1.Get(':groupCode'),

@@ -65,25 +65,39 @@ var RolesGuard = /** @class */ (function () {
         //this is to get the roles on the controller like admin,moderator,user,so on.
         var roles = this.reflector.get(exports.Roles, context.getHandler());
         return this.validateGroupRolesAndReturnRoles(request, roles);
+        ;
         // In above context we have the userId in place along with the groupId and we can view the type of user in the group and the method he is trying to access we can now set the @Roles on the methods on the group to identify the permission which can do what in the roles guard
         // At first we need to check the permission wheather the userId belongs to the group or not 
         // for example In group controller class we can set the patch method that can be worked on by moderator by setting @Roles('moderator','admin','superadmin') we can say he has the permission for it by checking on the logic and such
     };
     RolesGuard.prototype.validateGroupRolesAndReturnRoles = function (request, roles) {
         return __awaiter(this, void 0, void 0, function () {
-            var valueTemp, roleOfUserOnGroup, groupName;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        console.log('userId :- ' + request.user.id);
-                        console.log('groupId :- ' + request.params.id);
-                        console.log('list the roles of the controller:- ' + roles);
-                        return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(request.user.id, request.params.id)];
+            var valueTemp, roleOfUserOnGroup, groupInfo, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(request.user.id, request.params.id)];
                     case 1:
-                        valueTemp = _a.sent();
+                        valueTemp = _b.sent();
                         roleOfUserOnGroup = valueTemp[0].dataValues.role.dataValues.name;
-                        groupName = valueTemp[0].dataValues.group.dataValues.name;
-                        console.log('\n Roles of user ' + roleOfUserOnGroup, '\n Group Name ' + groupName, '\n Allowed Roles ' + roles);
+                        groupInfo = {
+                            groupId: valueTemp[0].dataValues.group_id,
+                            groupName: valueTemp[0].group.dataValues.name
+                        };
+                        // console.log('userId :- ' + request.user.id);
+                        // console.log('groupId :- ' + request.params.id);
+                        // console.log('list the roles of the controller:- '+roles);
+                        // console.log('\n Roles of user '+roleOfUserOnGroup,'\n Group Name '+groupName,'\n Allowed Roles '+roles);
+                        // check if the user has the valid permission or role for the group or not if id doen't return error 
+                        if (!roles.includes(roleOfUserOnGroup)) {
+                            throw new common_1.UnauthorizedException();
+                        }
+                        _a = request;
+                        return [4 /*yield*/, {
+                                userRole: roleOfUserOnGroup,
+                                group: groupInfo
+                            }];
+                    case 2:
+                        _a.userGroupInfo = _b.sent();
                         return [2 /*return*/, request];
                 }
             });

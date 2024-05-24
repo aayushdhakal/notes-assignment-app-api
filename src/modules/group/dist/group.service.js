@@ -62,6 +62,16 @@ var GroupService = /** @class */ (function () {
             });
         });
     };
+    GroupService.prototype.findGroupInfoById = function (id) {
+        return __awaiter(this, void 0, Promise, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.groupRepository.findOne({ where: { id: id } })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     GroupService.prototype.checkGroupPermissions = function (userMemberId, groupId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -70,9 +80,19 @@ var GroupService = /** @class */ (function () {
             });
         });
     };
+    GroupService.prototype.deleteGroup = function (groupId) {
+        return __awaiter(this, void 0, Promise, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.groupRepository.destroy({ where: { id: groupId } })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     GroupService = __decorate([
         common_1.Injectable(),
-        __param(0, common_1.Inject(constants_1.GROUPTABLE_REPOSITORY))
+        __param(0, common_1.Inject(constants_1.GROUPS_REPOSITORY))
     ], GroupService);
     return GroupService;
 }());
