@@ -28,11 +28,18 @@ export class GroupController {
     @Post('')
     public createNewGroup(@Body() body:GroupCreateDto, @Request() req){
         const ownerId = req.user.id;
-        const groupInfo = {...body,owner_id:ownerId}
-        console.log(groupInfo);
+        const groupInfo = {
+            name:body.name,
+            is_active:body.isActive,
+            is_public:body.isPublic,
+            description:body.description,
+            creator_id:ownerId
+        }
+        const group = this.groupService.create(groupInfo);
+        // console.log(group)
         //const groupInfo =  await this.groupService.create(body)
         
-        return true;
+        return group;
     }
 
     @Roles(['superuser','admin'])
@@ -45,7 +52,7 @@ export class GroupController {
 
 
     @Roles(['superuser','admin','moderator','user'])
-    @Get(':groupCode')
+    @Get('group-code:groupCode')
     public getGroupInfoByGroupCode(@Param('groupCode') groupCode:string,@Request() req){
         return true
     }

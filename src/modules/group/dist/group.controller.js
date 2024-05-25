@@ -1,15 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -31,14 +20,22 @@ var GroupController = /** @class */ (function () {
         return this.groupService.findGroupInfoById(req.userGroupInfo.group.groupId);
     };
     GroupController.prototype.deleteGroup = function (id, req) {
+        this.groupService.deleteGroup(req.userGroupInfo.group.groupId);
         return true;
     };
     GroupController.prototype.createNewGroup = function (body, req) {
         var ownerId = req.user.id;
-        var groupInfo = __assign(__assign({}, body), { owner_id: ownerId });
-        console.log(groupInfo);
+        var groupInfo = {
+            name: body.name,
+            is_active: body.isActive,
+            is_public: body.isPublic,
+            description: body.description,
+            creator_id: ownerId
+        };
+        var group = this.groupService.create(groupInfo);
+        // console.log(group)
         //const groupInfo =  await this.groupService.create(body)
-        return true;
+        return group;
     };
     GroupController.prototype.updateGroupInfo = function (id, body, req) {
         return true;
@@ -68,7 +65,7 @@ var GroupController = /** @class */ (function () {
     ], GroupController.prototype, "updateGroupInfo");
     __decorate([
         roles_guard_1.Roles(['superuser', 'admin', 'moderator', 'user']),
-        common_1.Get(':groupCode'),
+        common_1.Get('group-code:groupCode'),
         __param(0, common_1.Param('groupCode')), __param(1, common_1.Request())
     ], GroupController.prototype, "getGroupInfoByGroupCode");
     GroupController = __decorate([
