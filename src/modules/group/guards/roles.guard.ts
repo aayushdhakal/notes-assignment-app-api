@@ -29,18 +29,16 @@ export class RolesGuard implements CanActivate{
 
         //this is to get the roles on the controller like admin,moderator,user,so on.
         const roles = this.reflector.get(Roles,context.getHandler());
-        console.log(roles);
-
         
-        return this.validateGroupRolesAndReturnRoles(request,roles);;
+        
+        return this.validateGroupRolesAndReturnRoles(request,roles);
         // In above context we have the userId in place along with the groupId and we can view the type of user in the group and the method he is trying to access we can now set the @Roles on the methods on the group to identify the permission which can do what in the roles guard
         // At first we need to check the permission wheather the userId belongs to the group or not 
         // for example In group controller class we can set the patch method that can be worked on by moderator by setting @Roles('moderator','admin','superadmin') we can say he has the permission for it by checking on the logic and such
     }
 
     async validateGroupRolesAndReturnRoles(request,roles){
-        console.log(request);
-        const valueTemp = await this.rolesUserGroupService.getGroupsRolesFromUserId(request.user.id,request.params.id);
+        const valueTemp = await this.rolesUserGroupService.getGroupsRolesFromUserId(request.query.group,request.user.id);
         const roleOfUserOnGroup = valueTemp[0].dataValues.role.dataValues.name;
         const groupInfo = { 
             groupId:valueTemp[0].dataValues.group_id,
@@ -60,8 +58,7 @@ export class RolesGuard implements CanActivate{
         request.userGroupInfo = await {
             userRole:roleOfUserOnGroup,
             group:groupInfo
-        };
-        
+        };       
         return request;
     }
 

@@ -17,8 +17,8 @@ var GroupController = /** @class */ (function () {
         this.groupService = groupService;
         this.rolesUserGroupService = rolesUserGroupService;
     }
-    GroupController.prototype.getGroupInfoById = function (id, req) {
-        return this.groupService.findGroupInfoById(req.userGroupInfo.group.groupId);
+    GroupController.prototype.getGroupInfoById = function (req) {
+        return this.groupService.findGroupInfoById(req.query.group);
     };
     GroupController.prototype.deleteGroup = function (id, req) {
         this.groupService.deleteGroup(req.userGroupInfo.group.groupId);
@@ -44,14 +44,14 @@ var GroupController = /** @class */ (function () {
     GroupController.prototype.getGroupInfoByGroupCode = function (groupCode, req) {
         return true;
     };
-    //-----------------Users Controller for Group ----------------
-    GroupController.prototype.getGroupMembersList = function (groupId) {
-        return this.rolesUserGroupService.getGroupMembersFromGroupId(groupId);
+    GroupController.prototype.getGroupMembersList = function (req) {
+        console.log(req.query.group + ' group code');
+        return this.rolesUserGroupService.getGroupMembersFromGroupId(req.query.group);
     };
     __decorate([
         roles_guard_1.Roles(['superuser', 'admin', 'moderator', 'user']),
-        common_1.Get(':id'),
-        __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Request())
+        common_1.Get(''),
+        __param(0, common_1.Request())
     ], GroupController.prototype, "getGroupInfoById");
     __decorate([
         roles_guard_1.Roles(['superuser']),
@@ -75,8 +75,8 @@ var GroupController = /** @class */ (function () {
     ], GroupController.prototype, "getGroupInfoByGroupCode");
     __decorate([
         roles_guard_1.Roles(['superuser', 'admin']),
-        common_1.Get('group-members/:groupCode'),
-        __param(0, common_1.Param('groupCode'))
+        common_1.Get('group-members'),
+        __param(0, common_1.Request())
     ], GroupController.prototype, "getGroupMembersList");
     GroupController = __decorate([
         common_1.Controller('group'),

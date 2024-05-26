@@ -13,9 +13,9 @@ export class GroupController {
     ){}
 
     @Roles(['superuser','admin','moderator','user'])
-    @Get(':id')
-    public getGroupInfoById(@Param('id',ParseUUIDPipe) id:string, @Request() req){       
-        return this.groupService.findGroupInfoById(req.userGroupInfo.group.groupId);
+    @Get('')
+    public getGroupInfoById(@Request() req){       
+        return this.groupService.findGroupInfoById(req.query.group);
     }
 
     @Roles(['superuser'])
@@ -55,13 +55,11 @@ export class GroupController {
     public getGroupInfoByGroupCode(@Param('groupCode') groupCode:string,@Request() req){
         return true
     }
-
-
-    //-----------------Users Controller for Group ----------------
-
+    
     @Roles(['superuser','admin'])
-    @Get('group-members/:groupCode')
-    public getGroupMembersList(@Param('groupCode') groupId:string){
-        return this.rolesUserGroupService.getGroupMembersFromGroupId(groupId);
+    @Get('group-members')
+    public getGroupMembersList(@Request() req){
+        console.log(req.query.group+' group code');
+        return this.rolesUserGroupService.getGroupMembersFromGroupId(req.query.group);
     }
 }
