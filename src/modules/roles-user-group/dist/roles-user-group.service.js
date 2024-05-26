@@ -50,6 +50,7 @@ var common_1 = require("@nestjs/common");
 var constants_1 = require("src/core/constants");
 var groups_model_1 = require("src/core/db/models/groups.model");
 var roles_model_1 = require("src/core/db/models/roles.model");
+var rolesUserGroup_model_1 = require("src/core/db/models/rolesUserGroup.model");
 var RolesUserGroupService = /** @class */ (function () {
     function RolesUserGroupService(usersRolesGroupRepository) {
         this.usersRolesGroupRepository = usersRolesGroupRepository;
@@ -64,19 +65,14 @@ var RolesUserGroupService = /** @class */ (function () {
             });
         });
     };
-    RolesUserGroupService.prototype.getGroupsRolesFromUserId = function (user_id, group_id) {
+    RolesUserGroupService.prototype.createNewRolesGroup = function (user_id, group_id, roles_id) {
         return __awaiter(this, void 0, Promise, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.usersRolesGroupRepository.findAll({
-                            where: {
-                                user_id: user_id,
-                                group_id: group_id
-                            },
-                            include: [
-                                { model: groups_model_1.Groups, as: 'groupName', attributes: ['name'] },
-                                { model: roles_model_1.Roles, as: 'roles', attributes: ['name'] }
-                            ]
+                    case 0: return [4 /*yield*/, this.usersRolesGroupRepository.create({
+                            user_id: user_id,
+                            group_id: group_id,
+                            roles_id: roles_id
                         })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
@@ -90,3 +86,44 @@ var RolesUserGroupService = /** @class */ (function () {
     return RolesUserGroupService;
 }());
 exports.RolesUserGroupService = RolesUserGroupService;
+number;
+ > {
+    "return": await this.usersRolesGroupRepository.update({ roles_id: roles_id }, { where: {
+            user_id: user_id,
+            group_id: group_id
+        } })
+};
+async;
+removeUserFromGroup(user_id, string, group_id, string);
+Promise < number > {
+    "return": await this.usersRolesGroupRepository.destroy({ where: {
+            user_id: user_id,
+            group_id: group_id
+        } })
+};
+async;
+getGroupsRolesFromUserId(user_id, string, group_id, string);
+Promise < rolesUserGroup_model_1.RolesUserGroup[] > {
+    "return": await this.usersRolesGroupRepository.findAll({
+        where: {
+            user_id: user_id,
+            group_id: group_id
+        },
+        include: [
+            { model: groups_model_1.Groups, as: 'group', attributes: ['name'] },
+            { model: roles_model_1.Roles, as: 'role', attributes: ['name'] }
+        ]
+    })
+};
+async;
+getGroupMembersFromGroupId(group_id, string);
+Promise < rolesUserGroup_model_1.RolesUserGroup[] > {
+    "return": await this.usersRolesGroupRepository.findAll({
+        where: {
+            group_id: group_id
+        },
+        include: [
+            { model: roles_model_1.Roles, as: 'role', attributes: ['name'] }
+        ]
+    })
+};

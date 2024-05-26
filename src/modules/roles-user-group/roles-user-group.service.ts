@@ -14,6 +14,33 @@ export class RolesUserGroupService {
         return await this.usersRolesGroupRepository.findAll<RolesUserGroup>();
     }
 
+    async createNewRolesGroup(user_id:string,group_id:string,roles_id:string):Promise<RolesUserGroup>{
+        return await this.usersRolesGroupRepository.create<RolesUserGroup>({
+            user_id,
+            group_id,
+            roles_id
+        })
+    }
+
+    async updateRolesGroup(user_id:string,group_id:string,roles_id:string):Promise<[affectedCount: number]>{
+        return await this.usersRolesGroupRepository.update<RolesUserGroup>(
+            {roles_id},
+            {where:{
+                user_id,
+                group_id
+            }}
+        )
+    }
+
+    async removeUserFromGroup(user_id:string,group_id:string):Promise<number>{
+        return await this.usersRolesGroupRepository.destroy(
+            {where:{
+                user_id,
+                group_id
+            }}
+        )
+    }
+
     async getGroupsRolesFromUserId(user_id:string,group_id:string):Promise<RolesUserGroup[]>{
         return await this.usersRolesGroupRepository.findAll<RolesUserGroup>({
             where:{
@@ -22,6 +49,17 @@ export class RolesUserGroupService {
             },
             include:[
                 {model:Groups,as:'group',attributes:['name']},
+                {model:Roles,as:'role',attributes:['name']}
+            ]
+        })
+    }
+
+    async getGroupMembersFromGroupId(group_id:string):Promise<RolesUserGroup[]>{
+        return await this.usersRolesGroupRepository.findAll<RolesUserGroup>({
+            where:{
+                group_id
+            },
+            include:[
                 {model:Roles,as:'role',attributes:['name']}
             ]
         })
