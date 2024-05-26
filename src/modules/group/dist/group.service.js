@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -49,8 +60,9 @@ exports.GroupService = void 0;
 var common_1 = require("@nestjs/common");
 var constants_1 = require("src/core/constants");
 var GroupService = /** @class */ (function () {
-    function GroupService(groupRepository) {
+    function GroupService(groupRepository, rolesUserGroupService) {
         this.groupRepository = groupRepository;
+        this.rolesUserGroupService = rolesUserGroupService;
     }
     GroupService.prototype.create = function (groupInfo) {
         return __awaiter(this, void 0, void 0, function () {
@@ -64,6 +76,20 @@ var GroupService = /** @class */ (function () {
                         group = _a.sent();
                         // create a new rolesUserGroup with the user_id,group_id(group.dataValues.id),roles_id with the super user
                         return [2 /*return*/, group];
+                }
+            });
+        });
+    };
+    GroupService.prototype.updateGroupInfo = function (groupData, group_id) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.groupRepository.update(__assign({}, groupData), { where: {
+                                id: group_id
+                            } })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
                 }
             });
         });
@@ -91,6 +117,37 @@ var GroupService = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.groupRepository.destroy({ where: { id: groupId } })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    //---------------------------For User related Methods ------------------------
+    GroupService.prototype.addUserToGroupRoles = function (groupId, userId, rolesId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.rolesUserGroupService.createNewRolesForGroup(groupId, userId, rolesId)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    GroupService.prototype.removeUserFromGroup = function (groupId, userId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.rolesUserGroupService.removeUserFromGroup(groupId, userId)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    GroupService.prototype.updateUserRolesOfGrou = function (groupId, userId, rolesId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.rolesUserGroupService.updateRolesGroup(groupId, userId, rolesId)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });

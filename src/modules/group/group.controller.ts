@@ -2,12 +2,14 @@ import { Body, Controller, Get, Post, UseGuards ,Request, Param, ParseUUIDPipe, 
 import { GroupCreateDto, GroupUpdateDto } from './dto/group.dto';
 import { Roles, RolesGuard, SkipRoleGuard } from './guards/roles.guard';
 import { GroupService } from './group.service';
+import { RolesUserGroupService } from '../roles-user-group/roles-user-group.service';
 
 @Controller('group')
 @UseGuards(RolesGuard)
 export class GroupController {
     constructor(
-        public readonly groupService:GroupService
+        public readonly groupService:GroupService,
+        public readonly rolesUserGroupService:RolesUserGroupService,
     ){}
 
     @Roles(['superuser','admin','moderator','user'])
@@ -48,12 +50,18 @@ export class GroupController {
         return true;
     }
 
-
-
-
     @Roles(['superuser','admin','moderator','user'])
     @Get('group-code:groupCode')
     public getGroupInfoByGroupCode(@Param('groupCode') groupCode:string,@Request() req){
         return true
+    }
+
+
+    //-----------------Users Controller for Group ----------------
+
+    @Roles(['superuser','admin'])
+    @Get('group-members/:groupCode')
+    public getGroupMembersList(@Param('groupCode') groupId:string){
+        return this.rolesUserGroupService.getGroupMembersFromGroupId(groupId);
     }
 }

@@ -51,6 +51,7 @@ var constants_1 = require("src/core/constants");
 var groups_model_1 = require("src/core/db/models/groups.model");
 var roles_model_1 = require("src/core/db/models/roles.model");
 var rolesUserGroup_model_1 = require("src/core/db/models/rolesUserGroup.model");
+var users_model_1 = require("src/core/db/models/users.model");
 var RolesUserGroupService = /** @class */ (function () {
     function RolesUserGroupService(usersRolesGroupRepository) {
         this.usersRolesGroupRepository = usersRolesGroupRepository;
@@ -65,14 +66,14 @@ var RolesUserGroupService = /** @class */ (function () {
             });
         });
     };
-    RolesUserGroupService.prototype.createNewRolesGroup = function (user_id, group_id, roles_id) {
+    RolesUserGroupService.prototype.createNewRolesForGroup = function (groupId, userId, rolesId) {
         return __awaiter(this, void 0, Promise, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.usersRolesGroupRepository.create({
-                            user_id: user_id,
-                            group_id: group_id,
-                            roles_id: roles_id
+                            user_id: userId,
+                            group_id: groupId,
+                            roles_id: rolesId
                         })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
@@ -88,26 +89,26 @@ var RolesUserGroupService = /** @class */ (function () {
 exports.RolesUserGroupService = RolesUserGroupService;
 number;
  > {
-    "return": await this.usersRolesGroupRepository.update({ roles_id: roles_id }, { where: {
-            user_id: user_id,
-            group_id: group_id
+    "return": await this.usersRolesGroupRepository.update({ roles_id: rolesId }, { where: {
+            user_id: userId,
+            group_id: groupId
         } })
 };
 async;
-removeUserFromGroup(user_id, string, group_id, string);
+removeUserFromGroup(groupId, string, userId, string);
 Promise < number > {
     "return": await this.usersRolesGroupRepository.destroy({ where: {
-            user_id: user_id,
-            group_id: group_id
+            user_id: userId,
+            group_id: groupId
         } })
 };
 async;
-getGroupsRolesFromUserId(user_id, string, group_id, string);
+getGroupsRolesFromUserId(groupId, string, userId, string);
 Promise < rolesUserGroup_model_1.RolesUserGroup[] > {
     "return": await this.usersRolesGroupRepository.findAll({
         where: {
-            user_id: user_id,
-            group_id: group_id
+            user_id: userId,
+            group_id: groupId
         },
         include: [
             { model: groups_model_1.Groups, as: 'group', attributes: ['name'] },
@@ -116,14 +117,17 @@ Promise < rolesUserGroup_model_1.RolesUserGroup[] > {
     })
 };
 async;
-getGroupMembersFromGroupId(group_id, string);
+getGroupMembersFromGroupId(groupId, string);
 Promise < rolesUserGroup_model_1.RolesUserGroup[] > {
+    console: console,
+    : .log('there is problem in this line'),
     "return": await this.usersRolesGroupRepository.findAll({
         where: {
-            group_id: group_id
+            group_id: groupId
         },
         include: [
-            { model: roles_model_1.Roles, as: 'role', attributes: ['name'] }
+            { model: roles_model_1.Roles, as: 'role', attributes: ['name'] },
+            { model: users_model_1.User, as: 'user', attributes: ['name', 'id'] }
         ]
     })
 };

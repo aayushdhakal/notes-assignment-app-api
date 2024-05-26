@@ -13,8 +13,9 @@ exports.GroupController = void 0;
 var common_1 = require("@nestjs/common");
 var roles_guard_1 = require("./guards/roles.guard");
 var GroupController = /** @class */ (function () {
-    function GroupController(groupService) {
+    function GroupController(groupService, rolesUserGroupService) {
         this.groupService = groupService;
+        this.rolesUserGroupService = rolesUserGroupService;
     }
     GroupController.prototype.getGroupInfoById = function (id, req) {
         return this.groupService.findGroupInfoById(req.userGroupInfo.group.groupId);
@@ -43,6 +44,10 @@ var GroupController = /** @class */ (function () {
     GroupController.prototype.getGroupInfoByGroupCode = function (groupCode, req) {
         return true;
     };
+    //-----------------Users Controller for Group ----------------
+    GroupController.prototype.getGroupMembersList = function (groupId) {
+        return this.rolesUserGroupService.getGroupMembersFromGroupId(groupId);
+    };
     __decorate([
         roles_guard_1.Roles(['superuser', 'admin', 'moderator', 'user']),
         common_1.Get(':id'),
@@ -68,6 +73,11 @@ var GroupController = /** @class */ (function () {
         common_1.Get('group-code:groupCode'),
         __param(0, common_1.Param('groupCode')), __param(1, common_1.Request())
     ], GroupController.prototype, "getGroupInfoByGroupCode");
+    __decorate([
+        roles_guard_1.Roles(['superuser', 'admin']),
+        common_1.Get('group-members/:groupCode'),
+        __param(0, common_1.Param('groupCode'))
+    ], GroupController.prototype, "getGroupMembersList");
     GroupController = __decorate([
         common_1.Controller('group'),
         common_1.UseGuards(roles_guard_1.RolesGuard)
