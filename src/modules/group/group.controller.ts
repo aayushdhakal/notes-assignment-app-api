@@ -3,7 +3,7 @@ import { GroupCreateDto, GroupUpdateDto } from './dto/group.dto';
 import { Roles, RolesGuard, SkipRoleGuard } from './guards/roles.guard';
 import { GroupService } from './group.service';
 import { RolesUserGroupService } from '../roles-user-group/roles-user-group.service';
-import { getMinimunRolesPrivilege } from 'src/core/constants/roles-list';
+import { getMaximumRolesPrivilege } from 'src/core/constants/roles-list';
 import { ROLE_ADMIN, ROLE_MODERATOR, ROLE_SUPERUSER, ROLE_USER } from 'src/core/constants';
 
 
@@ -15,13 +15,13 @@ export class GroupController {
         public readonly rolesUserGroupService:RolesUserGroupService,
     ){}
 
-    @Roles(getMinimunRolesPrivilege(ROLE_MODERATOR))
+    @Roles(getMaximumRolesPrivilege(ROLE_MODERATOR))
     @Get('')
     public getGroupInfoById(@Request() req){       
         return this.groupService.findGroupInfoById(req.query.group);
     }
 
-    @Roles(getMinimunRolesPrivilege(ROLE_SUPERUSER))
+    @Roles(getMaximumRolesPrivilege(ROLE_SUPERUSER))
     @Delete(':id')
     public deleteGroup(@Param('id',ParseUUIDPipe) id:string ,@Request() req){
         return this.groupService.deleteGroup(req.userGroupInfo.group.groupId);  
@@ -44,25 +44,25 @@ export class GroupController {
         return group;
     }
 
-    @Roles(getMinimunRolesPrivilege(ROLE_ADMIN))
+    @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))
     @Patch(':id')
     public updateGroupInfo(@Param('id',ParseUUIDPipe) id:string,@Body() body:GroupUpdateDto,@Request() req){
         return true;
     }
 
-    @Roles(getMinimunRolesPrivilege(ROLE_USER))
+    @Roles(getMaximumRolesPrivilege(ROLE_USER))
     @Get('group-code:groupCode')
     public getGroupInfoByGroupCode(@Param('groupCode') groupCode:string,@Request() req){
         return this.groupService.findGroupInfoByGroupCode(groupCode);
     }
     
-    @Roles(getMinimunRolesPrivilege(ROLE_ADMIN))
+    @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))
     @Get('group-members')
     public getGroupMembersList(@Request() req){
         return this.rolesUserGroupService.getGroupMembersFromGroupId(req.query.group);
     }
 
-    @Roles(getMinimunRolesPrivilege(ROLE_USER))
+    @Roles(getMaximumRolesPrivilege(ROLE_USER))
     @Get('grouprole')
     public getMyGroupRole(@Request() req){
         return this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group,req.user.id);

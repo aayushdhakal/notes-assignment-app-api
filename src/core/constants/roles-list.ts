@@ -11,7 +11,7 @@
 //     GUEST:'guest'
 // }
 type Role = 'superuser' | 'admin' | 'moderator' | 'contributor' | 'user' | 'guest' ;
-export const getMinimunRolesPrivilege = ( role:Role ):Array<string> =>{
+export const getMaximumRolesPrivilege = ( role:Role ):Array<string> =>{
     const roles: {[key:string]:string} = {
         SUPERUSER:'superuser',
         ADMIN:'admin',

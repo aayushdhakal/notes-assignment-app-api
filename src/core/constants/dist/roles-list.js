@@ -1,8 +1,8 @@
 "use strict";
 // const roles = ['superuser','admin','moderator','contributor','user','guest']
 exports.__esModule = true;
-exports.getMinimunRolesPrivilege = void 0;
-exports.getMinimunRolesPrivilege = function (role) {
+exports.getMaximumRolesPrivilege = void 0;
+exports.getMaximumRolesPrivilege = function (role) {
     var roles = {
         SUPERUSER: 'superuser',
         ADMIN: 'admin',
