@@ -29,7 +29,10 @@ var GroupModule = /** @class */ (function () {
             providers: __spreadArrays([group_service_1.GroupService], group_providers_1.groupTableProviders, [roles_guard_1.RolesGuard]),
             controllers: [group_controller_1.GroupController],
             exports: [group_service_1.GroupService],
-            imports: [roles_module_1.RolesModule, roles_user_group_module_1.RolesUserGroupModule]
+            imports: [
+                roles_module_1.RolesModule,
+                roles_user_group_module_1.RolesUserGroupModule
+            ]
         })
     ], GroupModule);
     return GroupModule;

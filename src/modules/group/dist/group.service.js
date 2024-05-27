@@ -69,12 +69,9 @@ var GroupService = /** @class */ (function () {
             var group;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.groupRepository.create(groupInfo)
-                        // create a new rolesUserGroup with the user_id,group_id(group.dataValues.id),roles_id with the super user
-                    ];
+                    case 0: return [4 /*yield*/, this.groupRepository.create(groupInfo)];
                     case 1:
                         group = _a.sent();
-                        // create a new rolesUserGroup with the user_id,group_id(group.dataValues.id),roles_id with the super user
                         return [2 /*return*/, group];
                 }
             });

@@ -97,6 +97,7 @@ var RolesGuard = /** @class */ (function () {
                             }];
                     case 2:
                         _a.userGroupInfo = _b.sent();
+                        console.log(request);
                         return [2 /*return*/, request];
                 }
             });

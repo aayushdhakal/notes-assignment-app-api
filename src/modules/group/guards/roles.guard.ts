@@ -58,7 +58,9 @@ export class RolesGuard implements CanActivate{
         request.userGroupInfo = await {
             userRole:roleOfUserOnGroup,
             group:groupInfo
-        };       
+        };
+        
+        console.log(request);
         return request;
     }
 

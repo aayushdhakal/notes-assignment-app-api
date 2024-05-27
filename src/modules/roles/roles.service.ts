@@ -9,6 +9,14 @@ export class RolesService {
     ){}
 
     async getAllRoles(){
-        return await this.rolesRepository.findAll<Roles>()
+        return await this.rolesRepository.findAll<Roles>();
+    }
+
+    async findRoleById(id:string):Promise<Roles>{
+        return await this.rolesRepository.findByPk(id);
+    }
+
+    async findRoleIdByName(name:string):Promise<Roles>{
+        return await this.rolesRepository.findOne({where:{name}})
     }
 }

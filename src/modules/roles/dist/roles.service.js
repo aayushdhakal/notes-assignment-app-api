@@ -62,6 +62,26 @@ var RolesService = /** @class */ (function () {
             });
         });
     };
+    RolesService.prototype.findRoleById = function (id) {
+        return __awaiter(this, void 0, Promise, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.rolesRepository.findByPk(id)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    RolesService.prototype.findRoleIdByName = function (name) {
+        return __awaiter(this, void 0, Promise, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.rolesRepository.findOne({ where: { name: name } })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     RolesService = __decorate([
         common_1.Injectable(),
         __param(0, common_1.Inject(constants_1.ROLES_REPOSITORY))

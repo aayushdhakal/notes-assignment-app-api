@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Post, UseGuards, Request, Param, ParseUUIDPipe, Patch, Delete, ConsoleLogger, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards, Request, Param, ParseUUIDPipe, Patch, Delete } from '@nestjs/common';
 import { GroupCreateDto, GroupUpdateDto } from './dto/group.dto';
 import { Roles, RolesGuard, SkipRoleGuard } from './guards/roles.guard';
 import { GroupService } from './group.service';
 import { RolesUserGroupService } from '../roles-user-group/roles-user-group.service';
 import { getMaximumRolesPrivilege } from 'src/core/constants/roles-list';
 import { ROLE_ADMIN, ROLE_MODERATOR, ROLE_SUPERUSER, ROLE_USER } from 'src/core/constants';
+import { RolesService } from '../roles/roles.service';
 
 
 @Controller('group')
@@ -13,6 +14,7 @@ export class GroupController {
     constructor(
         public readonly groupService:GroupService,
         public readonly rolesUserGroupService:RolesUserGroupService,
+        public readonly rolesService:RolesService
     ){}
 
     @Roles(getMaximumRolesPrivilege(ROLE_MODERATOR))
@@ -29,19 +31,20 @@ export class GroupController {
  
     @SkipRoleGuard()
     @Post('')
-    public createNewGroup(@Body() body:GroupCreateDto, @Request() req){
+    public async createNewGroup(@Body() body:GroupCreateDto, @Request() req){
         const ownerId = req.user.id;
         const groupInfo = {
             name:body.name,
-            is_active:body.isActive,
+            is_active:body.isActive,  
             is_public:body.isPublic,
             description:body.description,
             creator_id:ownerId
         }
-        const group = this.groupService.create(groupInfo);
-        // console.log(group)
-        //const groupInfo =  await this.groupService.create(body)
-        return group;
+        const group = await this.groupService.create(groupInfo);
+        const roles = await this.rolesService.findRoleIdByName(ROLE_SUPERUSER);
+        const createRUGS = await this.rolesUserGroupService.createNewRolesForGroup(group.dataValues.id,ownerId,roles.dataValues.id);
+
+        return {group,createRUGS};
     }
 
     @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))

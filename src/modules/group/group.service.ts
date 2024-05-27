@@ -4,7 +4,6 @@ import { GROUPS_REPOSITORY, SEQUELIZE } from "src/core/constants";
 import { GroupUpdateDto } from './dto/group.dto';
 import { RolesUserGroupService } from '../roles-user-group/roles-user-group.service';
 
-
 @Injectable()
 export class GroupService {
     constructor(
@@ -14,7 +13,6 @@ export class GroupService {
 
     async create(groupInfo){ //:Promise<{Groups,RolesUserGroup}>
         const group = await this.groupRepository.create<Groups>(groupInfo)
-        // create a new rolesUserGroup with the user_id,group_id(group.dataValues.id),roles_id with the super user
         return group;
     }
 
