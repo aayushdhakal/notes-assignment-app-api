@@ -12,6 +12,8 @@ exports.__esModule = true;
 exports.GroupController = void 0;
 var common_1 = require("@nestjs/common");
 var roles_guard_1 = require("./guards/roles.guard");
+var roles_list_1 = require("src/core/constants/roles-list");
+var constants_1 = require("src/core/constants");
 var GroupController = /** @class */ (function () {
     function GroupController(groupService, rolesUserGroupService) {
         this.groupService = groupService;
@@ -47,16 +49,15 @@ var GroupController = /** @class */ (function () {
         return this.rolesUserGroupService.getGroupMembersFromGroupId(req.query.group);
     };
     GroupController.prototype.getMyGroupRole = function (req) {
-        console.log(req.userGroupInfo);
         return this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group, req.user.id);
     };
     __decorate([
-        roles_guard_1.Roles(['superuser', 'admin', 'moderator', 'user']),
+        roles_guard_1.Roles(roles_list_1.getMinimunRolesPrivilege(constants_1.ROLE_MODERATOR)),
         common_1.Get(''),
         __param(0, common_1.Request())
     ], GroupController.prototype, "getGroupInfoById");
     __decorate([
-        roles_guard_1.Roles(['superuser']),
+        roles_guard_1.Roles(roles_list_1.getMinimunRolesPrivilege(constants_1.ROLE_SUPERUSER)),
         common_1.Delete(':id'),
         __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Request())
     ], GroupController.prototype, "deleteGroup");
@@ -66,22 +67,22 @@ var GroupController = /** @class */ (function () {
         __param(0, common_1.Body()), __param(1, common_1.Request())
     ], GroupController.prototype, "createNewGroup");
     __decorate([
-        roles_guard_1.Roles(['superuser', 'admin']),
+        roles_guard_1.Roles(roles_list_1.getMinimunRolesPrivilege(constants_1.ROLE_ADMIN)),
         common_1.Patch(':id'),
         __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Body()), __param(2, common_1.Request())
     ], GroupController.prototype, "updateGroupInfo");
     __decorate([
-        roles_guard_1.Roles(['superuser', 'admin', 'moderator', 'user']),
+        roles_guard_1.Roles(roles_list_1.getMinimunRolesPrivilege(constants_1.ROLE_USER)),
         common_1.Get('group-code:groupCode'),
         __param(0, common_1.Param('groupCode')), __param(1, common_1.Request())
     ], GroupController.prototype, "getGroupInfoByGroupCode");
     __decorate([
-        roles_guard_1.Roles(['superuser', 'admin']),
+        roles_guard_1.Roles(roles_list_1.getMinimunRolesPrivilege(constants_1.ROLE_ADMIN)),
         common_1.Get('group-members'),
         __param(0, common_1.Request())
     ], GroupController.prototype, "getGroupMembersList");
     __decorate([
-        roles_guard_1.Roles(['superuser', 'admin', 'moderator', 'user']),
+        roles_guard_1.Roles(roles_list_1.getMinimunRolesPrivilege(constants_1.ROLE_USER)),
         common_1.Get('grouprole'),
         __param(0, common_1.Request())
     ], GroupController.prototype, "getMyGroupRole");
