@@ -119,8 +119,6 @@ Promise < rolesUserGroup_model_1.RolesUserGroup[] > {
 async;
 getGroupMembersFromGroupId(groupId, string);
 Promise < rolesUserGroup_model_1.RolesUserGroup[] > {
-    console: console,
-    : .log('there is problem in this line RUGS'),
     "return": await this.usersRolesGroupRepository.findAll({
         where: {
             group_id: groupId

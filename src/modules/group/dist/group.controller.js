@@ -21,8 +21,7 @@ var GroupController = /** @class */ (function () {
         return this.groupService.findGroupInfoById(req.query.group);
     };
     GroupController.prototype.deleteGroup = function (id, req) {
-        this.groupService.deleteGroup(req.userGroupInfo.group.groupId);
-        return true;
+        return this.groupService.deleteGroup(req.userGroupInfo.group.groupId);
     };
     GroupController.prototype.createNewGroup = function (body, req) {
         var ownerId = req.user.id;
@@ -42,11 +41,14 @@ var GroupController = /** @class */ (function () {
         return true;
     };
     GroupController.prototype.getGroupInfoByGroupCode = function (groupCode, req) {
-        return true;
+        return this.groupService.findGroupInfoByGroupCode(groupCode);
     };
     GroupController.prototype.getGroupMembersList = function (req) {
-        console.log(req.query.group + ' group code');
         return this.rolesUserGroupService.getGroupMembersFromGroupId(req.query.group);
+    };
+    GroupController.prototype.getMyGroupRole = function (req) {
+        console.log(req.userGroupInfo);
+        return this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group, req.user.id);
     };
     __decorate([
         roles_guard_1.Roles(['superuser', 'admin', 'moderator', 'user']),
@@ -78,6 +80,11 @@ var GroupController = /** @class */ (function () {
         common_1.Get('group-members'),
         __param(0, common_1.Request())
     ], GroupController.prototype, "getGroupMembersList");
+    __decorate([
+        roles_guard_1.Roles(['superuser', 'admin', 'moderator', 'user']),
+        common_1.Get('grouprole'),
+        __param(0, common_1.Request())
+    ], GroupController.prototype, "getMyGroupRole");
     GroupController = __decorate([
         common_1.Controller('group'),
         common_1.UseGuards(roles_guard_1.RolesGuard)

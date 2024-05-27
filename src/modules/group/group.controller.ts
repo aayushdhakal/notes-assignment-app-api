@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards ,Request, Param, ParseUUIDPipe, Patch, Delete, ConsoleLogger } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards, Request, Param, ParseUUIDPipe, Patch, Delete, ConsoleLogger, Query } from '@nestjs/common';
 import { GroupCreateDto, GroupUpdateDto } from './dto/group.dto';
 import { Roles, RolesGuard, SkipRoleGuard } from './guards/roles.guard';
 import { GroupService } from './group.service';
@@ -21,10 +21,8 @@ export class GroupController {
     @Roles(['superuser'])
     @Delete(':id')
     public deleteGroup(@Param('id',ParseUUIDPipe) id:string ,@Request() req){
-        this.groupService.deleteGroup(req.userGroupInfo.group.groupId);
-        return true;
+        return this.groupService.deleteGroup(req.userGroupInfo.group.groupId);  
     }
-
  
     @SkipRoleGuard()
     @Post('')
@@ -53,13 +51,18 @@ export class GroupController {
     @Roles(['superuser','admin','moderator','user'])
     @Get('group-code:groupCode')
     public getGroupInfoByGroupCode(@Param('groupCode') groupCode:string,@Request() req){
-        return true
+        return this.groupService.findGroupInfoByGroupCode(groupCode);
     }
     
     @Roles(['superuser','admin'])
     @Get('group-members')
     public getGroupMembersList(@Request() req){
-        console.log(req.query.group+' group code');
         return this.rolesUserGroupService.getGroupMembersFromGroupId(req.query.group);
+    }
+
+    @Roles(['superuser','admin','moderator','user'])
+    @Get('grouprole')
+    public getMyGroupRole(@Request() req){
+        return this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group,req.user.id);
     }
 }

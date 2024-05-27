@@ -56,7 +56,6 @@ export class RolesUserGroupService {
     }
 
     async getGroupMembersFromGroupId(groupId:string):Promise<RolesUserGroup[]>{
-        console.log('there is problem in this line RUGS');
         return await this.usersRolesGroupRepository.findAll<RolesUserGroup>({
             where:{
                 group_id:groupId

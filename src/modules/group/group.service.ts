@@ -31,6 +31,10 @@ export class GroupService {
         return await this.groupRepository.findOne<Groups>({where:{id}})
     }
 
+    async findGroupInfoByGroupCode(groupCode:string):Promise<Groups>{
+        return await this.groupRepository.findOne<Groups>({where:{group_code:groupCode}})
+    }
+
     async checkGroupPermissions(userMemberId:String,groupId:String){
         // return await this.groupRepository.findOne<GroupTable>({where:{id,groupId}})
         return true;

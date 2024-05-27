@@ -104,6 +104,16 @@ var GroupService = /** @class */ (function () {
             });
         });
     };
+    GroupService.prototype.findGroupInfoByGroupCode = function (groupCode) {
+        return __awaiter(this, void 0, Promise, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.groupRepository.findOne({ where: { group_code: groupCode } })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     GroupService.prototype.checkGroupPermissions = function (userMemberId, groupId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -143,7 +153,7 @@ var GroupService = /** @class */ (function () {
             });
         });
     };
-    GroupService.prototype.updateUserRolesOfGrou = function (groupId, userId, rolesId) {
+    GroupService.prototype.updateUserRolesOfGroup = function (groupId, userId, rolesId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
