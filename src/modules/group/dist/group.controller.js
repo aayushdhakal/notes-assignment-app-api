@@ -52,12 +52,12 @@ var GroupController = /** @class */ (function () {
         return this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group, req.user.id);
     };
     __decorate([
-        roles_guard_1.Roles(roles_list_1.getMinimunRolesPrivilege(constants_1.ROLE_MODERATOR)),
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_MODERATOR)),
         common_1.Get(''),
         __param(0, common_1.Request())
     ], GroupController.prototype, "getGroupInfoById");
     __decorate([
-        roles_guard_1.Roles(roles_list_1.getMinimunRolesPrivilege(constants_1.ROLE_SUPERUSER)),
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_SUPERUSER)),
         common_1.Delete(':id'),
         __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Request())
     ], GroupController.prototype, "deleteGroup");
@@ -67,22 +67,22 @@ var GroupController = /** @class */ (function () {
         __param(0, common_1.Body()), __param(1, common_1.Request())
     ], GroupController.prototype, "createNewGroup");
     __decorate([
-        roles_guard_1.Roles(roles_list_1.getMinimunRolesPrivilege(constants_1.ROLE_ADMIN)),
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN)),
         common_1.Patch(':id'),
         __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Body()), __param(2, common_1.Request())
     ], GroupController.prototype, "updateGroupInfo");
     __decorate([
-        roles_guard_1.Roles(roles_list_1.getMinimunRolesPrivilege(constants_1.ROLE_USER)),
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_USER)),
         common_1.Get('group-code:groupCode'),
         __param(0, common_1.Param('groupCode')), __param(1, common_1.Request())
     ], GroupController.prototype, "getGroupInfoByGroupCode");
     __decorate([
-        roles_guard_1.Roles(roles_list_1.getMinimunRolesPrivilege(constants_1.ROLE_ADMIN)),
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN)),
         common_1.Get('group-members'),
         __param(0, common_1.Request())
     ], GroupController.prototype, "getGroupMembersList");
     __decorate([
-        roles_guard_1.Roles(roles_list_1.getMinimunRolesPrivilege(constants_1.ROLE_USER)),
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_USER)),
         common_1.Get('grouprole'),
         __param(0, common_1.Request())
     ], GroupController.prototype, "getMyGroupRole");
