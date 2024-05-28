@@ -56,15 +56,6 @@ var GroupController = /** @class */ (function () {
         this.rolesUserGroupService = rolesUserGroupService;
         this.rolesService = rolesService;
     }
-    GroupController.prototype.getGroupInfoById = function (req) {
-        return this.groupService.findGroupInfoById(req.query.group);
-    };
-    GroupController.prototype.deleteGroup = function (req) {
-        // console.log(req.userGroupInfo)
-        // console.log(req.userGroupInfo.group.groupId);
-        // return true;
-        return this.groupService.deleteGroup(req.userGroupInfo.group.groupId);
-    };
     GroupController.prototype.createNewGroup = function (body, req) {
         return __awaiter(this, void 0, void 0, function () {
             var ownerId, groupInfo, group, roles, createRUGS;
@@ -93,8 +84,76 @@ var GroupController = /** @class */ (function () {
             });
         });
     };
+    GroupController.prototype.requestUserToJoinGroup = function (req) {
+        return __awaiter(this, void 0, void 0, function () {
+            var request;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group, req.user.id)];
+                    case 1:
+                        request = _a.sent();
+                        if (request.length > 0 && request[0].dataValues.role.dataValues.name == constants_1.ROLE_REQUEST) {
+                            throw new common_1.BadRequestException('You have already requested to join this group.');
+                        }
+                        else if ((request.length > 0)) {
+                            throw new common_1.BadRequestException('You Are the part of this Group.');
+                        }
+                        console.log(request[0].dataValues.role.dataValues.name);
+                        // if(request.length > 0,){
+                        //     throw new BadRequestException('User request has been sent or the u')
+                        // }
+                        // const roles = await this.rolesService.findRoleIdByName(ROLE_REQUEST);
+                        // // console.log(group,roles.dataValues.id,req.user.id); 
+                        // console.log(req.user.id);
+                        // console.log(request.length);
+                        // const rUGS = await this.rolesUserGroupService.createNewRolesForGroup(group,req.user.id,roles.dataValues.id);
+                        return [2 /*return*/, { message: "Request to Join Group has been Sent." }];
+                }
+            });
+        });
+    };
+    GroupController.prototype.getGroupInfoById = function (req) {
+        return this.groupService.findGroupInfoById(req.query.group);
+    };
+    GroupController.prototype.deleteGroup = function (req) {
+        // console.log(req.userGroupInfo)
+        // console.log(req.userGroupInfo.group.groupId);
+        // return true;
+        return this.groupService.deleteGroup(req.userGroupInfo.group.groupId);
+    };
     GroupController.prototype.updateGroupInfo = function (body, req) {
-        return true;
+        return __awaiter(this, void 0, void 0, function () {
+            var name, description, isPublic, isActive, tempVal;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        name = body.name, description = body.description, isPublic = body.isPublic, isActive = body.isActive;
+                        tempVal = {};
+                        if (name) {
+                            tempVal.name = name;
+                        }
+                        if (description) {
+                            tempVal.description = description;
+                        }
+                        if (isPublic == true) {
+                            tempVal.is_public = true;
+                        }
+                        else if (isPublic == false) {
+                            tempVal.is_public = false;
+                        }
+                        if (isActive == true) {
+                            tempVal.is_active = true;
+                        }
+                        else if (isActive == false) {
+                            tempVal.is_active = false;
+                        }
+                        return [4 /*yield*/, this.groupService.updateGroupInfo(req.userGroupInfo.group.groupId, tempVal)];
+                    case 1: 
+                    // console.log()
+                    return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
     };
     GroupController.prototype.getGroupInfoByGroupCode = function (groupCode, req) {
         return this.groupService.findGroupInfoByGroupCode(groupCode);
@@ -105,6 +164,28 @@ var GroupController = /** @class */ (function () {
     GroupController.prototype.getMyGroupRole = function (req) {
         return this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group, req.user.id);
     };
+    GroupController.prototype.addUserToGroup = function () {
+        return true;
+    };
+    GroupController.prototype.updateUserRoleStatus = function (userId, newUserRole, req) {
+        // At first check for the current role of the user in the particular group and then only proceed with that logic 
+        // check for the condition that if the permission giving user is of admin he/she can only assign new role till admin priviledge only not super user
+        // then use the logic to assign the role or remove the role to the user properly
+        return true;
+    };
+    GroupController.prototype.removeMemberFromGroup = function (userId, groupId) {
+        return true;
+    };
+    __decorate([
+        roles_guard_1.SkipRoleGuard(),
+        common_1.Post(''),
+        __param(0, common_1.Body()), __param(1, common_1.Request())
+    ], GroupController.prototype, "createNewGroup");
+    __decorate([
+        roles_guard_1.SkipRoleGuard(),
+        common_1.Post('join-group'),
+        __param(0, common_1.Request())
+    ], GroupController.prototype, "requestUserToJoinGroup");
     __decorate([
         roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_USER)),
         common_1.Get(''),
@@ -115,11 +196,6 @@ var GroupController = /** @class */ (function () {
         common_1.Delete(''),
         __param(0, common_1.Request())
     ], GroupController.prototype, "deleteGroup");
-    __decorate([
-        roles_guard_1.SkipRoleGuard(),
-        common_1.Post(''),
-        __param(0, common_1.Body()), __param(1, common_1.Request())
-    ], GroupController.prototype, "createNewGroup");
     __decorate([
         roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN)),
         common_1.Patch(''),
@@ -140,6 +216,16 @@ var GroupController = /** @class */ (function () {
         common_1.Get('grouprole'),
         __param(0, common_1.Request())
     ], GroupController.prototype, "getMyGroupRole");
+    __decorate([
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN))
+    ], GroupController.prototype, "addUserToGroup");
+    __decorate([
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN)),
+        __param(2, common_1.Request())
+    ], GroupController.prototype, "updateUserRoleStatus");
+    __decorate([
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN))
+    ], GroupController.prototype, "removeMemberFromGroup");
     GroupController = __decorate([
         common_1.Controller('group'),
         common_1.UseGuards(roles_guard_1.RolesGuard)

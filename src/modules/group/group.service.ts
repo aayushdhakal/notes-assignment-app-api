@@ -16,8 +16,8 @@ export class GroupService {
         return group;
     }
 
-    async updateGroupInfo(groupData:GroupUpdateDto,group_id:string){
-        await this.groupRepository.update<Groups>(
+    async updateGroupInfo(group_id:string,groupData): Promise<[affectedCount: number]>{
+        return await this.groupRepository.update<Groups>(
             {...groupData},
             {where:{
                 id:group_id

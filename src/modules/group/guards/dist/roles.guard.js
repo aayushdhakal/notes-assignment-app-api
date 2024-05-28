@@ -63,6 +63,7 @@ var RolesGuard = /** @class */ (function () {
         if (isSkipRoleGuard)
             return true;
         //this is to get the roles on the controller like admin,moderator,user,so on.
+        // If the @Roles(['superuser','admin']) is provided then this will send this array of superuser,admin
         var roles = this.reflector.get(exports.Roles, context.getHandler());
         return this.validateGroupRolesAndReturnRoles(request, roles);
         // In above context we have the userId in place along with the groupId and we can view the type of user in the group and the method he is trying to access we can now set the @Roles on the methods on the group to identify the permission which can do what in the roles guard

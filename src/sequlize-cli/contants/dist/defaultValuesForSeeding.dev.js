@@ -20,7 +20,8 @@ var rolesUUIDv1Collection = {
   roles3: '5d8ee88e-178f-11ef-9262-0242ac120002',
   roles4: '622678e4-178f-11ef-9262-0242ac120002',
   roles5: '6ffd2f1c-178f-11ef-9262-0242ac120002',
-  roles6: '28aaabfa-191d-11ef-9262-0242ac120002'
+  roles6: '28aaabfa-191d-11ef-9262-0242ac120002',
+  roles7: 'f0252fe8-1cec-11ef-9262-0242ac120002'
 };
 var rUGsUUIDv1Collection = {
   rugs1: '148bf43a-1855-11ef-9262-0242ac120002',

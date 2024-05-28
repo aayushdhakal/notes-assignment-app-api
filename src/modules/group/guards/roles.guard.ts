@@ -28,6 +28,7 @@ export class RolesGuard implements CanActivate{
         if(isSkipRoleGuard) return true; 
 
         //this is to get the roles on the controller like admin,moderator,user,so on.
+        // If the @Roles(['superuser','admin']) is provided then this will send this array of superuser,admin
         const roles = this.reflector.get(Roles,context.getHandler());
         
         
@@ -62,7 +63,7 @@ export class RolesGuard implements CanActivate{
                 group:groupInfo
             };
             return request;
-            
+
         } catch (e) {
             throw new NotFoundException({message:'Group Not Found'});
         }

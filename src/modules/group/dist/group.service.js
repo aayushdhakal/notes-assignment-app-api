@@ -58,6 +58,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.GroupService = void 0;
 var common_1 = require("@nestjs/common");
+var groups_model_1 = require("src/core/db/models/groups.model");
 var constants_1 = require("src/core/constants");
 var GroupService = /** @class */ (function () {
     function GroupService(groupRepository, rolesUserGroupService) {
@@ -77,89 +78,6 @@ var GroupService = /** @class */ (function () {
             });
         });
     };
-    GroupService.prototype.updateGroupInfo = function (groupData, group_id) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.groupRepository.update(__assign({}, groupData), { where: {
-                                id: group_id
-                            } })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    GroupService.prototype.findGroupInfoById = function (id) {
-        return __awaiter(this, void 0, Promise, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.groupRepository.findOne({ where: { id: id } })];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
-    GroupService.prototype.findGroupInfoByGroupCode = function (groupCode) {
-        return __awaiter(this, void 0, Promise, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.groupRepository.findOne({ where: { group_code: groupCode } })];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
-    GroupService.prototype.checkGroupPermissions = function (userMemberId, groupId) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                // return await this.groupRepository.findOne<GroupTable>({where:{id,groupId}})
-                return [2 /*return*/, true];
-            });
-        });
-    };
-    GroupService.prototype.deleteGroup = function (groupId) {
-        return __awaiter(this, void 0, Promise, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.groupRepository.destroy({ where: { id: groupId } })];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
-    //---------------------------For User related Methods ------------------------
-    GroupService.prototype.addUserToGroupRoles = function (groupId, userId, rolesId) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.rolesUserGroupService.createNewRolesForGroup(groupId, userId, rolesId)];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
-    GroupService.prototype.removeUserFromGroup = function (groupId, userId) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.rolesUserGroupService.removeUserFromGroup(groupId, userId)];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
-    GroupService.prototype.updateUserRolesOfGroup = function (groupId, userId, rolesId) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.rolesUserGroupService.updateRolesGroup(groupId, userId, rolesId)];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
     GroupService = __decorate([
         common_1.Injectable(),
         __param(0, common_1.Inject(constants_1.GROUPS_REPOSITORY))
@@ -167,3 +85,46 @@ var GroupService = /** @class */ (function () {
     return GroupService;
 }());
 exports.GroupService = GroupService;
+number;
+ > {
+    "return": await this.groupRepository.update(__assign({}, groupData), { where: {
+            id: group_id
+        } })
+};
+async;
+findGroupInfoById(id);
+Promise < groups_model_1.Groups > {
+    "return": await this.groupRepository.findOne({ where: { id: id } })
+};
+async;
+findGroupInfoByGroupCode(groupCode, string);
+Promise < groups_model_1.Groups > {
+    "return": await this.groupRepository.findOne({ where: { group_code: groupCode } })
+};
+async;
+checkGroupPermissions(userMemberId, String, groupId, String);
+{
+    // return await this.groupRepository.findOne<GroupTable>({where:{id,groupId}})
+    return true;
+}
+async;
+deleteGroup(groupId, string);
+Promise < Number > {
+    "return": await this.groupRepository.destroy({ where: { id: groupId } })
+};
+//---------------------------For User related Methods ------------------------
+async;
+addUserToGroupRoles(groupId, string, userId, string, rolesId, string);
+{
+    return await this.rolesUserGroupService.createNewRolesForGroup(groupId, userId, rolesId);
+}
+async;
+removeUserFromGroup(groupId, string, userId);
+{
+    return await this.rolesUserGroupService.removeUserFromGroup(groupId, userId);
+}
+async;
+updateUserRolesOfGroup(groupId, string, userId, string, rolesId, string);
+{
+    return await this.rolesUserGroupService.updateRolesGroup(groupId, userId, rolesId);
+}

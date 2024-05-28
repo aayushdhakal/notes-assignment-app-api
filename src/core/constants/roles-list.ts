@@ -10,8 +10,8 @@
 //     USER:'user',
 //     GUEST:'guest'
 // }
-type Role = 'superuser' | 'admin' | 'moderator' | 'contributor' | 'user' | 'guest' ;
-export const getMaximumRolesPrivilege = ( role:Role ):Array<string> =>{
+export type RoleList = 'superuser' | 'admin' | 'moderator' | 'contributor' | 'user' | 'guest' | 'banned';
+export const getMaximumRolesPrivilege = ( role:RoleList ):Array<string> =>{
     const roles: {[key:string]:string} = {
         SUPERUSER:'superuser',
         ADMIN:'admin',

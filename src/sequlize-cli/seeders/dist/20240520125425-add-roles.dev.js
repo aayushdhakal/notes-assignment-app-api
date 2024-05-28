@@ -46,8 +46,14 @@ module.exports = {
               updatedAt: new Date()
             }, {
               id: dv.rolesCollection.roles6,
+              name: 'contributor',
+              description: 'This is contributor user',
+              createdAt: new Date(),
+              updatedAt: new Date()
+            }, {
+              id: dv.rolesCollection.roles7,
               name: 'request',
-              description: 'This is requested user',
+              description: 'This is request to join group',
               createdAt: new Date(),
               updatedAt: new Date()
             }]));
