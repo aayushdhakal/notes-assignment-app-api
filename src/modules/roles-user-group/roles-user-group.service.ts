@@ -66,4 +66,20 @@ export class RolesUserGroupService {
             ]
         })
     }
+
+    async getRequestedMemebersList(groupId:string,roleId:string):Promise<RolesUserGroup[]>{
+        return await this.usersRolesGroupRepository.findAll({where:{
+            group_id:groupId,
+            roles_id:roleId
+        }})
+    }
+
+    async deleteRoleList(groupId:string,userId:string):Promise<number>{
+        return await this.usersRolesGroupRepository.destroy({
+            where:{ 
+                group_id:groupId,
+                user_id:userId
+            }
+        });
+    }
 }

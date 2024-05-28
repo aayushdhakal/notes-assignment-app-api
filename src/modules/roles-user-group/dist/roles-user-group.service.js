@@ -129,3 +129,21 @@ Promise < rolesUserGroup_model_1.RolesUserGroup[] > {
         ]
     })
 };
+async;
+getRequestedMemebersList(groupId, string, roleId, string);
+Promise < rolesUserGroup_model_1.RolesUserGroup[] > {
+    "return": await this.usersRolesGroupRepository.findAll({ where: {
+            group_id: groupId,
+            roles_id: roleId
+        } })
+};
+async;
+deleteRoleList(groupId, string, userId, string);
+Promise < number > {
+    "return": await this.usersRolesGroupRepository.destroy({
+        where: {
+            group_id: groupId,
+            user_id: userId
+        }
+    })
+};

@@ -86,7 +86,7 @@ var GroupController = /** @class */ (function () {
     };
     GroupController.prototype.requestUserToJoinGroup = function (req) {
         return __awaiter(this, void 0, void 0, function () {
-            var request;
+            var request, roles, rUGS;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group, req.user.id)];
@@ -98,16 +98,13 @@ var GroupController = /** @class */ (function () {
                         else if ((request.length > 0)) {
                             throw new common_1.BadRequestException('You Are the part of this Group.');
                         }
-                        console.log(request[0].dataValues.role.dataValues.name);
-                        // if(request.length > 0,){
-                        //     throw new BadRequestException('User request has been sent or the u')
-                        // }
-                        // const roles = await this.rolesService.findRoleIdByName(ROLE_REQUEST);
-                        // // console.log(group,roles.dataValues.id,req.user.id); 
-                        // console.log(req.user.id);
-                        // console.log(request.length);
-                        // const rUGS = await this.rolesUserGroupService.createNewRolesForGroup(group,req.user.id,roles.dataValues.id);
-                        return [2 /*return*/, { message: "Request to Join Group has been Sent." }];
+                        return [4 /*yield*/, this.rolesService.findRoleIdByName(constants_1.ROLE_REQUEST)];
+                    case 2:
+                        roles = _a.sent();
+                        return [4 /*yield*/, this.rolesUserGroupService.createNewRolesForGroup(req.query.group, req.user.id, roles.dataValues.id)];
+                    case 3:
+                        rUGS = _a.sent();
+                        return [2 /*return*/, { rUGS: rUGS, message: "Request to Join Group has been Sent." }];
                 }
             });
         });
@@ -116,9 +113,6 @@ var GroupController = /** @class */ (function () {
         return this.groupService.findGroupInfoById(req.query.group);
     };
     GroupController.prototype.deleteGroup = function (req) {
-        // console.log(req.userGroupInfo)
-        // console.log(req.userGroupInfo.group.groupId);
-        // return true;
         return this.groupService.deleteGroup(req.userGroupInfo.group.groupId);
     };
     GroupController.prototype.updateGroupInfo = function (body, req) {
@@ -164,8 +158,22 @@ var GroupController = /** @class */ (function () {
     GroupController.prototype.getMyGroupRole = function (req) {
         return this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group, req.user.id);
     };
-    GroupController.prototype.addUserToGroup = function () {
-        return true;
+    GroupController.prototype.addUserToGroup = function (body, req) {
+        return __awaiter(this, void 0, void 0, function () {
+            var request;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group, body.userId)];
+                    case 1:
+                        request = _a.sent();
+                        console.log(request[0].dataValues.role);
+                        if (request.length > 0 && request[0].dataValues.role.dataValues.name != constants_1.ROLE_REQUEST) {
+                            throw new common_1.BadRequestException('You have already part of this Group');
+                        }
+                        return [2 /*return*/, true];
+                }
+            });
+        });
     };
     GroupController.prototype.updateUserRoleStatus = function (userId, newUserRole, req) {
         // At first check for the current role of the user in the particular group and then only proceed with that logic 
@@ -213,11 +221,13 @@ var GroupController = /** @class */ (function () {
     ], GroupController.prototype, "getGroupMembersList");
     __decorate([
         roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_USER)),
-        common_1.Get('grouprole'),
+        common_1.Get('my-group-role'),
         __param(0, common_1.Request())
     ], GroupController.prototype, "getMyGroupRole");
     __decorate([
-        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN))
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN)),
+        common_1.Post('add-user-group'),
+        __param(0, common_1.Body()), __param(1, common_1.Request())
     ], GroupController.prototype, "addUserToGroup");
     __decorate([
         roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN)),

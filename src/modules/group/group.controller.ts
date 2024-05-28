@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, UseGuards, Request, Param,Query, ParseUUIDPipe, Patch, Delete, BadRequestException } from '@nestjs/common';
-import { GroupCreateDto, GroupUpdateDto } from './dto/group.dto';
+import { GroupCreateDto, GroupUpdateDto,AddingUserGroupDto } from './dto/group.dto';
 import { Roles, RolesGuard, SkipRoleGuard } from './guards/roles.guard';
 import { GroupService } from './group.service';
 import { RolesUserGroupService } from '../roles-user-group/roles-user-group.service';
@@ -62,9 +62,6 @@ export class GroupController {
     @Roles(getMaximumRolesPrivilege(ROLE_SUPERUSER))
     @Delete('')
     public deleteGroup(@Request() req){
-        // console.log(req.userGroupInfo)
-        // console.log(req.userGroupInfo.group.groupId);
-        // return true;
         return this.groupService.deleteGroup(req.userGroupInfo.group.groupId);  
     }
  
@@ -110,14 +107,21 @@ export class GroupController {
     }
 
     @Roles(getMaximumRolesPrivilege(ROLE_USER))
-    @Get('grouprole')
+    @Get('my-group-role')
     public getMyGroupRole(@Request() req){
         return this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group,req.user.id);
     }
 
     @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))
-    public addUserToGroup(){
+    @Post('add-user-group')
+    async addUserToGroup(@Body() body:AddingUserGroupDto,@Request() req){
+        const request = await this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group,body.userId);
 
+        console.log(request[0].dataValues.role);
+
+        if(request.length > 0 && request[0].dataValues.role.dataValues.name != ROLE_REQUEST ){
+            throw new BadRequestException('You have already part of this Group');
+        }
         return true;
     }
 

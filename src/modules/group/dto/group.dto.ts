@@ -1,4 +1,6 @@
-import { IsBoolean, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsOptional, IsString, IsUUID } from "class-validator";
+import { UUIDVERSION } from "src/core/constants";
+import { RoleList } from 'src/core/constants/roles-list';
 
 export class GroupCreateDto{
     @IsNotEmpty()
@@ -37,4 +39,16 @@ export class GroupUpdateDto{
     @IsString()
     readonly description?:string;
     
+}
+
+
+export class AddingUserGroupDto{
+    @IsNotEmpty()
+    @IsUUID(UUIDVERSION)
+    readonly userId:string;
+
+    @IsNotEmpty()
+    @IsString()
+    readonly assignRole:RoleList;
+
 }
