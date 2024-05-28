@@ -17,13 +17,13 @@ const groupUUIDv1Collection = {
 }
 
 const rolesUUIDv1Collection = {
-    roles1:'54146f40-178f-11ef-9262-0242ac120002',
-    roles2:'57ca34b2-178f-11ef-9262-0242ac120002',
-    roles3:'5d8ee88e-178f-11ef-9262-0242ac120002',
-    roles4:'622678e4-178f-11ef-9262-0242ac120002',
-    roles5:'6ffd2f1c-178f-11ef-9262-0242ac120002',
-    roles6:'28aaabfa-191d-11ef-9262-0242ac120002',
-    roles7:'f0252fe8-1cec-11ef-9262-0242ac120002'
+    rolesS:'54146f40-178f-11ef-9262-0242ac120002',
+    rolesA:'57ca34b2-178f-11ef-9262-0242ac120002',
+    rolesM:'5d8ee88e-178f-11ef-9262-0242ac120002',
+    rolesU:'622678e4-178f-11ef-9262-0242ac120002',
+    rolesG:'6ffd2f1c-178f-11ef-9262-0242ac120002',
+    rolesC:'28aaabfa-191d-11ef-9262-0242ac120002',
+    rolesR:'f0252fe8-1cec-11ef-9262-0242ac120002'
 }
 
 const rUGsUUIDv1Collection  = {
