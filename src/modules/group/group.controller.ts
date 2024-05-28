@@ -17,15 +17,18 @@ export class GroupController {
         public readonly rolesService:RolesService
     ){}
 
-    @Roles(getMaximumRolesPrivilege(ROLE_MODERATOR))
+    @Roles(getMaximumRolesPrivilege(ROLE_USER))
     @Get('')
     public getGroupInfoById(@Request() req){       
         return this.groupService.findGroupInfoById(req.query.group);
     }
 
     @Roles(getMaximumRolesPrivilege(ROLE_SUPERUSER))
-    @Delete(':id')
-    public deleteGroup(@Param('id',ParseUUIDPipe) id:string ,@Request() req){
+    @Delete('')
+    public deleteGroup(@Request() req){
+        // console.log(req.userGroupInfo)
+        // console.log(req.userGroupInfo.group.groupId);
+        // return true;
         return this.groupService.deleteGroup(req.userGroupInfo.group.groupId);  
     }
  
@@ -48,13 +51,13 @@ export class GroupController {
     }
 
     @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))
-    @Patch(':id')
-    public updateGroupInfo(@Param('id',ParseUUIDPipe) id:string,@Body() body:GroupUpdateDto,@Request() req){
+    @Patch('')
+    public updateGroupInfo(@Body() body:GroupUpdateDto,@Request() req){
         return true;
     }
 
     @Roles(getMaximumRolesPrivilege(ROLE_USER))
-    @Get('group-code:groupCode')
+    @Get('group-code/:groupCode')
     public getGroupInfoByGroupCode(@Param('groupCode') groupCode:string,@Request() req){
         return this.groupService.findGroupInfoByGroupCode(groupCode);
     }

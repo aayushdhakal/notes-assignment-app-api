@@ -71,10 +71,12 @@ var RolesGuard = /** @class */ (function () {
     };
     RolesGuard.prototype.validateGroupRolesAndReturnRoles = function (request, roles) {
         return __awaiter(this, void 0, void 0, function () {
-            var valueTemp, roleOfUserOnGroup, groupInfo, _a;
+            var valueTemp, roleOfUserOnGroup, groupInfo, _a, e_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(request.query.group, request.user.id)];
+                    case 0:
+                        _b.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(request.query.group, request.user.id)];
                     case 1:
                         valueTemp = _b.sent();
                         roleOfUserOnGroup = valueTemp[0].dataValues.role.dataValues.name;
@@ -86,7 +88,7 @@ var RolesGuard = /** @class */ (function () {
                         // console.log('groupId :- ' + request.params.id);
                         // console.log('list the roles of the controller:- '+roles);
                         // console.log('\n Roles of user '+roleOfUserOnGroup,'\n Group Name '+groupName,'\n Allowed Roles '+roles);
-                        // check if the user has the valid permission or role for the group or not if id doen't return error 
+                        // check if the user has the valid permission or role for the group or not if id doen't return error
                         if (!roles.includes(roleOfUserOnGroup)) {
                             throw new common_1.UnauthorizedException();
                         }
@@ -97,8 +99,11 @@ var RolesGuard = /** @class */ (function () {
                             }];
                     case 2:
                         _a.userGroupInfo = _b.sent();
-                        console.log(request);
                         return [2 /*return*/, request];
+                    case 3:
+                        e_1 = _b.sent();
+                        throw new common_1.NotFoundException({ message: 'Group Not Found' });
+                    case 4: return [2 /*return*/];
                 }
             });
         });

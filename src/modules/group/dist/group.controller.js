@@ -59,7 +59,10 @@ var GroupController = /** @class */ (function () {
     GroupController.prototype.getGroupInfoById = function (req) {
         return this.groupService.findGroupInfoById(req.query.group);
     };
-    GroupController.prototype.deleteGroup = function (id, req) {
+    GroupController.prototype.deleteGroup = function (req) {
+        // console.log(req.userGroupInfo)
+        // console.log(req.userGroupInfo.group.groupId);
+        // return true;
         return this.groupService.deleteGroup(req.userGroupInfo.group.groupId);
     };
     GroupController.prototype.createNewGroup = function (body, req) {
@@ -90,7 +93,7 @@ var GroupController = /** @class */ (function () {
             });
         });
     };
-    GroupController.prototype.updateGroupInfo = function (id, body, req) {
+    GroupController.prototype.updateGroupInfo = function (body, req) {
         return true;
     };
     GroupController.prototype.getGroupInfoByGroupCode = function (groupCode, req) {
@@ -103,14 +106,14 @@ var GroupController = /** @class */ (function () {
         return this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group, req.user.id);
     };
     __decorate([
-        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_MODERATOR)),
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_USER)),
         common_1.Get(''),
         __param(0, common_1.Request())
     ], GroupController.prototype, "getGroupInfoById");
     __decorate([
         roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_SUPERUSER)),
-        common_1.Delete(':id'),
-        __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Request())
+        common_1.Delete(''),
+        __param(0, common_1.Request())
     ], GroupController.prototype, "deleteGroup");
     __decorate([
         roles_guard_1.SkipRoleGuard(),
@@ -119,12 +122,12 @@ var GroupController = /** @class */ (function () {
     ], GroupController.prototype, "createNewGroup");
     __decorate([
         roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN)),
-        common_1.Patch(':id'),
-        __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Body()), __param(2, common_1.Request())
+        common_1.Patch(''),
+        __param(0, common_1.Body()), __param(1, common_1.Request())
     ], GroupController.prototype, "updateGroupInfo");
     __decorate([
         roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_USER)),
-        common_1.Get('group-code:groupCode'),
+        common_1.Get('group-code/:groupCode'),
         __param(0, common_1.Param('groupCode')), __param(1, common_1.Request())
     ], GroupController.prototype, "getGroupInfoByGroupCode");
     __decorate([
