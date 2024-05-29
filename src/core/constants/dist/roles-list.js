@@ -1,5 +1,4 @@
 "use strict";
-// const roles = ['superuser','admin','moderator','contributor','user','guest']
 exports.__esModule = true;
 exports.getMaximumRolesPrivilege = void 0;
 exports.getMaximumRolesPrivilege = function (role) {
@@ -9,7 +8,10 @@ exports.getMaximumRolesPrivilege = function (role) {
         MODERATOR: 'moderator',
         CONTRIBUTOR: 'contributor',
         USER: 'user',
-        GUEST: 'guest'
+        GUEST: 'guest',
+        REQUEST: 'request',
+        INVITATION: 'invitation',
+        BANNED: 'banned'
     };
     var rolesPriviledges = [];
     for (var val in roles) {

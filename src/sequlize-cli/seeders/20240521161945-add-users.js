@@ -43,6 +43,16 @@ module.exports = {
         phoneNumber:'9803122322',
         createdAt: new Date(),
         updatedAt: new Date(),
+      },
+      {
+        id: dv.usersCollection.user4,
+        name:'user4',
+        username:'user4',
+        password: await bcrypt.hash('password',10),
+        email:'user4@gmail.com',
+        phoneNumber:'9803122311',
+        createdAt: new Date(),
+        updatedAt: new Date(),
       }
     ])
   },

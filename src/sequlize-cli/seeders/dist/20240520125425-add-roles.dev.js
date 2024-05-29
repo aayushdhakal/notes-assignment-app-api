@@ -1,12 +1,13 @@
 'use strict'; // npx sequelize-cli seed:generate --name add-roles
 
+var _constants = require("src/core/constants");
+
 var _require = require('uuid'),
     uuidv1 = _require.v1;
 
 var dv = require('../contants/defaultValuesForSeeding');
+
 /** @type {import('sequelize-cli').Migration} */
-
-
 module.exports = {
   up: function up(queryInterface, Sequelize) {
     return regeneratorRuntime.async(function up$(_context) {
@@ -16,46 +17,50 @@ module.exports = {
             _context.next = 2;
             return regeneratorRuntime.awrap(queryInterface.bulkInsert('roles', [{
               id: dv.rolesCollection.rolesS,
-              name: 'superuser',
+              name: _constants.ROLE_SUPERUSER,
               description: 'This is superuser roles',
               createdAt: new Date(),
               updatedAt: new Date()
             }, {
               id: dv.rolesCollection.rolesA,
-              name: 'admin',
+              name: _constants.ROLE_ADMIN,
               description: 'This is admin roles',
               createdAt: new Date(),
               updatedAt: new Date()
             }, {
               id: dv.rolesCollection.rolesM,
-              name: 'moderator',
+              name: _constants.ROLE_MODERATOR,
               description: 'This is moderator roles',
               createdAt: new Date(),
               updatedAt: new Date()
             }, {
               id: dv.rolesCollection.rolesU,
-              name: 'users',
+              name: _constants.ROLE_USER,
               description: 'This is user roles',
               createdAt: new Date(),
               updatedAt: new Date()
             }, {
               id: dv.rolesCollection.rolesG,
-              name: 'guest',
+              name: _constants.ROLE_GUEST,
               description: 'This is guest roles',
               createdAt: new Date(),
               updatedAt: new Date()
             }, {
               id: dv.rolesCollection.rolesC,
-              name: 'contributor',
+              name: _constants.ROLE_CONTRIBUTOR,
               description: 'This is contributor user',
               createdAt: new Date(),
               updatedAt: new Date()
             }, {
               id: dv.rolesCollection.rolesR,
-              name: 'request',
+              name: _constants.ROLE_REQUEST,
               description: 'This is request to join group',
               createdAt: new Date(),
               updatedAt: new Date()
+            }, {
+              id: dv.rolesCollection.rolesI,
+              name: _constants.ROLE_INVITATION,
+              description: "This is send invitaion to join group"
             }]));
 
           case 2:
