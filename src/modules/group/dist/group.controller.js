@@ -160,26 +160,51 @@ var GroupController = /** @class */ (function () {
     };
     GroupController.prototype.addUserToGroup = function (body, req) {
         return __awaiter(this, void 0, void 0, function () {
-            var request;
+            var request, roleId;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group, body.userId)];
                     case 1:
                         request = _a.sent();
-                        console.log(request[0].dataValues.role);
                         if (request.length > 0 && request[0].dataValues.role.dataValues.name != constants_1.ROLE_REQUEST) {
                             throw new common_1.BadRequestException('You have already part of this Group');
                         }
-                        return [2 /*return*/, true];
+                        return [4 /*yield*/, this.rolesService.findRoleIdByName(body.assignRole)];
+                    case 2:
+                        roleId = _a.sent();
+                        return [2 /*return*/, this.rolesUserGroupService.createNewRolesForGroup(req.query.group, req.user.id, roleId.dataValues.id)];
                 }
             });
         });
     };
-    GroupController.prototype.updateUserRoleStatus = function (userId, newUserRole, req) {
-        // At first check for the current role of the user in the particular group and then only proceed with that logic 
-        // check for the condition that if the permission giving user is of admin he/she can only assign new role till admin priviledge only not super user
-        // then use the logic to assign the role or remove the role to the user properly
-        return true;
+    GroupController.prototype.updateUserRoleStatus = function (body, req) {
+        return __awaiter(this, void 0, void 0, function () {
+            var request, role, updateGroupRole, _a, _b, _c;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0: return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group, body.userId)];
+                    case 1:
+                        request = _d.sent();
+                        if (request[0].dataValues.group.name == body.assignRole) {
+                            throw new common_1.BadRequestException('User is same as the assigned Role.');
+                        }
+                        if (request.length < 1) {
+                            throw new common_1.BadRequestException("Group doesn't exist or You are not part of this Group.");
+                        }
+                        role = this.rolesService.findRoleIdByName(body.assignRole);
+                        _b = (_a = this.rolesUserGroupService).updateRolesGroup;
+                        _c = [req.query.group, body.userId];
+                        return [4 /*yield*/, role];
+                    case 2:
+                        updateGroupRole = _b.apply(_a, _c.concat([(_d.sent()).dataValues.id]));
+                        console.log(updateGroupRole);
+                        // At first check for the current role of the user in the particular group and then only proceed with that logic 
+                        // check for the condition that if the permission giving user is of admin he/she can only assign new role till admin priviledge only not super user
+                        // then use the logic to assign the role or remove the role to the user properly
+                        return [2 /*return*/, { value: true, updateGroupRole: updateGroupRole }];
+                }
+            });
+        });
     };
     GroupController.prototype.removeMemberFromGroup = function (userId, groupId) {
         return true;
@@ -231,7 +256,8 @@ var GroupController = /** @class */ (function () {
     ], GroupController.prototype, "addUserToGroup");
     __decorate([
         roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN)),
-        __param(2, common_1.Request())
+        common_1.Post('update-user-group-role'),
+        __param(0, common_1.Body()), __param(1, common_1.Request())
     ], GroupController.prototype, "updateUserRoleStatus");
     __decorate([
         roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN))

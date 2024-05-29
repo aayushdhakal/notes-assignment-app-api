@@ -1,4 +1,4 @@
-import { ROLE_SUPERUSER,ROLE_ADMIN, ROLE_MODERATOR, ROLE_USER, ROLE_GUEST , ROLE_REQUEST, ROLE_CONTRIBUTOR, ROLE_INVITATION } from 'src/core/constants';
+import { ROLE_SUPERUSER, ROLE_ADMIN, ROLE_MODERATOR, ROLE_USER, ROLE_GUEST , ROLE_REQUEST, ROLE_CONTRIBUTOR, ROLE_INVITATION } from 'src/core/constants';
 
 // const roles = ['superuser','admin','moderator','contributor','user','guest']
 
@@ -10,6 +10,7 @@ import { ROLE_SUPERUSER,ROLE_ADMIN, ROLE_MODERATOR, ROLE_USER, ROLE_GUEST , ROLE
 //     USER:'user',
 //     GUEST:'guest'
 // }
+
 export type RoleList = 'superuser' | 'admin' | 'moderator' | 'contributor' | 'user' | 'guest' | 'invitation' |'banned';
 
 export const getMaximumRolesPrivilege = ( role:RoleList ):Array<string> =>{
@@ -34,5 +35,6 @@ export const getMaximumRolesPrivilege = ( role:RoleList ):Array<string> =>{
             break;
         }
     }
+    
     return rolesPriviledges;
 }

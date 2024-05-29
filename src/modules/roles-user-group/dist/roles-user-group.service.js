@@ -138,7 +138,7 @@ Promise < rolesUserGroup_model_1.RolesUserGroup[] > {
         } })
 };
 async;
-requestDeniedForRequestAccess(groupId, string, userId, string);
+requestDeleteForRequestAccess(groupId, string, userId, string);
 Promise < number > {
     "return": await this.usersRolesGroupRepository.destroy({
         where: {

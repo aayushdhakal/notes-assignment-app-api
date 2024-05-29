@@ -74,7 +74,7 @@ export class RolesUserGroupService {
         }})
     }
 
-    async requestDeniedForRequestAccess(groupId:string,userId:string):Promise<number>{
+    async requestDeleteForRequestAccess(groupId:string,userId:string):Promise<number>{
         return await this.usersRolesGroupRepository.destroy({
             where:{ 
                 group_id:groupId,

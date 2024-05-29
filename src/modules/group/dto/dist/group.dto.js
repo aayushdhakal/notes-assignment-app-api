@@ -6,7 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.AddingUserGroupDto = exports.GroupUpdateDto = exports.GroupCreateDto = void 0;
+exports.UpdateUserRoleStatusDto = exports.AddingUserGroupDto = exports.GroupUpdateDto = exports.GroupCreateDto = void 0;
 var class_validator_1 = require("class-validator");
 var constants_1 = require("src/core/constants");
 var GroupCreateDto = /** @class */ (function () {
@@ -69,3 +69,21 @@ var AddingUserGroupDto = /** @class */ (function () {
     return AddingUserGroupDto;
 }());
 exports.AddingUserGroupDto = AddingUserGroupDto;
+var UpdateUserRoleStatusDto = /** @class */ (function () {
+    function UpdateUserRoleStatusDto() {
+    }
+    __decorate([
+        class_validator_1.IsNotEmpty(),
+        class_validator_1.IsUUID(constants_1.UUIDVERSION)
+    ], UpdateUserRoleStatusDto.prototype, "groupId");
+    __decorate([
+        class_validator_1.IsNotEmpty(),
+        class_validator_1.IsUUID(constants_1.UUIDVERSION)
+    ], UpdateUserRoleStatusDto.prototype, "userId");
+    __decorate([
+        class_validator_1.IsNotEmpty(),
+        class_validator_1.IsString()
+    ], UpdateUserRoleStatusDto.prototype, "assignRole");
+    return UpdateUserRoleStatusDto;
+}());
+exports.UpdateUserRoleStatusDto = UpdateUserRoleStatusDto;
