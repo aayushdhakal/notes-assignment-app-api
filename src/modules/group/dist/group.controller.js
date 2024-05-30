@@ -185,8 +185,15 @@ var GroupController = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group, body.userId)];
                     case 1:
                         request = _d.sent();
+                        if (request.length < 1) {
+                            throw new common_1.NotFoundException('User not found in the Group. User need to belong to this group to update the role.');
+                        }
+                        if (request[0].dataValues.role.name == body.assignRole) {
+                            throw new common_1.BadRequestException('User is same as the assigned Role.');
+                        }
+                        // check if the working user is super user or not and the working can only add the roles as much as he has.For. eg the user which is admin in the working group can only give priviledge till admin roll not upper role.
                         if (req.userGroupInfo.userRole != constants_1.ROLE_SUPERUSER && !(roles_list_1.getMinimumRolesList(req.userGroupInfo.userRole).includes(body.assignRole))) {
-                            throw new common_1.BadRequestException("You cannot perform this Action");
+                            throw new common_1.BadRequestException("You cannot perform this Action.");
                         }
                         return [2 /*return*/, true];
                     case 2:

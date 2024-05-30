@@ -45,6 +45,7 @@ exports.__esModule = true;
 exports.Roles = exports.SkipRoleGuard = exports.RolesGuard = void 0;
 var common_1 = require("@nestjs/common");
 var core_1 = require("@nestjs/core");
+var constants_1 = require("src/core/constants");
 var RolesGuard = /** @class */ (function () {
     function RolesGuard(reflector, rolesUserGroupService) {
         this.reflector = reflector;
@@ -81,6 +82,16 @@ var RolesGuard = /** @class */ (function () {
                     case 1:
                         valueTemp = _b.sent();
                         roleOfUserOnGroup = valueTemp[0].dataValues.role.dataValues.name;
+                        //checking th role of the user in the group
+                        if (roleOfUserOnGroup == constants_1.ROLE_BANNED) {
+                            throw new common_1.UnauthorizedException('You are banned from this group');
+                        }
+                        else if (roleOfUserOnGroup == constants_1.ROLE_REQUEST) {
+                            throw new common_1.UnauthorizedException('Your Request for Joining the group is still pending!.');
+                        }
+                        else if (roleOfUserOnGroup == constants_1.ROLE_INVITATION) {
+                            throw new common_1.UnauthorizedException('You have not accepted to join this group.Please accept to continue or else deny the Invitation.');
+                        }
                         console.log("roleOfUserOnGroup:- " + roleOfUserOnGroup + " location:'roles.guard.ts'");
                         groupInfo = {
                             groupId: valueTemp[0].dataValues.group_id,

@@ -1,6 +1,7 @@
 import { CanActivate, ExecutionContext , SetMetadata ,Injectable, UnauthorizedException, HttpStatus, HttpException, NotFoundException } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { Observable } from "rxjs";
+import { ROLE_BANNED, ROLE_INVITATION, ROLE_REQUEST } from "src/core/constants";
 import { RolesUserGroupService } from "src/modules/roles-user-group/roles-user-group.service";
 
 
@@ -42,6 +43,16 @@ export class RolesGuard implements CanActivate{
         try {
             const valueTemp = await this.rolesUserGroupService.getGroupsRolesFromUserId(request.query.group,request.user.id);
             const roleOfUserOnGroup = valueTemp[0].dataValues.role.dataValues.name;
+
+            //checking th role of the user in the group
+            if(roleOfUserOnGroup == ROLE_BANNED){
+                throw new UnauthorizedException('You are banned from this group');
+            }else if(roleOfUserOnGroup == ROLE_REQUEST){
+                throw new UnauthorizedException('Your Request for Joining the group is still pending!.');
+            }else if (roleOfUserOnGroup == ROLE_INVITATION){
+                throw new UnauthorizedException('You have not accepted to join this group.Please accept to continue or else deny the Invitation.');
+            }
+
             console.log(`roleOfUserOnGroup:- ${roleOfUserOnGroup} location:'roles.guard.ts'`)
             const groupInfo = { 
                 groupId:valueTemp[0].dataValues.group_id,

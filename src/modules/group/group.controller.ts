@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards, Request, Param,Query, ParseUUIDPipe, Patch, Delete, BadRequestException } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards, Request, Param,Query, ParseUUIDPipe, Patch, Delete, BadRequestException, NotFoundException } from '@nestjs/common';
 import { GroupCreateDto, GroupUpdateDto,AddingUserGroupDto,UpdateUserRoleStatusDto } from './dto/group.dto';
 import { Roles, RolesGuard, SkipRoleGuard } from './guards/roles.guard';
 import { GroupService } from './group.service';
@@ -133,19 +133,20 @@ export class GroupController {
         //get the user role from the group which role is being updated
         const request = await this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group,body.userId);
 
+        if(request.length < 1){
+            throw new NotFoundException('User not found in the Group. User need to belong to this group to update the role.')
+        }
+
+        if(request[0].dataValues.role.name == body.assignRole){
+            throw new BadRequestException('User is same as the assigned Role.');
+        }
+        
+        // check if the working user is super user or not and the working can only add the roles as much as he has.For. eg the user which is admin in the working group can only give priviledge till admin roll not upper role.
         if( req.userGroupInfo.userRole != ROLE_SUPERUSER && !(getMinimumRolesList(req.userGroupInfo.userRole).includes(body.assignRole)) ){
-            throw new BadRequestException(`You cannot perform this Action`);
+            throw new BadRequestException(`You cannot perform this Action.`);
         } 
 
         return true;
-
-        if(request[0].dataValues.group.name == body.assignRole){
-            throw new BadRequestException('User is same as the assigned Role.');
-        }
-
-        if(request.length < 1){
-            throw new BadRequestException(`Group doesn't exist or You are not part of this Group.`);
-        }
 
         const role = this.rolesService.findRoleIdByName(body.assignRole);
         const updateGroupRole = this.rolesUserGroupService.updateRolesGroup(req.query.group,body.userId,(await role).dataValues.id);
