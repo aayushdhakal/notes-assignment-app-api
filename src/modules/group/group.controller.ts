@@ -125,11 +125,19 @@ export class GroupController {
     }
 
     @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))
-    @Post('update-user-group-role')
+    @Post('update-user-group-role') 
     async updateUserRoleStatus(@Body() body:UpdateUserRoleStatusDto,@Request() req){
         // groupId:string,userId:string,newUserRole:RoleList,
         // {body.groupId,body.userId,body.assignRole} 
+        
+        //get the user role from the group which role is being updated
         const request = await this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group,body.userId);
+
+        console.log(request[0].dataValues.role.name);
+
+        if( req.userGroupInfo.userRole != ROLE_SUPERUSER && body.assignRole != ROLE_SUPERUSER){
+            throw new BadRequestException(`You cannot perform this Action`);
+        } 
 
         if(request[0].dataValues.group.name == body.assignRole){
             throw new BadRequestException('User is same as the assigned Role.');

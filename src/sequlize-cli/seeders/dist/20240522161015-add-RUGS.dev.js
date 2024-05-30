@@ -31,34 +31,48 @@ module.exports = {
               id: dv.rugsCollection.rugs2,
               user_id: dv.usersCollection.user2,
               group_id: dv.groupsCollection.group1,
-              roles_id: dv.rolesCollection.rolesM,
+              roles_id: dv.rolesCollection.rolesU,
               createdAt: new Date(),
               updatedAt: new Date()
             }, {
               id: dv.rugsCollection.rugs3,
               user_id: dv.usersCollection.user3,
               group_id: dv.groupsCollection.group1,
-              roles_id: dv.rolesCollection.rolesU,
+              roles_id: dv.rolesCollection.rolesA,
               createdAt: new Date(),
               updatedAt: new Date()
             }, {
               id: dv.rugsCollection.rugs4,
-              user_id: dv.usersCollection.user1,
-              group_id: dv.groupsCollection.group2,
-              roles_id: dv.rolesCollection.rolesA,
+              user_id: dv.usersCollection.user2,
+              group_id: dv.groupsCollection.group3,
+              roles_id: dv.rolesCollection.rolesS,
               createdAt: new Date(),
               updatedAt: new Date()
             }, {
               id: dv.rugsCollection.rugs5,
               user_id: dv.usersCollection.user2,
               group_id: dv.groupsCollection.group2,
-              roles_id: dv.rolesCollection.rolesU,
+              roles_id: dv.rolesCollection.rolesS,
               createdAt: new Date(),
               updatedAt: new Date()
             }, {
               id: dv.rugsCollection.rugs6,
               user_id: dv.usersCollection.user3,
               group_id: dv.groupsCollection.group2,
+              roles_id: dv.rolesCollection.rolesA,
+              createdAt: new Date(),
+              updatedAt: new Date()
+            }, {
+              id: dv.rugsCollection.rugs7,
+              user_id: dv.usersCollection.user4,
+              group_id: dv.groupsCollection.group3,
+              roles_id: dv.rolesCollection.rolesM,
+              createdAt: new Date(),
+              updatedAt: new Date()
+            }, {
+              id: dv.rugsCollection.rugs8,
+              user_id: dv.usersCollection.user4,
+              group_id: dv.groupsCollection.group1,
               roles_id: dv.rolesCollection.rolesM,
               createdAt: new Date(),
               updatedAt: new Date()

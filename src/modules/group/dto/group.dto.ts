@@ -55,10 +55,6 @@ export class AddingUserGroupDto{
 export class UpdateUserRoleStatusDto{
     @IsNotEmpty()
     @IsUUID(UUIDVERSION)
-    readonly groupId:string;
-
-    @IsNotEmpty()
-    @IsUUID(UUIDVERSION)
     readonly userId:string;
 
     @IsNotEmpty()

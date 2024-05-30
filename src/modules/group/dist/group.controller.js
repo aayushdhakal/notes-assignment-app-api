@@ -185,6 +185,10 @@ var GroupController = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group, body.userId)];
                     case 1:
                         request = _d.sent();
+                        console.log(request[0].dataValues.role.name);
+                        if (req.userGroupInfo.userRole != constants_1.ROLE_SUPERUSER && body.assignRole != constants_1.ROLE_SUPERUSER) {
+                            throw new common_1.BadRequestException("You cannot perform this Action");
+                        }
                         if (request[0].dataValues.group.name == body.assignRole) {
                             throw new common_1.BadRequestException('User is same as the assigned Role.');
                         }

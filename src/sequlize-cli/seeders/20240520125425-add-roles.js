@@ -3,7 +3,6 @@
 const { v1:uuidv1 }  = require('uuid');
 
 const  dv = require('../contants/defaultValuesForSeeding');
-import { ROLE_SUPERUSER,ROLE_ADMIN, ROLE_MODERATOR, ROLE_USER, ROLE_GUEST , ROLE_REQUEST, ROLE_CONTRIBUTOR, ROLE_INVITATION } from 'src/core/constants';
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -20,57 +19,66 @@ module.exports = {
     return await queryInterface.bulkInsert('roles', [
       {
         id:dv.rolesCollection.rolesS,
-        name: ROLE_SUPERUSER,
+        name:'superuser',
         description: 'This is superuser roles',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id:dv.rolesCollection.rolesA,
-        name: ROLE_ADMIN,
+        name: 'admin',
         description: 'This is admin roles',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id:dv.rolesCollection.rolesM,
-        name: ROLE_MODERATOR,
+        name: 'moderator',
         description: 'This is moderator roles',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id:dv.rolesCollection.rolesU,
-        name: ROLE_USER,
+        name: 'user',
         description: 'This is user roles',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id:dv.rolesCollection.rolesG,
-        name: ROLE_GUEST,
+        name: 'guest',
         description: 'This is guest roles',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id:dv.rolesCollection.rolesC,
-        name: ROLE_CONTRIBUTOR,
+        name: 'contributor',
         description: 'This is contributor user',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id:dv.rolesCollection.rolesR,
-        name: ROLE_REQUEST,
+        name: 'request',
         description: 'This is request to join group',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id:dv.rolesCollection.rolesI,
-        name:ROLE_INVITATION,
-        description:"This is send invitaion to join group"
+        name:'invitation',
+        description:"This is send invitaion to join group",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id:dv.rolesCollection.rolesB,
+        name:'banned',
+        description:"This is send invitaion to join group",
+        createdAt: new Date(),
+        updatedAt: new Date(),
       }
     ]);
   },

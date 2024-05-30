@@ -25,7 +25,8 @@ const rolesUUIDv1Collection = {
     rolesG:'6ffd2f1c-178f-11ef-9262-0242ac120002',
     rolesC:'2235f984-1d80-11ef-9262-0242ac120002',
     rolesR:'f0252fe8-1cec-11ef-9262-0242ac120002',
-    rolesI:'43aeceb8-1d82-11ef-9262-0242ac120002'
+    rolesI:'43aeceb8-1d82-11ef-9262-0242ac120002',
+    rolesB:'ffeecd7c-1e9e-11ef-9262-0242ac120002'
 }
 
 const rUGsUUIDv1Collection  = {
@@ -36,7 +37,8 @@ const rUGsUUIDv1Collection  = {
     rugs5:'6eaade36-1855-11ef-9262-0242ac120002',
     rugs6:'839e5b5e-1857-11ef-9262-0242ac120002',
     rugs7:'1ca44600-1d81-11ef-9262-0242ac120002',
-    rugs8:'206b8eb0-1d81-11ef-9262-0242ac120002'
+    rugs8:'206b8eb0-1d81-11ef-9262-0242ac120002',
+    rugs9:'4f57bbb0-1e97-11ef-9262-0242ac120002'
 }
 
 const notesUUIDv1Collection = {

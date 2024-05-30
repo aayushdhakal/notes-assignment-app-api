@@ -23,7 +23,8 @@ var rolesUUIDv1Collection = {
   rolesG: '6ffd2f1c-178f-11ef-9262-0242ac120002',
   rolesC: '2235f984-1d80-11ef-9262-0242ac120002',
   rolesR: 'f0252fe8-1cec-11ef-9262-0242ac120002',
-  rolesI: '43aeceb8-1d82-11ef-9262-0242ac120002'
+  rolesI: '43aeceb8-1d82-11ef-9262-0242ac120002',
+  rolesB: 'ffeecd7c-1e9e-11ef-9262-0242ac120002'
 };
 var rUGsUUIDv1Collection = {
   rugs1: '148bf43a-1855-11ef-9262-0242ac120002',
@@ -33,7 +34,8 @@ var rUGsUUIDv1Collection = {
   rugs5: '6eaade36-1855-11ef-9262-0242ac120002',
   rugs6: '839e5b5e-1857-11ef-9262-0242ac120002',
   rugs7: '1ca44600-1d81-11ef-9262-0242ac120002',
-  rugs8: '206b8eb0-1d81-11ef-9262-0242ac120002'
+  rugs8: '206b8eb0-1d81-11ef-9262-0242ac120002',
+  rugs9: '4f57bbb0-1e97-11ef-9262-0242ac120002'
 };
 var notesUUIDv1Collection = {
   notes1: 'd7bb78c4-185d-11ef-9262-0242ac120002',

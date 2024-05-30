@@ -75,10 +75,6 @@ var UpdateUserRoleStatusDto = /** @class */ (function () {
     __decorate([
         class_validator_1.IsNotEmpty(),
         class_validator_1.IsUUID(constants_1.UUIDVERSION)
-    ], UpdateUserRoleStatusDto.prototype, "groupId");
-    __decorate([
-        class_validator_1.IsNotEmpty(),
-        class_validator_1.IsUUID(constants_1.UUIDVERSION)
     ], UpdateUserRoleStatusDto.prototype, "userId");
     __decorate([
         class_validator_1.IsNotEmpty(),
