@@ -3,7 +3,7 @@ import { GroupCreateDto, GroupUpdateDto,AddingUserGroupDto,UpdateUserRoleStatusD
 import { Roles, RolesGuard, SkipRoleGuard } from './guards/roles.guard';
 import { GroupService } from './group.service';
 import { RolesUserGroupService } from '../roles-user-group/roles-user-group.service';
-import { RoleList, getMaximumRolesPrivilege } from 'src/core/constants/roles-list';
+import { RoleList, getMaximumRolesPrivilege, getMinimumRolesList } from 'src/core/constants/roles-list';
 import { ROLE_ADMIN, ROLE_MODERATOR, ROLE_SUPERUSER, ROLE_USER ,ROLE_REQUEST } from 'src/core/constants';
 import { RolesService } from '../roles/roles.service';
 
@@ -133,11 +133,11 @@ export class GroupController {
         //get the user role from the group which role is being updated
         const request = await this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group,body.userId);
 
-        console.log(request[0].dataValues.role.name);
-
-        if( req.userGroupInfo.userRole != ROLE_SUPERUSER && body.assignRole != ROLE_SUPERUSER){
+        if( req.userGroupInfo.userRole != ROLE_SUPERUSER && !(getMinimumRolesList(req.userGroupInfo.userRole).includes(body.assignRole)) ){
             throw new BadRequestException(`You cannot perform this Action`);
         } 
+
+        return true;
 
         if(request[0].dataValues.group.name == body.assignRole){
             throw new BadRequestException('User is same as the assigned Role.');

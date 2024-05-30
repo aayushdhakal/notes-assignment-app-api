@@ -81,6 +81,7 @@ var RolesGuard = /** @class */ (function () {
                     case 1:
                         valueTemp = _b.sent();
                         roleOfUserOnGroup = valueTemp[0].dataValues.role.dataValues.name;
+                        console.log("roleOfUserOnGroup:- " + roleOfUserOnGroup + " location:'roles.guard.ts'");
                         groupInfo = {
                             groupId: valueTemp[0].dataValues.group_id,
                             groupName: valueTemp[0].group.dataValues.name
@@ -91,7 +92,9 @@ var RolesGuard = /** @class */ (function () {
                         // console.log('\n Roles of user '+roleOfUserOnGroup,'\n Group Name '+groupName,'\n Allowed Roles '+roles);
                         // check if the user has the valid permission or role for the group or not if id doen't return error
                         if (!roles.includes(roleOfUserOnGroup)) {
-                            throw new common_1.UnauthorizedException();
+                            console.log("UnauthorizedException location:'roles.guard.ts'");
+                            throw { message: "You are not authorized to perform this action" };
+                            // throw new UnauthorizedException('You are not authorized to perform this action');
                         }
                         _a = request;
                         return [4 /*yield*/, {
@@ -103,7 +106,10 @@ var RolesGuard = /** @class */ (function () {
                         return [2 /*return*/, request];
                     case 3:
                         e_1 = _b.sent();
-                        throw new common_1.NotFoundException({ message: 'Group Not Found' });
+                        if (e_1.message) {
+                            throw new common_1.UnauthorizedException({ message: e_1.message || 'Group Not Found!' });
+                        }
+                        throw new common_1.NotFoundException('Group Not Found!');
                     case 4: return [2 /*return*/];
                 }
             });

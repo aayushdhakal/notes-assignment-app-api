@@ -1,5 +1,5 @@
-import { IsBoolean, IsNotEmpty, IsOptional, IsString, IsUUID } from "class-validator";
-import { UUIDVERSION } from "src/core/constants";
+import { IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from "class-validator";
+import { ROLE_ADMIN, ROLE_BANNED, ROLE_CONTRIBUTOR, ROLE_GUEST, ROLE_INVITATION, ROLE_MODERATOR, ROLE_REQUEST, ROLE_SUPERUSER, ROLE_USER, UUIDVERSION } from "src/core/constants";
 import { RoleList } from 'src/core/constants/roles-list';
 
 export class GroupCreateDto{
@@ -41,6 +41,17 @@ export class GroupUpdateDto{
     
 }
 
+enum RolesListEnum {
+    SUPERUSER= ROLE_SUPERUSER, 
+    ADMIN = ROLE_ADMIN ,
+    MODERATOR = ROLE_MODERATOR ,
+    CONTRIBUTOR = ROLE_CONTRIBUTOR, 
+    USER = ROLE_USER ,
+    GUEST = ROLE_GUEST, 
+    REQUEST = ROLE_REQUEST ,
+    BANNED = ROLE_BANNED, 
+    INVITATION = ROLE_INVITATION ,
+}
 
 export class AddingUserGroupDto{
     @IsNotEmpty()
@@ -49,15 +60,8 @@ export class AddingUserGroupDto{
 
     @IsNotEmpty()
     @IsString()
-    readonly assignRole:RoleList;
+    @IsEnum(RolesListEnum)
+    readonly assignRole:string;
 }
 
-export class UpdateUserRoleStatusDto{
-    @IsNotEmpty()
-    @IsUUID(UUIDVERSION)
-    readonly userId:string;
-
-    @IsNotEmpty()
-    @IsString()
-    readonly assignRole:RoleList
-}
+export class UpdateUserRoleStatusDto extends AddingUserGroupDto{}

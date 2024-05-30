@@ -185,20 +185,10 @@ var GroupController = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group, body.userId)];
                     case 1:
                         request = _d.sent();
-                        console.log(request[0].dataValues.role.name);
-                        if (req.userGroupInfo.userRole != constants_1.ROLE_SUPERUSER && body.assignRole != constants_1.ROLE_SUPERUSER) {
+                        if (req.userGroupInfo.userRole != constants_1.ROLE_SUPERUSER && !(roles_list_1.getMinimumRolesList(req.userGroupInfo.userRole).includes(body.assignRole))) {
                             throw new common_1.BadRequestException("You cannot perform this Action");
                         }
-                        if (request[0].dataValues.group.name == body.assignRole) {
-                            throw new common_1.BadRequestException('User is same as the assigned Role.');
-                        }
-                        if (request.length < 1) {
-                            throw new common_1.BadRequestException("Group doesn't exist or You are not part of this Group.");
-                        }
-                        role = this.rolesService.findRoleIdByName(body.assignRole);
-                        _b = (_a = this.rolesUserGroupService).updateRolesGroup;
-                        _c = [req.query.group, body.userId];
-                        return [4 /*yield*/, role];
+                        return [2 /*return*/, true];
                     case 2:
                         updateGroupRole = _b.apply(_a, _c.concat([(_d.sent()).dataValues.id]));
                         console.log(updateGroupRole);

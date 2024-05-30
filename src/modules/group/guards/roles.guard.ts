@@ -42,7 +42,7 @@ export class RolesGuard implements CanActivate{
         try {
             const valueTemp = await this.rolesUserGroupService.getGroupsRolesFromUserId(request.query.group,request.user.id);
             const roleOfUserOnGroup = valueTemp[0].dataValues.role.dataValues.name;
-
+            console.log(`roleOfUserOnGroup:- ${roleOfUserOnGroup} location:'roles.guard.ts'`)
             const groupInfo = { 
                 groupId:valueTemp[0].dataValues.group_id,
                 groupName:valueTemp[0].group.dataValues.name,
@@ -55,7 +55,9 @@ export class RolesGuard implements CanActivate{
 
             // check if the user has the valid permission or role for the group or not if id doen't return error
             if(!roles.includes(roleOfUserOnGroup)){
-                throw new UnauthorizedException();
+                console.log(`UnauthorizedException location:'roles.guard.ts'`)
+                throw {message:`You are not authorized to perform this action`}
+                // throw new UnauthorizedException('You are not authorized to perform this action');
             }
             
             request.userGroupInfo = await {
@@ -65,7 +67,11 @@ export class RolesGuard implements CanActivate{
             return request;
 
         } catch (e) {
-            throw new NotFoundException({message:'Group Not Found'});
+            if(e.message){
+                throw new UnauthorizedException({message:e.message || 'Group Not Found!'});
+            }
+            
+            throw new NotFoundException('Group Not Found!');            
         }
     }
 

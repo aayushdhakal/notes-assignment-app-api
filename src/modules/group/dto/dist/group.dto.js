@@ -1,4 +1,17 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -55,6 +68,18 @@ var GroupUpdateDto = /** @class */ (function () {
     return GroupUpdateDto;
 }());
 exports.GroupUpdateDto = GroupUpdateDto;
+var RolesListEnum;
+(function (RolesListEnum) {
+    RolesListEnum[RolesListEnum["SUPERUSER"] = constants_1.ROLE_SUPERUSER] = "SUPERUSER";
+    RolesListEnum[RolesListEnum["ADMIN"] = constants_1.ROLE_ADMIN] = "ADMIN";
+    RolesListEnum[RolesListEnum["MODERATOR"] = constants_1.ROLE_MODERATOR] = "MODERATOR";
+    RolesListEnum[RolesListEnum["CONTRIBUTOR"] = constants_1.ROLE_CONTRIBUTOR] = "CONTRIBUTOR";
+    RolesListEnum[RolesListEnum["USER"] = constants_1.ROLE_USER] = "USER";
+    RolesListEnum[RolesListEnum["GUEST"] = constants_1.ROLE_GUEST] = "GUEST";
+    RolesListEnum[RolesListEnum["REQUEST"] = constants_1.ROLE_REQUEST] = "REQUEST";
+    RolesListEnum[RolesListEnum["BANNED"] = constants_1.ROLE_BANNED] = "BANNED";
+    RolesListEnum[RolesListEnum["INVITATION"] = constants_1.ROLE_INVITATION] = "INVITATION";
+})(RolesListEnum || (RolesListEnum = {}));
 var AddingUserGroupDto = /** @class */ (function () {
     function AddingUserGroupDto() {
     }
@@ -64,22 +89,17 @@ var AddingUserGroupDto = /** @class */ (function () {
     ], AddingUserGroupDto.prototype, "userId");
     __decorate([
         class_validator_1.IsNotEmpty(),
-        class_validator_1.IsString()
+        class_validator_1.IsString(),
+        class_validator_1.IsEnum(RolesListEnum)
     ], AddingUserGroupDto.prototype, "assignRole");
     return AddingUserGroupDto;
 }());
 exports.AddingUserGroupDto = AddingUserGroupDto;
-var UpdateUserRoleStatusDto = /** @class */ (function () {
+var UpdateUserRoleStatusDto = /** @class */ (function (_super) {
+    __extends(UpdateUserRoleStatusDto, _super);
     function UpdateUserRoleStatusDto() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
-    __decorate([
-        class_validator_1.IsNotEmpty(),
-        class_validator_1.IsUUID(constants_1.UUIDVERSION)
-    ], UpdateUserRoleStatusDto.prototype, "userId");
-    __decorate([
-        class_validator_1.IsNotEmpty(),
-        class_validator_1.IsString()
-    ], UpdateUserRoleStatusDto.prototype, "assignRole");
     return UpdateUserRoleStatusDto;
-}());
+}(AddingUserGroupDto));
 exports.UpdateUserRoleStatusDto = UpdateUserRoleStatusDto;
