@@ -1,10 +1,10 @@
-import { Body, Controller, Get, Post, UseGuards, Request, Param,Query, ParseUUIDPipe, Patch, Delete, BadRequestException, NotFoundException } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards, Request, Param,Query, ParseUUIDPipe, Patch, Delete, BadRequestException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { GroupCreateDto, GroupUpdateDto,AddingUserGroupDto,UpdateUserRoleStatusDto } from './dto/group.dto';
 import { Roles, RolesGuard, SkipRoleGuard } from './guards/roles.guard';
 import { GroupService } from './group.service';
 import { RolesUserGroupService } from '../roles-user-group/roles-user-group.service';
 import { RoleList, getMaximumRolesPrivilege, getMinimumRolesList } from 'src/core/constants/roles-list';
-import { ROLE_ADMIN, ROLE_MODERATOR, ROLE_SUPERUSER, ROLE_USER ,ROLE_REQUEST } from 'src/core/constants';
+import { ROLE_ADMIN, ROLE_MODERATOR, ROLE_SUPERUSER, ROLE_USER ,ROLE_REQUEST, ROLE_BANNED } from 'src/core/constants';
 import { RolesService } from '../roles/roles.service';
 
 
@@ -16,7 +16,12 @@ export class GroupController {
         public readonly rolesUserGroupService:RolesUserGroupService,
         public readonly rolesService:RolesService
     ){}
-
+    // GROUP MODEL { name. description , isPublic, isActive }
+    /*
+    route as 'api/v1/group' POST method 
+    this ia a route which is used to create a new group on the database table 
+    this will use the model of the group to save the provided data to the database
+    */
     @SkipRoleGuard()
     @Post('')
     async createNewGroup(@Body() body:GroupCreateDto, @Request() req){
@@ -35,36 +40,59 @@ export class GroupController {
         return {group,createRUGS};
     }
 
+    /*
+    route as 'api/v1/group/join-group' POST method
+    this ia a route which is used to request to join a group using group id and user id
+    this route takes the group_id from the request query and take the user_id from the accessed token parsed from the jwt auth guard and process it to the user 
+    */
     @SkipRoleGuard()
     @Post('join-group')
     async requestUserToJoinGroup(@Request() req){
         // const group = req.query.group;
         const request = await this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group,req.user.id);
 
+        // check if the value is returned greater than 0 then means it has previosuly sent the request or is already part of this group if the user has already sent the request then first block of the code is executed and if the user has the role of any other than ROLE_REQUEST(may be 'admin' ,'user' so on ) then it will run the second block of code 
         if(request.length > 0 && request[0].dataValues.role.dataValues.name == ROLE_REQUEST ){
             throw new BadRequestException('You have already requested to join this group.');
+        }else if(request.length > 0 && request[0].dataValues.role.dataValues.name == ROLE_BANNED){
+            throw new UnauthorizedException('You have beened banned from this group.');
         }else if((request.length > 0  )){
             throw new BadRequestException('You Are the part of this Group.');
         }
         
+        //get the role Id from the group.
         const roles = await this.rolesService.findRoleIdByName(ROLE_REQUEST);
         const rUGS = await this.rolesUserGroupService.createNewRolesForGroup(req.query.group,req.user.id,roles.dataValues.id);
 
         return {rUGS,message:"Request to Join Group has been Sent."}
     }
 
+
+    /*
+    route as 'api/v1/group/', GET method , can only be accessed by user and above
+    this ia a route which is used to get the information about the the group name, description , public type, active type.
+    */
     @Roles(getMaximumRolesPrivilege(ROLE_USER))
     @Get('')
     public getGroupInfoById(@Request() req){       
         return this.groupService.findGroupInfoById(req.query.group);
     }
 
+    /*
+    route as 'api/v1/group/', DELETE method , can only be accessed by superuser
+    this ia a route which is used to delete the group.
+    */
     @Roles(getMaximumRolesPrivilege(ROLE_SUPERUSER))
     @Delete('')
     public deleteGroup(@Request() req){
         return this.groupService.deleteGroup(req.userGroupInfo.group.groupId);  
     }
  
+
+    /*
+    route as 'api/v1/group/', PATCH method , can only be accessed by admin and above
+    this ia a route which is used to delete the group.
+    */
     @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))
     @Patch('')
     async updateGroupInfo(@Body() body:GroupUpdateDto,@Request() req){
@@ -94,24 +122,44 @@ export class GroupController {
         return await this.groupService.updateGroupInfo(req.userGroupInfo.group.groupId,tempVal);        
     }
 
+
+    /*
+    route as 'api/v1/group/group-code',Param as :groupCode, GET method , can only be accessed by user and above
+    this ia a route which is used to delete the group.
+    */
     @Roles(getMaximumRolesPrivilege(ROLE_USER))
     @Get('group-code/:groupCode')
     public getGroupInfoByGroupCode(@Param('groupCode') groupCode:string,@Request() req){
         return this.groupService.findGroupInfoByGroupCode(groupCode);
     }
     
+
+    /*
+    route as 'api/v1/group/group-mombers', GET method , can only be accessed by admin and above
+    this ia a route which is used to get the list of group members of the given group.
+    */
     @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))
     @Get('group-members')
     public getGroupMembersList(@Request() req){
         return this.rolesUserGroupService.getGroupMembersFromGroupId(req.query.group);
     }
 
+
+    /*
+    route as 'api/v1/group/my-group-role', GET method , can only be accessed by user and above
+    this ia a route which is used to get the list of role of group members of the group.
+    */
     @Roles(getMaximumRolesPrivilege(ROLE_USER))
     @Get('my-group-role')
     public getMyGroupRole(@Request() req){
         return this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group,req.user.id);
     }
 
+
+    /*
+    route as 'api/v1/group/add-user-group', POST method , can only be accessed by admin and above
+    this ia a route which is used to get the list of role of group members of the group.
+    */
     @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))
     @Post('add-user-group')
     async addUserToGroup(@Body() body:AddingUserGroupDto,@Request() req){
@@ -146,15 +194,8 @@ export class GroupController {
             throw new BadRequestException(`You cannot perform this Action.`);
         } 
 
-        return true;
-
-        const role = this.rolesService.findRoleIdByName(body.assignRole);
-        const updateGroupRole = this.rolesUserGroupService.updateRolesGroup(req.query.group,body.userId,(await role).dataValues.id);
-        console.log(updateGroupRole);
-        // At first check for the current role of the user in the particular group and then only proceed with that logic 
-        // check for the condition that if the permission giving user is of admin he/she can only assign new role till admin priviledge only not super user
-        // then use the logic to assign the role or remove the role to the user properly
-        return { value:true,updateGroupRole };
+        const role = await this.rolesService.findRoleIdByName(body.assignRole);
+        return this.rolesUserGroupService.updateRolesGroup(req.query.group,body.userId,role.dataValues.id);        
     }
 
     @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))

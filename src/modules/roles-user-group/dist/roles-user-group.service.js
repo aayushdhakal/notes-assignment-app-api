@@ -112,7 +112,8 @@ Promise < rolesUserGroup_model_1.RolesUserGroup[] > {
         },
         include: [
             { model: groups_model_1.Groups, as: 'group', attributes: ['name'] },
-            { model: roles_model_1.Roles, as: 'role', attributes: ['name'] }
+            { model: roles_model_1.Roles, as: 'role', attributes: ['name'] },
+            { model: roles_model_1.Roles, as: 'user', attributes: ['name', 'id'] }
         ]
     })
 };

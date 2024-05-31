@@ -56,6 +56,12 @@ var GroupController = /** @class */ (function () {
         this.rolesUserGroupService = rolesUserGroupService;
         this.rolesService = rolesService;
     }
+    // GROUP MODEL { name. description , isPublic, isActive }
+    /*
+    route as 'api/v1/group' POST method
+    this ia a route which is used to create a new group on the database table
+    this will use the model of the group to save the provided data to the database
+    */
     GroupController.prototype.createNewGroup = function (body, req) {
         return __awaiter(this, void 0, void 0, function () {
             var ownerId, groupInfo, group, roles, createRUGS;
@@ -84,6 +90,11 @@ var GroupController = /** @class */ (function () {
             });
         });
     };
+    /*
+    route as 'api/v1/group/join-group' POST method
+    this ia a route which is used to request to join a group using group id and user id
+    this route takes the group_id from the request query and take the user_id from the accessed token parsed from the jwt auth guard and process it to the user
+    */
     GroupController.prototype.requestUserToJoinGroup = function (req) {
         return __awaiter(this, void 0, void 0, function () {
             var request, roles, rUGS;
@@ -92,8 +103,12 @@ var GroupController = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group, req.user.id)];
                     case 1:
                         request = _a.sent();
+                        // check if the value is returned greater than 0 then means it has previosuly sent the request or is already part of this group if the user has already sent the request then first block of the code is executed and if the user has the role of any other than ROLE_REQUEST(may be 'admin' ,'user' so on ) then it will run the second block of code 
                         if (request.length > 0 && request[0].dataValues.role.dataValues.name == constants_1.ROLE_REQUEST) {
                             throw new common_1.BadRequestException('You have already requested to join this group.');
+                        }
+                        else if (request.length > 0 && request[0].dataValues.role.dataValues.name == constants_1.ROLE_BANNED) {
+                            throw new common_1.UnauthorizedException('You have beened banned from this group.');
                         }
                         else if ((request.length > 0)) {
                             throw new common_1.BadRequestException('You Are the part of this Group.');
@@ -109,12 +124,24 @@ var GroupController = /** @class */ (function () {
             });
         });
     };
+    /*
+    route as 'api/v1/group/', GET method , can only be accessed by user and above
+    this ia a route which is used to get the information about the the group name, description , public type, active type.
+    */
     GroupController.prototype.getGroupInfoById = function (req) {
         return this.groupService.findGroupInfoById(req.query.group);
     };
+    /*
+    route as 'api/v1/group/', DELETE method , can only be accessed by superuser
+    this ia a route which is used to delete the group.
+    */
     GroupController.prototype.deleteGroup = function (req) {
         return this.groupService.deleteGroup(req.userGroupInfo.group.groupId);
     };
+    /*
+    route as 'api/v1/group/', PATCH method , can only be accessed by admin and above
+    this ia a route which is used to delete the group.
+    */
     GroupController.prototype.updateGroupInfo = function (body, req) {
         return __awaiter(this, void 0, void 0, function () {
             var name, description, isPublic, isActive, tempVal;
@@ -149,15 +176,31 @@ var GroupController = /** @class */ (function () {
             });
         });
     };
+    /*
+    route as 'api/v1/group/group-code',Param as :groupCode, GET method , can only be accessed by user and above
+    this ia a route which is used to delete the group.
+    */
     GroupController.prototype.getGroupInfoByGroupCode = function (groupCode, req) {
         return this.groupService.findGroupInfoByGroupCode(groupCode);
     };
+    /*
+    route as 'api/v1/group/group-mombers', GET method , can only be accessed by admin and above
+    this ia a route which is used to get the list of group members of the given group.
+    */
     GroupController.prototype.getGroupMembersList = function (req) {
         return this.rolesUserGroupService.getGroupMembersFromGroupId(req.query.group);
     };
+    /*
+    route as 'api/v1/group/my-group-role', GET method , can only be accessed by user and above
+    this ia a route which is used to get the list of role of group members of the group.
+    */
     GroupController.prototype.getMyGroupRole = function (req) {
         return this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group, req.user.id);
     };
+    /*
+    route as 'api/v1/group/add-user-group', POST method , can only be accessed by admin and above
+    this ia a route which is used to get the list of role of group members of the group.
+    */
     GroupController.prototype.addUserToGroup = function (body, req) {
         return __awaiter(this, void 0, void 0, function () {
             var request, roleId;
@@ -179,12 +222,12 @@ var GroupController = /** @class */ (function () {
     };
     GroupController.prototype.updateUserRoleStatus = function (body, req) {
         return __awaiter(this, void 0, void 0, function () {
-            var request, role, updateGroupRole, _a, _b, _c;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
+            var request, role;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0: return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(req.query.group, body.userId)];
                     case 1:
-                        request = _d.sent();
+                        request = _a.sent();
                         if (request.length < 1) {
                             throw new common_1.NotFoundException('User not found in the Group. User need to belong to this group to update the role.');
                         }
@@ -195,14 +238,10 @@ var GroupController = /** @class */ (function () {
                         if (req.userGroupInfo.userRole != constants_1.ROLE_SUPERUSER && !(roles_list_1.getMinimumRolesList(req.userGroupInfo.userRole).includes(body.assignRole))) {
                             throw new common_1.BadRequestException("You cannot perform this Action.");
                         }
-                        return [2 /*return*/, true];
+                        return [4 /*yield*/, this.rolesService.findRoleIdByName(body.assignRole)];
                     case 2:
-                        updateGroupRole = _b.apply(_a, _c.concat([(_d.sent()).dataValues.id]));
-                        console.log(updateGroupRole);
-                        // At first check for the current role of the user in the particular group and then only proceed with that logic 
-                        // check for the condition that if the permission giving user is of admin he/she can only assign new role till admin priviledge only not super user
-                        // then use the logic to assign the role or remove the role to the user properly
-                        return [2 /*return*/, { value: true, updateGroupRole: updateGroupRole }];
+                        role = _a.sent();
+                        return [2 /*return*/, this.rolesUserGroupService.updateRolesGroup(req.query.group, body.userId, role.dataValues.id)];
                 }
             });
         });

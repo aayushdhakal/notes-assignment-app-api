@@ -110,6 +110,7 @@ var RolesGuard = /** @class */ (function () {
                         _a = request;
                         return [4 /*yield*/, {
                                 userRole: roleOfUserOnGroup,
+                                RoleId: valueTemp[0].dataValues.role.dataValues.id,
                                 group: groupInfo
                             }];
                     case 2:

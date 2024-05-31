@@ -50,7 +50,8 @@ export class RolesUserGroupService {
             },
             include:[
                 {model:Groups,as:'group',attributes:['name']},
-                {model:Roles,as:'role',attributes:['name']}
+                {model:Roles,as:'role',attributes:['name']},
+                {model:Roles,as:'user',attributes:['name','id']}
             ]
         })
     }
