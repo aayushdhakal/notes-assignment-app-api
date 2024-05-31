@@ -19,7 +19,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.LiftUserBannedFromGroup = exports.BannedUserMemberDto = exports.UpdateUserRoleStatusDto = exports.AddingUserGroupDto = exports.GroupUpdateDto = exports.GroupCreateDto = void 0;
+exports.RemovingUserFromGroupDto = exports.LiftUserBannedFromGroup = exports.BannedUserMemberDto = exports.UpdateUserRoleStatusDto = exports.AddingUserGroupDto = exports.UserIdOnlyDto = exports.UserIdAndGroupIdDto = exports.GroupUpdateDto = exports.GroupCreateDto = void 0;
 var class_validator_1 = require("class-validator");
 var constants_1 = require("src/core/constants");
 var GroupCreateDto = /** @class */ (function () {
@@ -80,20 +80,38 @@ var RolesListEnum;
     RolesListEnum[RolesListEnum["BANNED"] = constants_1.ROLE_BANNED] = "BANNED";
     RolesListEnum[RolesListEnum["INVITATION"] = constants_1.ROLE_INVITATION] = "INVITATION";
 })(RolesListEnum || (RolesListEnum = {}));
-var AddingUserGroupDto = /** @class */ (function () {
-    function AddingUserGroupDto() {
+var UserIdAndGroupIdDto = /** @class */ (function () {
+    function UserIdAndGroupIdDto() {
     }
     __decorate([
         class_validator_1.IsNotEmpty(),
         class_validator_1.IsUUID(constants_1.UUIDVERSION)
-    ], AddingUserGroupDto.prototype, "userId");
+    ], UserIdAndGroupIdDto.prototype, "userId");
     __decorate([
         class_validator_1.IsNotEmpty(),
         class_validator_1.IsString(),
         class_validator_1.IsEnum(RolesListEnum)
-    ], AddingUserGroupDto.prototype, "assignRole");
-    return AddingUserGroupDto;
+    ], UserIdAndGroupIdDto.prototype, "assignRole");
+    return UserIdAndGroupIdDto;
 }());
+exports.UserIdAndGroupIdDto = UserIdAndGroupIdDto;
+var UserIdOnlyDto = /** @class */ (function () {
+    function UserIdOnlyDto() {
+    }
+    __decorate([
+        class_validator_1.IsNotEmpty(),
+        class_validator_1.IsUUID(constants_1.UUIDVERSION)
+    ], UserIdOnlyDto.prototype, "userId");
+    return UserIdOnlyDto;
+}());
+exports.UserIdOnlyDto = UserIdOnlyDto;
+var AddingUserGroupDto = /** @class */ (function (_super) {
+    __extends(AddingUserGroupDto, _super);
+    function AddingUserGroupDto() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return AddingUserGroupDto;
+}(UserIdAndGroupIdDto));
 exports.AddingUserGroupDto = AddingUserGroupDto;
 var UpdateUserRoleStatusDto = /** @class */ (function (_super) {
     __extends(UpdateUserRoleStatusDto, _super);
@@ -109,7 +127,7 @@ var BannedUserMemberDto = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return BannedUserMemberDto;
-}(AddingUserGroupDto));
+}(UserIdOnlyDto));
 exports.BannedUserMemberDto = BannedUserMemberDto;
 var LiftUserBannedFromGroup = /** @class */ (function (_super) {
     __extends(LiftUserBannedFromGroup, _super);
@@ -117,5 +135,13 @@ var LiftUserBannedFromGroup = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return LiftUserBannedFromGroup;
-}(AddingUserGroupDto));
+}(UserIdOnlyDto));
 exports.LiftUserBannedFromGroup = LiftUserBannedFromGroup;
+var RemovingUserFromGroupDto = /** @class */ (function (_super) {
+    __extends(RemovingUserFromGroupDto, _super);
+    function RemovingUserFromGroupDto() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return RemovingUserFromGroupDto;
+}(UserIdOnlyDto));
+exports.RemovingUserFromGroupDto = RemovingUserFromGroupDto;

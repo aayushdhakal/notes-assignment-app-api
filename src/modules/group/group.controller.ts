@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, UseGuards, Request, Param,Query, ParseUUIDPipe, Patch, Delete, BadRequestException, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { GroupCreateDto, GroupUpdateDto,AddingUserGroupDto,UpdateUserRoleStatusDto, BannedUserMemberDto, LiftUserBannedFromGroup } from './dto/group.dto';
+import { GroupCreateDto, GroupUpdateDto,AddingUserGroupDto,UpdateUserRoleStatusDto, BannedUserMemberDto, LiftUserBannedFromGroup, RemovingUserFromGroupDto } from './dto/group.dto';
 import { Roles, RolesGuard, SkipRoleGuard } from './guards/roles.guard';
 import { GroupService } from './group.service';
 import { RolesUserGroupService } from '../roles-user-group/roles-user-group.service';
@@ -7,6 +7,14 @@ import { RoleList, getMaximumRolesPrivilege, getMinimumRolesList } from 'src/cor
 import { ROLE_ADMIN, ROLE_MODERATOR, ROLE_SUPERUSER, ROLE_USER ,ROLE_REQUEST, ROLE_BANNED } from 'src/core/constants';
 import { RolesService } from '../roles/roles.service';
 
+
+    /*
+        GROUP MODEL { name. description , isPublic, isActive }
+
+        if the @SkipRoleGuard() is active it will not take the { @Param() group }
+
+
+    */
 
 @Controller('group')
 @UseGuards(RolesGuard)
@@ -16,7 +24,6 @@ export class GroupController {
         public readonly rolesUserGroupService:RolesUserGroupService,
         public readonly rolesService:RolesService
     ){}
-    // GROUP MODEL { name. description , isPublic, isActive }
     /*
     route as 'api/v1/group' POST method 
     this ia a route which is used to create a new group on the database table 
@@ -218,8 +225,8 @@ export class GroupController {
     }
     */
     @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))
-    @Post('remove-user-from-group')
-    async removeMemberFromGroup(@Body() body,@Request() req){
+    @Delete('remove-user-from-group')
+    async removeMemberFromGroup(@Body() body:RemovingUserFromGroupDto,@Request() req){
         return await this.rolesUserGroupService.removeUserFromGroup(req.query.group,body.userId);
     }
 
@@ -240,13 +247,13 @@ export class GroupController {
 
     /*
     route as 'api/v1/group/banned-user-', POST method , can only be accessed by admin and above
-    this ia a route which is used to banned a user of the group.
+    this ia a route which is used to lift ban of  a user from the group.
     body:{
         userId:'...'
     }
     */
     @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))
-    @Post('lift-banned-from-group')
+    @Post('lift-ban-from-group')
     async liftBannedUserofGroup(@Body() body:LiftUserBannedFromGroup,@Request() req){
         const bannedRoleId = await this.rolesService.findRoleIdByName(ROLE_USER);
         return await this.rolesUserGroupService.updateRolesGroup(req.query.group,body.userId,bannedRoleId.dataValues.id);

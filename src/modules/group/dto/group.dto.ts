@@ -53,7 +53,7 @@ enum RolesListEnum {
     INVITATION = ROLE_INVITATION ,
 }
 
-export class AddingUserGroupDto{
+export class UserIdAndGroupIdDto{
     @IsNotEmpty()
     @IsUUID(UUIDVERSION)
     readonly userId:string;
@@ -64,8 +64,15 @@ export class AddingUserGroupDto{
     readonly assignRole:string;
 }
 
+
+export class UserIdOnlyDto{
+    @IsNotEmpty()
+    @IsUUID(UUIDVERSION)
+    readonly userId:string;
+}
+
+export class AddingUserGroupDto extends UserIdAndGroupIdDto{}
 export class UpdateUserRoleStatusDto extends AddingUserGroupDto{}
-
-export class BannedUserMemberDto extends AddingUserGroupDto{}
-
-export class LiftUserBannedFromGroup extends AddingUserGroupDto{}
+export class BannedUserMemberDto extends UserIdOnlyDto{}
+export class LiftUserBannedFromGroup extends UserIdOnlyDto{}
+export class RemovingUserFromGroupDto extends UserIdOnlyDto{}

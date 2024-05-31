@@ -50,13 +50,19 @@ var common_1 = require("@nestjs/common");
 var roles_guard_1 = require("./guards/roles.guard");
 var roles_list_1 = require("src/core/constants/roles-list");
 var constants_1 = require("src/core/constants");
+/*
+    GROUP MODEL { name. description , isPublic, isActive }
+
+    if the @SkipRoleGuard() is active it will not take the { @Param() group }
+
+
+*/
 var GroupController = /** @class */ (function () {
     function GroupController(groupService, rolesUserGroupService, rolesService) {
         this.groupService = groupService;
         this.rolesUserGroupService = rolesUserGroupService;
         this.rolesService = rolesService;
     }
-    // GROUP MODEL { name. description , isPublic, isActive }
     /*
     route as 'api/v1/group' POST method
     this ia a route which is used to create a new group on the database table
@@ -298,7 +304,7 @@ var GroupController = /** @class */ (function () {
     };
     /*
     route as 'api/v1/group/banned-user-', POST method , can only be accessed by admin and above
-    this ia a route which is used to banned a user of the group.
+    this ia a route which is used to lift ban of  a user from the group.
     body:{
         userId:'...'
     }
@@ -369,7 +375,7 @@ var GroupController = /** @class */ (function () {
     ], GroupController.prototype, "updateUserRoleStatus");
     __decorate([
         roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN)),
-        common_1.Post('remove-user-from-group'),
+        common_1.Delete('remove-user-from-group'),
         __param(0, common_1.Body()), __param(1, common_1.Request())
     ], GroupController.prototype, "removeMemberFromGroup");
     __decorate([
@@ -379,7 +385,7 @@ var GroupController = /** @class */ (function () {
     ], GroupController.prototype, "bannedMemberofGroup");
     __decorate([
         roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN)),
-        common_1.Post('lift-banned-from-group'),
+        common_1.Post('lift-ban-from-group'),
         __param(0, common_1.Body()), __param(1, common_1.Request())
     ], GroupController.prototype, "liftBannedUserofGroup");
     GroupController = __decorate([
