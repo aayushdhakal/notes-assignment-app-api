@@ -199,7 +199,11 @@ var GroupController = /** @class */ (function () {
     };
     /*
     route as 'api/v1/group/add-user-group', POST method , can only be accessed by admin and above
-    this ia a route which is used to get the list of role of group members of the group.
+    this ia a route which is used to add a user to the group.
+    body:{
+        assignRole:'admin',       'admin','user' so on.
+        userId:'...'
+    }
     */
     GroupController.prototype.addUserToGroup = function (body, req) {
         return __awaiter(this, void 0, void 0, function () {
@@ -220,6 +224,14 @@ var GroupController = /** @class */ (function () {
             });
         });
     };
+    /*
+    route as 'api/v1/group/update-user-group-role', POST method , can only be accessed by admin and above
+    this ia a route which is used to update a user of the group.
+        body:{
+        assignRole:'..',   'admin','user' so on.
+        userId:'...'
+    }
+    */
     GroupController.prototype.updateUserRoleStatus = function (body, req) {
         return __awaiter(this, void 0, void 0, function () {
             var request, role;
@@ -246,8 +258,64 @@ var GroupController = /** @class */ (function () {
             });
         });
     };
-    GroupController.prototype.removeMemberFromGroup = function (userId, groupId) {
-        return true;
+    /*
+    route as 'api/v1/group/update-user-group-role', POST method , can only be accessed by admin and above
+    this ia a route which is used to remove (Not Banned) a user to the group.
+    body:{
+        userId:'...'
+    }
+    */
+    GroupController.prototype.removeMemberFromGroup = function (body, req) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.rolesUserGroupService.removeUserFromGroup(req.query.group, body.userId)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /*
+    route as 'api/v1/group/banned-user-', POST method , can only be accessed by admin and above
+    this ia a route which is used to banned a user of the group.
+    body:{
+        userId:'...'
+    }
+    */
+    GroupController.prototype.bannedMemberofGroup = function (body, req) {
+        return __awaiter(this, void 0, void 0, function () {
+            var bannedRoleId;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.rolesService.findRoleIdByName(constants_1.ROLE_BANNED)];
+                    case 1:
+                        bannedRoleId = _a.sent();
+                        return [4 /*yield*/, this.rolesUserGroupService.updateRolesGroup(req.query.group, body.userId, bannedRoleId.dataValues.id)];
+                    case 2: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /*
+    route as 'api/v1/group/banned-user-', POST method , can only be accessed by admin and above
+    this ia a route which is used to banned a user of the group.
+    body:{
+        userId:'...'
+    }
+    */
+    GroupController.prototype.liftBannedUserofGroup = function (body, req) {
+        return __awaiter(this, void 0, void 0, function () {
+            var bannedRoleId;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.rolesService.findRoleIdByName(constants_1.ROLE_USER)];
+                    case 1:
+                        bannedRoleId = _a.sent();
+                        return [4 /*yield*/, this.rolesUserGroupService.updateRolesGroup(req.query.group, body.userId, bannedRoleId.dataValues.id)];
+                    case 2: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
     };
     __decorate([
         roles_guard_1.SkipRoleGuard(),
@@ -300,8 +368,20 @@ var GroupController = /** @class */ (function () {
         __param(0, common_1.Body()), __param(1, common_1.Request())
     ], GroupController.prototype, "updateUserRoleStatus");
     __decorate([
-        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN))
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN)),
+        common_1.Post('remove-user-from-group'),
+        __param(0, common_1.Body()), __param(1, common_1.Request())
     ], GroupController.prototype, "removeMemberFromGroup");
+    __decorate([
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN)),
+        common_1.Post('banned-user-from-group'),
+        __param(0, common_1.Body()), __param(1, common_1.Request())
+    ], GroupController.prototype, "bannedMemberofGroup");
+    __decorate([
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN)),
+        common_1.Post('lift-banned-from-group'),
+        __param(0, common_1.Body()), __param(1, common_1.Request())
+    ], GroupController.prototype, "liftBannedUserofGroup");
     GroupController = __decorate([
         common_1.Controller('group'),
         common_1.UseGuards(roles_guard_1.RolesGuard)

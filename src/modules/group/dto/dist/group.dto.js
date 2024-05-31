@@ -19,7 +19,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.UpdateUserRoleStatusDto = exports.AddingUserGroupDto = exports.GroupUpdateDto = exports.GroupCreateDto = void 0;
+exports.LiftUserBannedFromGroup = exports.BannedUserMemberDto = exports.UpdateUserRoleStatusDto = exports.AddingUserGroupDto = exports.GroupUpdateDto = exports.GroupCreateDto = void 0;
 var class_validator_1 = require("class-validator");
 var constants_1 = require("src/core/constants");
 var GroupCreateDto = /** @class */ (function () {
@@ -103,3 +103,19 @@ var UpdateUserRoleStatusDto = /** @class */ (function (_super) {
     return UpdateUserRoleStatusDto;
 }(AddingUserGroupDto));
 exports.UpdateUserRoleStatusDto = UpdateUserRoleStatusDto;
+var BannedUserMemberDto = /** @class */ (function (_super) {
+    __extends(BannedUserMemberDto, _super);
+    function BannedUserMemberDto() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return BannedUserMemberDto;
+}(AddingUserGroupDto));
+exports.BannedUserMemberDto = BannedUserMemberDto;
+var LiftUserBannedFromGroup = /** @class */ (function (_super) {
+    __extends(LiftUserBannedFromGroup, _super);
+    function LiftUserBannedFromGroup() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return LiftUserBannedFromGroup;
+}(AddingUserGroupDto));
+exports.LiftUserBannedFromGroup = LiftUserBannedFromGroup;

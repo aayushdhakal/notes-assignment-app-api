@@ -148,3 +148,12 @@ Promise < number > {
         }
     })
 };
+async;
+bannedMemberFromGroup(groupId, string, userId, string, roleId, string);
+Promise < [number] > {
+    "return": await this.usersRolesGroupRepository.update({ roles_id: roleId }, { where: {
+            group_id: groupId,
+            user_id: userId
+        }
+    })
+};

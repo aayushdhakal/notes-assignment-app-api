@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, UseGuards, Request, Param,Query, ParseUUIDPipe, Patch, Delete, BadRequestException, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { GroupCreateDto, GroupUpdateDto,AddingUserGroupDto,UpdateUserRoleStatusDto } from './dto/group.dto';
+import { GroupCreateDto, GroupUpdateDto,AddingUserGroupDto,UpdateUserRoleStatusDto, BannedUserMemberDto, LiftUserBannedFromGroup } from './dto/group.dto';
 import { Roles, RolesGuard, SkipRoleGuard } from './guards/roles.guard';
 import { GroupService } from './group.service';
 import { RolesUserGroupService } from '../roles-user-group/roles-user-group.service';
@@ -158,7 +158,11 @@ export class GroupController {
 
     /*
     route as 'api/v1/group/add-user-group', POST method , can only be accessed by admin and above
-    this ia a route which is used to get the list of role of group members of the group.
+    this ia a route which is used to add a user to the group.
+    body:{
+        assignRole:'admin',       'admin','user' so on.
+        userId:'...'     
+    }
     */
     @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))
     @Post('add-user-group')
@@ -172,6 +176,14 @@ export class GroupController {
         return this.rolesUserGroupService.createNewRolesForGroup(req.query.group,req.user.id,roleId.dataValues.id);
     }
 
+    /*
+    route as 'api/v1/group/update-user-group-role', POST method , can only be accessed by admin and above
+    this ia a route which is used to update a user of the group.
+        body:{
+        assignRole:'..',   'admin','user' so on.
+        userId:'...'
+    }
+    */
     @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))
     @Post('update-user-group-role') 
     async updateUserRoleStatus(@Body() body:UpdateUserRoleStatusDto,@Request() req){
@@ -198,10 +210,46 @@ export class GroupController {
         return this.rolesUserGroupService.updateRolesGroup(req.query.group,body.userId,role.dataValues.id);        
     }
 
+    /*
+    route as 'api/v1/group/update-user-group-role', POST method , can only be accessed by admin and above
+    this ia a route which is used to remove (Not Banned) a user to the group.
+    body:{
+        userId:'...'
+    }
+    */
     @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))
-    public removeMemberFromGroup(userId:string,groupId:string){
+    @Post('remove-user-from-group')
+    async removeMemberFromGroup(@Body() body,@Request() req){
+        return await this.rolesUserGroupService.removeUserFromGroup(req.query.group,body.userId);
+    }
 
-        return true;
+    /*
+    route as 'api/v1/group/banned-user-', POST method , can only be accessed by admin and above
+    this ia a route which is used to banned a user of the group.
+    body:{
+        userId:'...'
+    }
+    */
+    @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))
+    @Post('banned-user-from-group')
+    async bannedMemberofGroup(@Body() body:BannedUserMemberDto,@Request() req){
+        const bannedRoleId = await this.rolesService.findRoleIdByName(ROLE_BANNED);
+        return await this.rolesUserGroupService.updateRolesGroup(req.query.group,body.userId,bannedRoleId.dataValues.id);
+    }
+
+
+    /*
+    route as 'api/v1/group/banned-user-', POST method , can only be accessed by admin and above
+    this ia a route which is used to banned a user of the group.
+    body:{
+        userId:'...'
+    }
+    */
+    @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))
+    @Post('lift-banned-from-group')
+    async liftBannedUserofGroup(@Body() body:LiftUserBannedFromGroup,@Request() req){
+        const bannedRoleId = await this.rolesService.findRoleIdByName(ROLE_USER);
+        return await this.rolesUserGroupService.updateRolesGroup(req.query.group,body.userId,bannedRoleId.dataValues.id);
     }
 
     

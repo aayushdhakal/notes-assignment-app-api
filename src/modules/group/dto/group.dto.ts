@@ -65,3 +65,7 @@ export class AddingUserGroupDto{
 }
 
 export class UpdateUserRoleStatusDto extends AddingUserGroupDto{}
+
+export class BannedUserMemberDto extends AddingUserGroupDto{}
+
+export class LiftUserBannedFromGroup extends AddingUserGroupDto{}
