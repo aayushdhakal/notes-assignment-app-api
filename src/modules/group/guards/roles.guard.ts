@@ -19,12 +19,14 @@ export class RolesGuard implements CanActivate{
 
         const request = context.switchToHttp().getRequest();
 
+        // Function Declaration 
         const isThisAuthFound = (key:string) =>{
             return this.reflector.getAllAndOverride<boolean>(key,[
                 context.getHandler(),
                 context.getClass(),
             ])
         }
+
         const isSkipRoleGuard = isThisAuthFound('SkipRoleGuard');
         if(isSkipRoleGuard) return true; 
 

@@ -3,7 +3,7 @@ import { GroupCreateDto, GroupUpdateDto,AddingUserGroupDto,UpdateUserRoleStatusD
 import { Roles, RolesGuard, SkipRoleGuard } from './guards/roles.guard';
 import { GroupService } from './group.service';
 import { RolesUserGroupService } from '../roles-user-group/roles-user-group.service';
-import { RoleList, getMaximumRolesPrivilege, getMinimumRolesList } from 'src/core/constants/roles-list';
+import { getMaximumRolesPrivilege, getMinimumRolesList } from 'src/core/constants/roles-list';
 import { ROLE_ADMIN, ROLE_MODERATOR, ROLE_SUPERUSER, ROLE_USER ,ROLE_REQUEST, ROLE_BANNED } from 'src/core/constants';
 import { RolesService } from '../roles/roles.service';
 
@@ -11,9 +11,7 @@ import { RolesService } from '../roles/roles.service';
     /*
         GROUP MODEL { name. description , isPublic, isActive }
 
-        if the @SkipRoleGuard() is active it will not take the { @Param() group }
-
-
+        if the @SkipRoleGuard() is active it is not required to take the { @Param() group } from the API 
     */
 
 @Controller('group')
@@ -24,6 +22,8 @@ export class GroupController {
         public readonly rolesUserGroupService:RolesUserGroupService,
         public readonly rolesService:RolesService
     ){}
+
+
     /*
     route as 'api/v1/group' POST method 
     this ia a route which is used to create a new group on the database table 
@@ -42,10 +42,12 @@ export class GroupController {
         }
         const group = await this.groupService.create(groupInfo);
         const roles = await this.rolesService.findRoleIdByName(ROLE_SUPERUSER);
+        console.log(roles);
         const createRUGS = await this.rolesUserGroupService.createNewRolesForGroup(group.dataValues.id,ownerId,roles.dataValues.id);
 
         return {group,createRUGS};
     }
+
 
     /*
     route as 'api/v1/group/join-group' POST method
@@ -84,6 +86,8 @@ export class GroupController {
     public getGroupInfoById(@Request() req){       
         return this.groupService.findGroupInfoById(req.query.group);
     }
+
+
 
     /*
     route as 'api/v1/group/', DELETE method , can only be accessed by superuser
@@ -183,6 +187,7 @@ export class GroupController {
         return this.rolesUserGroupService.createNewRolesForGroup(req.query.group,req.user.id,roleId.dataValues.id);
     }
 
+    
     /*
     route as 'api/v1/group/update-user-group-role', POST method , can only be accessed by admin and above
     this ia a route which is used to update a user of the group.
@@ -217,6 +222,7 @@ export class GroupController {
         return this.rolesUserGroupService.updateRolesGroup(req.query.group,body.userId,role.dataValues.id);        
     }
 
+    
     /*
     route as 'api/v1/group/update-user-group-role', POST method , can only be accessed by admin and above
     this ia a route which is used to remove (Not Banned) a user to the group.
@@ -229,6 +235,7 @@ export class GroupController {
     async removeMemberFromGroup(@Body() body:RemovingUserFromGroupDto,@Request() req){
         return await this.rolesUserGroupService.removeUserFromGroup(req.query.group,body.userId);
     }
+
 
     /*
     route as 'api/v1/group/banned-user-', POST method , can only be accessed by admin and above
@@ -257,7 +264,5 @@ export class GroupController {
     async liftBannedUserofGroup(@Body() body:LiftUserBannedFromGroup,@Request() req){
         const bannedRoleId = await this.rolesService.findRoleIdByName(ROLE_USER);
         return await this.rolesUserGroupService.updateRolesGroup(req.query.group,body.userId,bannedRoleId.dataValues.id);
-    }
-
-    
+    }   
 }

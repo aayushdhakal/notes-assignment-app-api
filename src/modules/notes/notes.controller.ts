@@ -1,9 +1,11 @@
-import { Body, Controller,Get, Post ,Request,Query, Param, ParseUUIDPipe, Req, Patch, Delete } from '@nestjs/common';
+import { Body, Controller,Get, Post ,Request,Query, Param, ParseUUIDPipe, Req, Patch, Delete, UseGuards } from '@nestjs/common';
 import { NotesService } from './notes.service';
 import { NoteCreateDto, NoteUpdateDto, ViewTypeEnum } from './dto/notes.dto';
 import { SkipAuth } from '../auth/guards/jwt.guard';
+import { Roles, RolesGuard, SkipRoleGuard } from '../group/guards/roles.guard';
 
 @Controller('notes')
+@UseGuards(RolesGuard)
 export class NotesController {
     constructor(
         private readonly notesService: NotesService,
@@ -45,6 +47,7 @@ export class NotesController {
 
     @Post('')
     async createNote(@Body() note:NoteCreateDto,@Request() req){
+        console.log(req.userGroupInfo);
         return await this.notesService.create({...note,owner_id:req.user.id });
     }
 

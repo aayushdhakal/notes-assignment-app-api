@@ -13,7 +13,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
     RolesGuard
   ],
   controllers: [GroupController],
-  exports:[GroupService],
+  exports:[GroupService,RolesGuard],
   imports:[
     RolesModule,
     RolesUserGroupModule

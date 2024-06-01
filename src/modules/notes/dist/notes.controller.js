@@ -59,6 +59,7 @@ exports.__esModule = true;
 exports.NotesController = void 0;
 var common_1 = require("@nestjs/common");
 var jwt_guard_1 = require("../auth/guards/jwt.guard");
+var roles_guard_1 = require("../group/guards/roles.guard");
 var NotesController = /** @class */ (function () {
     function NotesController(notesService) {
         this.notesService = notesService;
@@ -102,7 +103,9 @@ var NotesController = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.notesService.create(__assign(__assign({}, note), { owner_id: req.user.id }))];
+                    case 0:
+                        console.log(req.userGroupInfo);
+                        return [4 /*yield*/, this.notesService.create(__assign(__assign({}, note), { owner_id: req.user.id }))];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -171,7 +174,8 @@ var NotesController = /** @class */ (function () {
         __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Request())
     ], NotesController.prototype, "deleteNote");
     NotesController = __decorate([
-        common_1.Controller('notes')
+        common_1.Controller('notes'),
+        common_1.UseGuards(roles_guard_1.RolesGuard)
     ], NotesController);
     return NotesController;
 }());

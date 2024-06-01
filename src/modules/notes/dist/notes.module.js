@@ -17,13 +17,19 @@ exports.NotesModule = void 0;
 var common_1 = require("@nestjs/common");
 var notes_providers_1 = require("./notes.providers");
 var notes_service_1 = require("./notes.service");
+var notes_controller_1 = require("./notes.controller");
+var group_module_1 = require("../group/group.module");
+var roles_user_group_module_1 = require("../roles-user-group/roles-user-group.module");
+// import { RolesGuard } from './guards/roles.guard';
 var NotesModule = /** @class */ (function () {
     function NotesModule() {
     }
     NotesModule = __decorate([
         common_1.Module({
             providers: __spreadArrays([notes_service_1.NotesService], notes_providers_1.notesProviders),
-            exports: [notes_service_1.NotesService]
+            imports: [group_module_1.GroupModule, roles_user_group_module_1.RolesUserGroupModule],
+            exports: [notes_service_1.NotesService],
+            controllers: [notes_controller_1.NotesController]
         })
     ], NotesModule);
     return NotesModule;

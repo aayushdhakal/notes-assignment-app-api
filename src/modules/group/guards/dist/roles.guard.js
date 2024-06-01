@@ -54,6 +54,7 @@ var RolesGuard = /** @class */ (function () {
     RolesGuard.prototype.canActivate = function (context) {
         var _this = this;
         var request = context.switchToHttp().getRequest();
+        // Function Declaration 
         var isThisAuthFound = function (key) {
             return _this.reflector.getAllAndOverride(key, [
                 context.getHandler(),

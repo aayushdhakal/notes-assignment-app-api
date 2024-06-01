@@ -53,9 +53,7 @@ var constants_1 = require("src/core/constants");
 /*
     GROUP MODEL { name. description , isPublic, isActive }
 
-    if the @SkipRoleGuard() is active it will not take the { @Param() group }
-
-
+    if the @SkipRoleGuard() is active it is not required to take the { @Param() group } from the API
 */
 var GroupController = /** @class */ (function () {
     function GroupController(groupService, rolesUserGroupService, rolesService) {
@@ -88,6 +86,7 @@ var GroupController = /** @class */ (function () {
                         return [4 /*yield*/, this.rolesService.findRoleIdByName(constants_1.ROLE_SUPERUSER)];
                     case 2:
                         roles = _a.sent();
+                        console.log(roles);
                         return [4 /*yield*/, this.rolesUserGroupService.createNewRolesForGroup(group.dataValues.id, ownerId, roles.dataValues.id)];
                     case 3:
                         createRUGS = _a.sent();

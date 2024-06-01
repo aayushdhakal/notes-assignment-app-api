@@ -28,7 +28,7 @@ var GroupModule = /** @class */ (function () {
         common_1.Module({
             providers: __spreadArrays([group_service_1.GroupService], group_providers_1.groupTableProviders, [roles_guard_1.RolesGuard]),
             controllers: [group_controller_1.GroupController],
-            exports: [group_service_1.GroupService],
+            exports: [group_service_1.GroupService, roles_guard_1.RolesGuard],
             imports: [
                 roles_module_1.RolesModule,
                 roles_user_group_module_1.RolesUserGroupModule
