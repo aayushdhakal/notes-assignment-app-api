@@ -80,7 +80,7 @@ export class RolesGuard implements CanActivate{
                 RoleId:valueTemp[0].dataValues.role.dataValues.id,
                 group:groupInfo
             };
-            console.log(request.userGroupInfo);
+            // console.log(request.userGroupInfo);
             console.log('Role Guard is Active and Workings')
             return request;
 

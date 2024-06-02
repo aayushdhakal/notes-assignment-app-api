@@ -79,7 +79,7 @@ var Note = /** @class */ (function (_super) {
     __decorate([
         sequelize_typescript_1.Column({
             type: sequelize_typescript_1.DataType.STRING,
-            allowNull: true
+            allowNull: false
         })
     ], Note.prototype, "group_id");
     __decorate([

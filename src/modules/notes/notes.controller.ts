@@ -51,7 +51,7 @@ export class NotesController {
     @Roles(getMaximumRolesPrivilege(ROLE_USER))
     async createNote(@Body() note:NoteCreateDto,@Request() req){
         console.log({...note,user_id:req.user.id});
-        return await this.notesService.create({...note,user_id:req.user.id });
+        return await this.notesService.create({...note,user_id:req.user.id,group_id:req.userGroupInfo.group.groupId });
     }
 
     @Patch(':id')

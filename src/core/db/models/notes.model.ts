@@ -56,7 +56,7 @@ export class Note extends Model<Note> {
 
     @Column({
         type:DataType.STRING,
-        allowNull:true,
+        allowNull:false,
     })
     group_id:string
 

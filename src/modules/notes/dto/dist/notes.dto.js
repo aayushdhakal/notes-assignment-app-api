@@ -31,6 +31,10 @@ var NoteCreateDto = /** @class */ (function () {
         class_validator_1.IsBoolean()
     ], NoteCreateDto.prototype, "is_active");
     __decorate([
+        class_validator_1.IsNotEmpty(),
+        class_validator_1.IsString()
+    ], NoteCreateDto.prototype, "group_id");
+    __decorate([
         class_transformer_1.Transform(function (_a) {
             var value = _a.value;
             return ("" + value).toLowerCase();
