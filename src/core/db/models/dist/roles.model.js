@@ -21,6 +21,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.Roles = void 0;
 var sequelize_typescript_1 = require("sequelize-typescript");
+var rolesUserGroup_model_1 = require("./rolesUserGroup.model");
 var Roles = /** @class */ (function (_super) {
     __extends(Roles, _super);
     function Roles() {
@@ -47,6 +48,9 @@ var Roles = /** @class */ (function (_super) {
             allowNull: false
         })
     ], Roles.prototype, "description");
+    __decorate([
+        sequelize_typescript_1.HasMany(function () { return rolesUserGroup_model_1.RolesUserGroup; }, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+    ], Roles.prototype, "rolesUserGroup");
     Roles = __decorate([
         sequelize_typescript_1.Table({ tableName: 'roles' })
     ], Roles);

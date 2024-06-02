@@ -56,10 +56,19 @@ var RolesUserGroup = /** @class */ (function (_super) {
     __decorate([
         sequelize_typescript_1.ForeignKey(function () { return roles_model_1.Roles; }),
         sequelize_typescript_1.Column({
-            type: sequelize_typescript_1.DataType.ARRAY(sequelize_typescript_1.DataType.STRING),
+            type: sequelize_typescript_1.DataType.STRING,
             allowNull: false
         })
-    ], RolesUserGroup.prototype, "roles_id");
+    ], RolesUserGroup.prototype, "role_id");
+    __decorate([
+        sequelize_typescript_1.BelongsTo(function () { return groups_model_1.Groups; })
+    ], RolesUserGroup.prototype, "group");
+    __decorate([
+        sequelize_typescript_1.BelongsTo(function () { return users_model_1.User; })
+    ], RolesUserGroup.prototype, "user");
+    __decorate([
+        sequelize_typescript_1.BelongsTo(function () { return roles_model_1.Roles; })
+    ], RolesUserGroup.prototype, "role");
     RolesUserGroup = __decorate([
         sequelize_typescript_1.Table({ tableName: 'roles_user_groups' })
     ], RolesUserGroup);

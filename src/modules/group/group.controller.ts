@@ -42,7 +42,7 @@ export class GroupController {
         }
         const group = await this.groupService.create(groupInfo);
         const roles = await this.rolesService.findRoleIdByName(ROLE_SUPERUSER);
-        console.log(roles);
+        // console.log(roles);
         const createRUGS = await this.rolesUserGroupService.createNewRolesForGroup(group.dataValues.id,ownerId,roles.dataValues.id);
 
         return {group,createRUGS};

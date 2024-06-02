@@ -3,6 +3,8 @@ import { NotesService } from './notes.service';
 import { NoteCreateDto, NoteUpdateDto, ViewTypeEnum } from './dto/notes.dto';
 import { SkipAuth } from '../auth/guards/jwt.guard';
 import { Roles, RolesGuard, SkipRoleGuard } from '../group/guards/roles.guard';
+import { getMaximumRolesPrivilege } from 'src/core/constants/roles-list';
+import { ROLE_USER } from 'src/core/constants';
 
 @Controller('notes')
 @UseGuards(RolesGuard)
@@ -46,9 +48,10 @@ export class NotesController {
     }
 
     @Post('')
+    @Roles(getMaximumRolesPrivilege(ROLE_USER))
     async createNote(@Body() note:NoteCreateDto,@Request() req){
-        console.log(req.userGroupInfo);
-        return await this.notesService.create({...note,owner_id:req.user.id });
+        console.log({...note,user_id:req.user.id});
+        return await this.notesService.create({...note,user_id:req.user.id });
     }
 
     @Patch(':id')

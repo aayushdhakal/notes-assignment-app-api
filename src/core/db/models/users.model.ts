@@ -2,6 +2,7 @@ import { BelongsToMany, Column, DataType, HasMany, Model, Table, Unique } from "
 import { Note } from "./notes.model";
 import { Groups } from "./groups.model";
 import { RolesUserGroup } from "./rolesUserGroup.model";
+import { Roles } from "./roles.model";
 
 @Table({ tableName: 'users' })
 export class User extends Model<User> {
@@ -60,6 +61,9 @@ export class User extends Model<User> {
 
     @HasMany(()=>RolesUserGroup,{ onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     rolesUserGroup:RolesUserGroup[];
+
+    // @HasMany(()=>Roles,{ onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+    // role:Roles[];
 
     // @BelongsToMany(()=>Groups,{ through:'RolesUserGroup' })
     // rolesUserGroup:RolesUserGroup[];

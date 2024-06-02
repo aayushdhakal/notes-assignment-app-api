@@ -73,7 +73,7 @@ var RolesUserGroupService = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.usersRolesGroupRepository.create({
                             user_id: userId,
                             group_id: groupId,
-                            roles_id: rolesId
+                            role_id: rolesId
                         })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
@@ -89,7 +89,7 @@ var RolesUserGroupService = /** @class */ (function () {
 exports.RolesUserGroupService = RolesUserGroupService;
 number;
  > {
-    "return": await this.usersRolesGroupRepository.update({ roles_id: rolesId }, { where: {
+    "return": await this.usersRolesGroupRepository.update({ role_id: rolesId }, { where: {
             user_id: userId,
             group_id: groupId
         } })
@@ -112,8 +112,8 @@ Promise < rolesUserGroup_model_1.RolesUserGroup[] > {
         },
         include: [
             { model: groups_model_1.Groups, as: 'group', attributes: ['name'] },
-            { model: roles_model_1.Roles, as: 'role', attributes: ['name'] },
-            { model: roles_model_1.Roles, as: 'user', attributes: ['name', 'id'] }
+            { model: roles_model_1.Roles, as: 'role', attributes: ['name', 'id'] },
+            { model: users_model_1.User, as: 'user', attributes: ['name', 'id'] }
         ]
     })
 };
@@ -135,7 +135,7 @@ getRequestedMemebersList(groupId, string, roleId, string);
 Promise < rolesUserGroup_model_1.RolesUserGroup[] > {
     "return": await this.usersRolesGroupRepository.findAll({ where: {
             group_id: groupId,
-            roles_id: roleId
+            role_id: roleId
         } })
 };
 async;
@@ -151,7 +151,7 @@ Promise < number > {
 async;
 bannedMemberFromGroup(groupId, string, userId, string, roleId, string);
 Promise < [number] > {
-    "return": await this.usersRolesGroupRepository.update({ roles_id: roleId }, { where: {
+    "return": await this.usersRolesGroupRepository.update({ role_id: roleId }, { where: {
             group_id: groupId,
             user_id: userId
         }

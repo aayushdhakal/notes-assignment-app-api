@@ -16,9 +16,9 @@ export class RolesGuard implements CanActivate{
     canActivate(
         context: ExecutionContext
     ): boolean | Promise<boolean> | Observable<boolean> {
-
+        // console.log("Running the Role Guard: Class Name:-"+context.getClass(),"Handler Name"+context.getHandler());
         const request = context.switchToHttp().getRequest();
-
+        
         // Function Declaration 
         const isThisAuthFound = (key:string) =>{
             return this.reflector.getAllAndOverride<boolean>(key,[
@@ -29,12 +29,12 @@ export class RolesGuard implements CanActivate{
 
         const isSkipRoleGuard = isThisAuthFound('SkipRoleGuard');
         if(isSkipRoleGuard) return true; 
-
+        
         //this is to get the roles on the controller like admin,moderator,user,so on.
         // If the @Roles(['superuser','admin']) is provided then this will send this array of superuser,admin
         const roles = this.reflector.get(Roles,context.getHandler());
         
-        
+
         return this.validateGroupRolesAndReturnRoles(request,roles);
         // In above context we have the userId in place along with the groupId and we can view the type of user in the group and the method he is trying to access we can now set the @Roles on the methods on the group to identify the permission which can do what in the roles guard
         // At first we need to check the permission wheather the userId belongs to the group or not 
@@ -42,8 +42,10 @@ export class RolesGuard implements CanActivate{
     }
 
     async validateGroupRolesAndReturnRoles(request,roles){
+        console.log('running Roles Guard')
         try {
             const valueTemp = await this.rolesUserGroupService.getGroupsRolesFromUserId(request.query.group,request.user.id);
+            // console.log(valueTemp);
             const roleOfUserOnGroup = valueTemp[0].dataValues.role.dataValues.name;
 
             //checking th role of the user in the group
@@ -78,11 +80,13 @@ export class RolesGuard implements CanActivate{
                 RoleId:valueTemp[0].dataValues.role.dataValues.id,
                 group:groupInfo
             };
+            console.log(request.userGroupInfo);
+            console.log('Role Guard is Active and Workings')
             return request;
 
         } catch (e) {
             if(e.message){
-                throw new UnauthorizedException({message:e.message || 'Group Not Found!'});
+                throw new UnauthorizedException({msg:e,message:e.message || 'Group Not Found!'});
             }
             
             throw new NotFoundException('Group Not Found!');            

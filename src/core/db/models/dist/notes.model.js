@@ -75,7 +75,7 @@ var Note = /** @class */ (function (_super) {
             type: sequelize_typescript_1.DataType.STRING,
             allowNull: false
         })
-    ], Note.prototype, "owner_id");
+    ], Note.prototype, "user_id");
     __decorate([
         sequelize_typescript_1.Column({
             type: sequelize_typescript_1.DataType.STRING,
@@ -84,7 +84,7 @@ var Note = /** @class */ (function (_super) {
     ], Note.prototype, "group_id");
     __decorate([
         sequelize_typescript_1.BelongsTo(function () { return users_model_1.User; })
-    ], Note.prototype, "owner");
+    ], Note.prototype, "user");
     Note = __decorate([
         sequelize_typescript_1.Table({ tableName: 'notes' })
     ], Note);

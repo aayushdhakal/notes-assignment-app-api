@@ -35,7 +35,7 @@ export class RolesUserGroup extends Model<RolesUserGroup>{
         type:DataType.STRING,
         allowNull:false,
     })
-    roles_id:string;
+    role_id:string;
 
     // ----------Association----------------
 

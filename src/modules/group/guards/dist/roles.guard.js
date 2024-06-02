@@ -53,6 +53,7 @@ var RolesGuard = /** @class */ (function () {
     }
     RolesGuard.prototype.canActivate = function (context) {
         var _this = this;
+        // console.log("Running the Role Guard: Class Name:-"+context.getClass(),"Handler Name"+context.getHandler());
         var request = context.switchToHttp().getRequest();
         // Function Declaration 
         var isThisAuthFound = function (key) {
@@ -78,9 +79,12 @@ var RolesGuard = /** @class */ (function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 3, , 4]);
-                        return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(request.query.group, request.user.id)];
+                        console.log('running Roles Guard');
+                        _b.label = 1;
                     case 1:
+                        _b.trys.push([1, 4, , 5]);
+                        return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(request.query.group, request.user.id)];
+                    case 2:
                         valueTemp = _b.sent();
                         roleOfUserOnGroup = valueTemp[0].dataValues.role.dataValues.name;
                         //checking th role of the user in the group
@@ -114,16 +118,18 @@ var RolesGuard = /** @class */ (function () {
                                 RoleId: valueTemp[0].dataValues.role.dataValues.id,
                                 group: groupInfo
                             }];
-                    case 2:
-                        _a.userGroupInfo = _b.sent();
-                        return [2 /*return*/, request];
                     case 3:
+                        _a.userGroupInfo = _b.sent();
+                        console.log(request.userGroupInfo);
+                        console.log('Role Guard is Active and Workings');
+                        return [2 /*return*/, request];
+                    case 4:
                         e_1 = _b.sent();
                         if (e_1.message) {
-                            throw new common_1.UnauthorizedException({ message: e_1.message || 'Group Not Found!' });
+                            throw new common_1.UnauthorizedException({ msg: e_1, message: e_1.message || 'Group Not Found!' });
                         }
                         throw new common_1.NotFoundException('Group Not Found!');
-                    case 4: return [2 /*return*/];
+                    case 5: return [2 /*return*/];
                 }
             });
         });

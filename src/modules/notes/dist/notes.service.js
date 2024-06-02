@@ -130,7 +130,7 @@ var NotesService = /** @class */ (function () {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.noteRepository.findAndCountAll({
                             where: {
-                                owner_id: userId
+                                user_id: userId
                             },
                             offset: 10,
                             limit: 2
@@ -146,7 +146,7 @@ var NotesService = /** @class */ (function () {
         return __awaiter(this, void 0, Promise, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.noteRepository.findAll({ where: { owner_id: userId } })];
+                    case 0: return [4 /*yield*/, this.noteRepository.findAll({ where: { user_id: userId } })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -178,7 +178,7 @@ var NotesService = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.noteRepository.findOne({
-                            where: __assign(__assign(__assign({ id: noteId }, (!userId && { view_type: 'public' })), { is_active: true }), (userId && { owner_id: userId })),
+                            where: __assign(__assign(__assign({ id: noteId }, (!userId && { view_type: 'public' })), { is_active: true }), (userId && { user_id: userId })),
                             include: [{ model: users_model_1.User, as: 'owner', attributes: ['username'] }]
                         })];
                     case 1: return [2 /*return*/, _a.sent()];

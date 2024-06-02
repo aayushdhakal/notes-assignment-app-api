@@ -60,6 +60,8 @@ exports.NotesController = void 0;
 var common_1 = require("@nestjs/common");
 var jwt_guard_1 = require("../auth/guards/jwt.guard");
 var roles_guard_1 = require("../group/guards/roles.guard");
+var roles_list_1 = require("src/core/constants/roles-list");
+var constants_1 = require("src/core/constants");
 var NotesController = /** @class */ (function () {
     function NotesController(notesService) {
         this.notesService = notesService;
@@ -104,8 +106,8 @@ var NotesController = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        console.log(req.userGroupInfo);
-                        return [4 /*yield*/, this.notesService.create(__assign(__assign({}, note), { owner_id: req.user.id }))];
+                        console.log(__assign(__assign({}, note), { user_id: req.user.id }));
+                        return [4 /*yield*/, this.notesService.create(__assign(__assign({}, note), { user_id: req.user.id }))];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -163,6 +165,7 @@ var NotesController = /** @class */ (function () {
     ], NotesController.prototype, "getNote");
     __decorate([
         common_1.Post(''),
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_USER)),
         __param(0, common_1.Body()), __param(1, common_1.Request())
     ], NotesController.prototype, "createNote");
     __decorate([

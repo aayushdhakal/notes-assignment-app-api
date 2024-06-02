@@ -19,13 +19,13 @@ export class RolesUserGroupService {
         return await this.usersRolesGroupRepository.create<RolesUserGroup>({
             user_id:userId,
             group_id:groupId,
-            roles_id:rolesId
+            role_id:rolesId
         })
     }
 
     async updateRolesGroup(groupId:string,userId:string,rolesId:string):Promise<[affectedCount: number]>{
         return await this.usersRolesGroupRepository.update<RolesUserGroup>(
-            {roles_id:rolesId},
+            {role_id:rolesId},
             {where:{
                 user_id:userId,
                 group_id:groupId
@@ -50,8 +50,8 @@ export class RolesUserGroupService {
             },
             include:[
                 {model:Groups,as:'group',attributes:['name']},
-                {model:Roles,as:'role',attributes:['name']},
-                {model:Roles,as:'user',attributes:['name','id']}
+                {model:Roles,as:'role',attributes:['name','id']},
+                {model:User,as:'user',attributes:['name','id']}
             ]
         })
     }
@@ -71,7 +71,7 @@ export class RolesUserGroupService {
     async getRequestedMemebersList(groupId:string,roleId:string):Promise<RolesUserGroup[]>{
         return await this.usersRolesGroupRepository.findAll({where:{
             group_id:groupId,
-            roles_id:roleId
+            role_id:roleId
         }})
     }
 
@@ -86,7 +86,7 @@ export class RolesUserGroupService {
 
     async bannedMemberFromGroup(groupId:string,userId:string,roleId:string):Promise<[number]>{
         return await this.usersRolesGroupRepository.update(
-            {roles_id:roleId},
+            {role_id:roleId},
             {where:{
                 group_id:groupId,
                 user_id:userId

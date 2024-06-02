@@ -52,7 +52,7 @@ export class Note extends Model<Note> {
         type: DataType.STRING,
         allowNull:false,
     })
-    owner_id:string;
+    user_id:string;
 
     @Column({
         type:DataType.STRING,
@@ -64,7 +64,7 @@ export class Note extends Model<Note> {
     // ----------------------- Associations ------------------------
 
     @BelongsTo(()=>User)
-    owner:User;
+    user:User;
 }
 
 // Note.belongsTo(User);

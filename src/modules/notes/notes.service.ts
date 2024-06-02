@@ -46,7 +46,7 @@ export class NotesService{
         
         const {count, rows} = await this.noteRepository.findAndCountAll({
             where:{
-                owner_id:userId,
+                user_id:userId,
             },
             offset:10,
             limit:2,
@@ -56,7 +56,7 @@ export class NotesService{
     }
 
     async findAllthePersonelNotes(userId:string):Promise<Array<Note>>{
-        return await this.noteRepository.findAll({where:{owner_id:userId}});
+        return await this.noteRepository.findAll({where:{user_id:userId}});
     }
 
     // -----------------this is collection of the public api --------------------------
@@ -68,7 +68,7 @@ export class NotesService{
             offset,
             limit,
             include:[
-                { model:User, as:'owner', attributes:['username'] }
+                { model:User, as:'owner', attributes:['username'] } 
             ]
         });
     }
@@ -81,7 +81,7 @@ export class NotesService{
                 id:noteId,
                 ...(!userId && {view_type:'public'}),
                 is_active:true,
-                ...(userId && {owner_id:userId})
+                ...(userId && {user_id:userId})
             },
             include:[{model:User,as:'owner',attributes:['username']}]
         });

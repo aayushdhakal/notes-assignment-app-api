@@ -23,6 +23,7 @@ exports.User = void 0;
 var sequelize_typescript_1 = require("sequelize-typescript");
 var notes_model_1 = require("./notes.model");
 var groups_model_1 = require("./groups.model");
+var rolesUserGroup_model_1 = require("./rolesUserGroup.model");
 var User = /** @class */ (function (_super) {
     __extends(User, _super);
     function User() {
@@ -72,8 +73,11 @@ var User = /** @class */ (function (_super) {
         sequelize_typescript_1.HasMany(function () { return notes_model_1.Note; }, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     ], User.prototype, "notes");
     __decorate([
-        sequelize_typescript_1.HasMany(function () { return groups_model_1.Groups; }, { onDelete: 'SET NULL', onUpdate: 'SET NULL' })
+        sequelize_typescript_1.HasMany(function () { return groups_model_1.Groups; }, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     ], User.prototype, "group");
+    __decorate([
+        sequelize_typescript_1.HasMany(function () { return rolesUserGroup_model_1.RolesUserGroup; }, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+    ], User.prototype, "rolesUserGroup");
     User = __decorate([
         sequelize_typescript_1.Table({ tableName: 'users' })
     ], User);

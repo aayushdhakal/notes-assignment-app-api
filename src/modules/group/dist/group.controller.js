@@ -86,7 +86,6 @@ var GroupController = /** @class */ (function () {
                         return [4 /*yield*/, this.rolesService.findRoleIdByName(constants_1.ROLE_SUPERUSER)];
                     case 2:
                         roles = _a.sent();
-                        console.log(roles);
                         return [4 /*yield*/, this.rolesUserGroupService.createNewRolesForGroup(group.dataValues.id, ownerId, roles.dataValues.id)];
                     case 3:
                         createRUGS = _a.sent();

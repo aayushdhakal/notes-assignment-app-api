@@ -20,14 +20,24 @@ var notes_service_1 = require("./notes.service");
 var notes_controller_1 = require("./notes.controller");
 var group_module_1 = require("../group/group.module");
 var roles_user_group_module_1 = require("../roles-user-group/roles-user-group.module");
+var roles_module_1 = require("../roles/roles.module");
+var roles_guard_1 = require("../group/guards/roles.guard");
 // import { RolesGuard } from './guards/roles.guard';
 var NotesModule = /** @class */ (function () {
     function NotesModule() {
     }
     NotesModule = __decorate([
         common_1.Module({
-            providers: __spreadArrays([notes_service_1.NotesService], notes_providers_1.notesProviders),
-            imports: [group_module_1.GroupModule, roles_user_group_module_1.RolesUserGroupModule],
+            providers: __spreadArrays([
+                notes_service_1.NotesService
+            ], notes_providers_1.notesProviders, [
+                roles_guard_1.RolesGuard
+            ]),
+            imports: [
+                roles_user_group_module_1.RolesUserGroupModule,
+                roles_module_1.RolesModule,
+                group_module_1.GroupModule
+            ],
             exports: [notes_service_1.NotesService],
             controllers: [notes_controller_1.NotesController]
         })

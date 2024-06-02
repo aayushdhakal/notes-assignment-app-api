@@ -6,13 +6,14 @@ import { RolesGuard } from './guards/roles.guard';
 import { RolesModule } from '../roles/roles.module';
 import { RolesUserGroupModule } from '../roles-user-group/roles-user-group.module';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   providers: [ GroupService, 
     ...groupTableProviders,
     RolesGuard
   ],
-  controllers: [GroupController],
+  controllers: [GroupController], 
   exports:[GroupService,RolesGuard],
   imports:[
     RolesModule,
