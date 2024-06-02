@@ -15,7 +15,6 @@ export class NotesController {
 
     // this is a notes list we send when the particular notes is available to the public
     @Get('public-notes')
-    @SkipAuth()
     async getNotesForPublic(@Query('page') page:number = 1,@Query('notesCount') notesCount:number = 9){
         //check for the page and the count the number of the notes
         // offset is the amoun to be skipped
@@ -41,7 +40,6 @@ export class NotesController {
 
     //this is a single note available to the public or anyone
     @Get(':id')
-    @SkipAuth()
     async getNote(@Param('id',ParseUUIDPipe) id:string,){
         const notes = this.notesService.findOneByNoteId(id);
         return notes; 
@@ -50,7 +48,6 @@ export class NotesController {
     @Post('')
     @Roles(getMaximumRolesPrivilege(ROLE_USER))
     async createNote(@Body() note:NoteCreateDto,@Request() req){
-        console.log({...note,user_id:req.user.id});
         return await this.notesService.create({...note,user_id:req.user.id,group_id:req.userGroupInfo.group.groupId });
     }
 
@@ -74,6 +71,7 @@ export class NotesController {
     }
 
     @Delete(':id')
+    @Roles(getMaximumRolesPrivilege(ROLE_USER))
     async deleteNote(@Param('id',ParseUUIDPipe) id:string,@Request() req){
         return await this.notesService.deleteNote(id,req.user.id)
     }

@@ -179,10 +179,19 @@ var NotesService = /** @class */ (function () {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.noteRepository.findOne({
                             where: __assign(__assign(__assign({ id: noteId }, (!userId && { view_type: 'public' })), { is_active: true }), (userId && { user_id: userId })),
-                            include: [{ model: users_model_1.User, as: 'owner', attributes: ['username'] }]
+                            include: [{ model: users_model_1.User, as: 'user', attributes: ['id', 'username'] }]
                         })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
+            });
+        });
+    };
+    NotesService.prototype.findNoteUsingGroup = function (groupId) {
+        return __awaiter(this, void 0, Promise, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.noteRepository.findAll({
+                        where: { group_id: groupId }
+                    })];
             });
         });
     };

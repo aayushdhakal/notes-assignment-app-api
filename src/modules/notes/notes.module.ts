@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { notesProviders } from './notes.providers';
 import { NotesService } from './notes.service';
 import { NotesController } from './notes.controller';
@@ -18,7 +18,7 @@ import { RolesGuard } from '../group/guards/roles.guard';
   imports:[
     RolesUserGroupModule,
     RolesModule,
-    GroupModule
+    forwardRef(()=>GroupModule)
   ],
   exports:[NotesService],
   controllers: [NotesController]

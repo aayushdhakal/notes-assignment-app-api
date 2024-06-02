@@ -1,7 +1,8 @@
-import { CanActivate, ExecutionContext , SetMetadata ,Injectable, UnauthorizedException, HttpStatus, HttpException, NotFoundException } from "@nestjs/common";
+import { CanActivate, ExecutionContext , SetMetadata ,Injectable, UnauthorizedException, HttpStatus, HttpException, NotFoundException, Inject, forwardRef } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { Observable } from "rxjs";
 import { ROLE_BANNED, ROLE_INVITATION, ROLE_REQUEST } from "src/core/constants";
+import { NotesService } from "src/modules/notes/notes.service";
 import { RolesUserGroupService } from "src/modules/roles-user-group/roles-user-group.service";
 
 
@@ -10,7 +11,8 @@ export class RolesGuard implements CanActivate{
 
     constructor(
         private readonly reflector:Reflector,
-        private readonly rolesUserGroupService:RolesUserGroupService
+        private readonly rolesUserGroupService:RolesUserGroupService,
+        private readonly noteService:NotesService
     ){}
 
     canActivate(
@@ -35,13 +37,13 @@ export class RolesGuard implements CanActivate{
         const roles = this.reflector.get(Roles,context.getHandler());
         
 
-        return this.validateGroupRolesAndReturnRoles(request,roles);
+        return this.validateGroupRolesAndReturnRoles(request,roles,{className:context.getClass().name,handlerName:context.getHandler().name});
         // In above context we have the userId in place along with the groupId and we can view the type of user in the group and the method he is trying to access we can now set the @Roles on the methods on the group to identify the permission which can do what in the roles guard
         // At first we need to check the permission wheather the userId belongs to the group or not 
         // for example In group controller class we can set the patch method that can be worked on by moderator by setting @Roles('moderator','admin','superadmin') we can say he has the permission for it by checking on the logic and such
     }
 
-    async validateGroupRolesAndReturnRoles(request,roles){
+    async validateGroupRolesAndReturnRoles(request,roles,runningClassname){
         console.log('running Roles Guard')
         try {
             const valueTemp = await this.rolesUserGroupService.getGroupsRolesFromUserId(request.query.group,request.user.id);
@@ -62,14 +64,19 @@ export class RolesGuard implements CanActivate{
                 groupId:valueTemp[0].dataValues.group_id,
                 groupName:valueTemp[0].group.dataValues.name,
             };
-                
-            // console.log('userId :- ' + request.user.id);
-            // console.log('groupId :- ' + request.params.id);
-            // console.log('list the roles of the controller:- '+roles);
-            // console.log('\n Roles of user '+roleOfUserOnGroup,'\n Group Name '+groupName,'\n Allowed Roles '+roles);
+            
+            
+            if(runningClassname.className == "NotesController" && runningClassname.handlerName != "createNote"){
+                const note =await  this.noteService.findOneByNoteId(request.query.note);
+                if(note.dataValues.user_id == request.user.id){
+                    request.isNoteOwner = true;
+                    console.log("isOwner is true")
+                }
+            }
+
 
             // check if the user has the valid permission or role for the group or not if id doen't return error
-            if(!roles.includes(roleOfUserOnGroup)){
+            if(!roles.includes(roleOfUserOnGroup) || request.isNoteOwner != true){
                 console.log(`UnauthorizedException location:'roles.guard.ts'`)
                 throw {message:`You are not authorized to perform this action`}
                 // throw new UnauthorizedException('You are not authorized to perform this action');

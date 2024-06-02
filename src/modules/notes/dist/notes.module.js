@@ -36,7 +36,7 @@ var NotesModule = /** @class */ (function () {
             imports: [
                 roles_user_group_module_1.RolesUserGroupModule,
                 roles_module_1.RolesModule,
-                group_module_1.GroupModule
+                common_1.forwardRef(function () { return group_module_1.GroupModule; })
             ],
             exports: [notes_service_1.NotesService],
             controllers: [notes_controller_1.NotesController]

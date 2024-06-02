@@ -83,9 +83,14 @@ export class NotesService{
                 is_active:true,
                 ...(userId && {user_id:userId})
             },
-            include:[{model:User,as:'owner',attributes:['username']}]
+            include:[{model:User,as:'user',attributes:['id','username']}]
         });
     }
-    
 
+    async findNoteUsingGroup(groupId:string):Promise<Note[]>{
+        return this.noteRepository.findAll({
+            where:{group_id:groupId}
+        })
+    }
+    
 }

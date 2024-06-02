@@ -47,9 +47,10 @@ var common_1 = require("@nestjs/common");
 var core_1 = require("@nestjs/core");
 var constants_1 = require("src/core/constants");
 var RolesGuard = /** @class */ (function () {
-    function RolesGuard(reflector, rolesUserGroupService) {
+    function RolesGuard(reflector, rolesUserGroupService, noteService) {
         this.reflector = reflector;
         this.rolesUserGroupService = rolesUserGroupService;
+        this.noteService = noteService;
     }
     RolesGuard.prototype.canActivate = function (context) {
         var _this = this;
@@ -68,21 +69,21 @@ var RolesGuard = /** @class */ (function () {
         //this is to get the roles on the controller like admin,moderator,user,so on.
         // If the @Roles(['superuser','admin']) is provided then this will send this array of superuser,admin
         var roles = this.reflector.get(exports.Roles, context.getHandler());
-        return this.validateGroupRolesAndReturnRoles(request, roles);
+        return this.validateGroupRolesAndReturnRoles(request, roles, { className: context.getClass().name, handlerName: context.getHandler().name });
         // In above context we have the userId in place along with the groupId and we can view the type of user in the group and the method he is trying to access we can now set the @Roles on the methods on the group to identify the permission which can do what in the roles guard
         // At first we need to check the permission wheather the userId belongs to the group or not 
         // for example In group controller class we can set the patch method that can be worked on by moderator by setting @Roles('moderator','admin','superadmin') we can say he has the permission for it by checking on the logic and such
     };
-    RolesGuard.prototype.validateGroupRolesAndReturnRoles = function (request, roles) {
+    RolesGuard.prototype.validateGroupRolesAndReturnRoles = function (request, roles, runningClassname) {
         return __awaiter(this, void 0, void 0, function () {
-            var valueTemp, roleOfUserOnGroup, groupInfo, _a, e_1;
+            var valueTemp, roleOfUserOnGroup, groupInfo, note, _a, e_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         console.log('running Roles Guard');
                         _b.label = 1;
                     case 1:
-                        _b.trys.push([1, 4, , 5]);
+                        _b.trys.push([1, 6, , 7]);
                         return [4 /*yield*/, this.rolesUserGroupService.getGroupsRolesFromUserId(request.query.group, request.user.id)];
                     case 2:
                         valueTemp = _b.sent();
@@ -102,12 +103,18 @@ var RolesGuard = /** @class */ (function () {
                             groupId: valueTemp[0].dataValues.group_id,
                             groupName: valueTemp[0].group.dataValues.name
                         };
-                        // console.log('userId :- ' + request.user.id);
-                        // console.log('groupId :- ' + request.params.id);
-                        // console.log('list the roles of the controller:- '+roles);
-                        // console.log('\n Roles of user '+roleOfUserOnGroup,'\n Group Name '+groupName,'\n Allowed Roles '+roles);
+                        if (!(runningClassname.className == "NotesController" && runningClassname.handlerName != "createNote")) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.noteService.findOneByNoteId(request.query.note)];
+                    case 3:
+                        note = _b.sent();
+                        if (note.dataValues.user_id == request.user.id) {
+                            request.isNoteOwner = true;
+                            console.log("isOwner is true");
+                        }
+                        _b.label = 4;
+                    case 4:
                         // check if the user has the valid permission or role for the group or not if id doen't return error
-                        if (!roles.includes(roleOfUserOnGroup)) {
+                        if (!roles.includes(roleOfUserOnGroup) || request.isNoteOwner != true) {
                             console.log("UnauthorizedException location:'roles.guard.ts'");
                             throw { message: "You are not authorized to perform this action" };
                             // throw new UnauthorizedException('You are not authorized to perform this action');
@@ -118,18 +125,18 @@ var RolesGuard = /** @class */ (function () {
                                 RoleId: valueTemp[0].dataValues.role.dataValues.id,
                                 group: groupInfo
                             }];
-                    case 3:
+                    case 5:
                         _a.userGroupInfo = _b.sent();
-                        console.log(request.userGroupInfo);
+                        // console.log(request.userGroupInfo);
                         console.log('Role Guard is Active and Workings');
                         return [2 /*return*/, request];
-                    case 4:
+                    case 6:
                         e_1 = _b.sent();
                         if (e_1.message) {
                             throw new common_1.UnauthorizedException({ msg: e_1, message: e_1.message || 'Group Not Found!' });
                         }
                         throw new common_1.NotFoundException('Group Not Found!');
-                    case 5: return [2 /*return*/];
+                    case 7: return [2 /*return*/];
                 }
             });
         });

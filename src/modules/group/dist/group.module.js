@@ -21,6 +21,7 @@ var group_providers_1 = require("./group.providers");
 var roles_guard_1 = require("./guards/roles.guard");
 var roles_module_1 = require("../roles/roles.module");
 var roles_user_group_module_1 = require("../roles-user-group/roles-user-group.module");
+var notes_module_1 = require("../notes/notes.module");
 var GroupModule = /** @class */ (function () {
     function GroupModule() {
     }
@@ -31,7 +32,8 @@ var GroupModule = /** @class */ (function () {
             exports: [group_service_1.GroupService, roles_guard_1.RolesGuard],
             imports: [
                 roles_module_1.RolesModule,
-                roles_user_group_module_1.RolesUserGroupModule
+                roles_user_group_module_1.RolesUserGroupModule,
+                common_1.forwardRef(function () { return notes_module_1.NotesModule; })
             ]
         })
     ], GroupModule);

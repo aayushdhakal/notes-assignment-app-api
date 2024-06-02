@@ -58,7 +58,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.NotesController = void 0;
 var common_1 = require("@nestjs/common");
-var jwt_guard_1 = require("../auth/guards/jwt.guard");
 var roles_guard_1 = require("../group/guards/roles.guard");
 var roles_list_1 = require("src/core/constants/roles-list");
 var constants_1 = require("src/core/constants");
@@ -105,9 +104,7 @@ var NotesController = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        console.log(__assign(__assign({}, note), { user_id: req.user.id }));
-                        return [4 /*yield*/, this.notesService.create(__assign(__assign({}, note), { user_id: req.user.id }))];
+                    case 0: return [4 /*yield*/, this.notesService.create(__assign(__assign({}, note), { user_id: req.user.id, group_id: req.userGroupInfo.group.groupId }))];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -151,7 +148,6 @@ var NotesController = /** @class */ (function () {
     };
     __decorate([
         common_1.Get('public-notes'),
-        jwt_guard_1.SkipAuth(),
         __param(0, common_1.Query('page')), __param(1, common_1.Query('notesCount'))
     ], NotesController.prototype, "getNotesForPublic");
     __decorate([
@@ -160,7 +156,6 @@ var NotesController = /** @class */ (function () {
     ], NotesController.prototype, "getNotesForUser");
     __decorate([
         common_1.Get(':id'),
-        jwt_guard_1.SkipAuth(),
         __param(0, common_1.Param('id', common_1.ParseUUIDPipe))
     ], NotesController.prototype, "getNote");
     __decorate([
@@ -174,6 +169,7 @@ var NotesController = /** @class */ (function () {
     ], NotesController.prototype, "updateNote");
     __decorate([
         common_1.Delete(':id'),
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_USER)),
         __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Request())
     ], NotesController.prototype, "deleteNote");
     NotesController = __decorate([
