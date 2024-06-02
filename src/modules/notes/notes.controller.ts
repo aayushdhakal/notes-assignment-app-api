@@ -4,7 +4,7 @@ import { NoteCreateDto, NoteUpdateDto, ViewTypeEnum } from './dto/notes.dto';
 import { SkipAuth } from '../auth/guards/jwt.guard';
 import { Roles, RolesGuard, SkipRoleGuard } from '../group/guards/roles.guard';
 import { getMaximumRolesPrivilege } from 'src/core/constants/roles-list';
-import { ROLE_USER } from 'src/core/constants';
+import { ROLE_ADMIN, ROLE_USER } from 'src/core/constants';
 
 @Controller('notes')
 @UseGuards(RolesGuard)
@@ -15,6 +15,7 @@ export class NotesController {
 
     // this is a notes list we send when the particular notes is available to the public
     @Get('public-notes')
+    @Roles(getMaximumRolesPrivilege(ROLE_USER))
     async getNotesForPublic(@Query('page') page:number = 1,@Query('notesCount') notesCount:number = 9){
         //check for the page and the count the number of the notes
         // offset is the amoun to be skipped
@@ -33,6 +34,7 @@ export class NotesController {
     }
 
     @Get('user-notes')
+    @Roles(getMaximumRolesPrivilege(ROLE_USER))
     async getNotesForUser(@Request() req){
         const notes = this.notesService.findAllthePersonelNotes(req.user.id);
         return notes;
@@ -40,6 +42,7 @@ export class NotesController {
 
     //this is a single note available to the public or anyone
     @Get(':id')
+    @Roles(getMaximumRolesPrivilege(ROLE_USER))
     async getNote(@Param('id',ParseUUIDPipe) id:string,){
         const notes = this.notesService.findOneByNoteId(id);
         return notes; 
@@ -52,6 +55,7 @@ export class NotesController {
     }
 
     @Patch(':id')
+    @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))
     async updateNote(@Param('id',ParseUUIDPipe) id:string ,@Body() note:NoteUpdateDto,@Request() req){
 
         const {name,description,viewType,isActive} = note;
@@ -71,7 +75,7 @@ export class NotesController {
     }
 
     @Delete(':id')
-    @Roles(getMaximumRolesPrivilege(ROLE_USER))
+    @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))
     async deleteNote(@Param('id',ParseUUIDPipe) id:string,@Request() req){
         return await this.notesService.deleteNote(id,req.user.id)
     }

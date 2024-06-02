@@ -70,16 +70,17 @@ export class RolesGuard implements CanActivate{
                 const note =await  this.noteService.findOneByNoteId(request.query.note);
                 if(note.dataValues.user_id == request.user.id){
                     request.isNoteOwner = true;
-                    console.log("isOwner is true")
                 }
             }
 
 
             // check if the user has the valid permission or role for the group or not if id doen't return error
-            if(!roles.includes(roleOfUserOnGroup) || request.isNoteOwner != true){
-                console.log(`UnauthorizedException location:'roles.guard.ts'`)
-                throw {message:`You are not authorized to perform this action`}
-                // throw new UnauthorizedException('You are not authorized to perform this action');
+            if(!roles.includes(roleOfUserOnGroup)){
+                if(request.isNoteOwner != true){
+                    console.log(`UnauthorizedException location:'roles.guard.ts'`)
+                    throw {message:`You are not authorized to perform this action`}
+                    // throw new UnauthorizedException('You are not authorized to perform this action');
+                }
             }
             
             request.userGroupInfo = await {

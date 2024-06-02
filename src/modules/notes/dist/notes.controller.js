@@ -148,14 +148,17 @@ var NotesController = /** @class */ (function () {
     };
     __decorate([
         common_1.Get('public-notes'),
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_USER)),
         __param(0, common_1.Query('page')), __param(1, common_1.Query('notesCount'))
     ], NotesController.prototype, "getNotesForPublic");
     __decorate([
         common_1.Get('user-notes'),
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_USER)),
         __param(0, common_1.Request())
     ], NotesController.prototype, "getNotesForUser");
     __decorate([
         common_1.Get(':id'),
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_USER)),
         __param(0, common_1.Param('id', common_1.ParseUUIDPipe))
     ], NotesController.prototype, "getNote");
     __decorate([
@@ -165,11 +168,12 @@ var NotesController = /** @class */ (function () {
     ], NotesController.prototype, "createNote");
     __decorate([
         common_1.Patch(':id'),
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN)),
         __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Body()), __param(2, common_1.Request())
     ], NotesController.prototype, "updateNote");
     __decorate([
         common_1.Delete(':id'),
-        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_USER)),
+        roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_ADMIN)),
         __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Request())
     ], NotesController.prototype, "deleteNote");
     NotesController = __decorate([

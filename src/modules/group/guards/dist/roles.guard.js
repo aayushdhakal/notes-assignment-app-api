@@ -109,15 +109,16 @@ var RolesGuard = /** @class */ (function () {
                         note = _b.sent();
                         if (note.dataValues.user_id == request.user.id) {
                             request.isNoteOwner = true;
-                            console.log("isOwner is true");
                         }
                         _b.label = 4;
                     case 4:
                         // check if the user has the valid permission or role for the group or not if id doen't return error
-                        if (!roles.includes(roleOfUserOnGroup) || request.isNoteOwner != true) {
-                            console.log("UnauthorizedException location:'roles.guard.ts'");
-                            throw { message: "You are not authorized to perform this action" };
-                            // throw new UnauthorizedException('You are not authorized to perform this action');
+                        if (!roles.includes(roleOfUserOnGroup)) {
+                            if (request.isNoteOwner != true) {
+                                console.log("UnauthorizedException location:'roles.guard.ts'");
+                                throw { message: "You are not authorized to perform this action" };
+                                // throw new UnauthorizedException('You are not authorized to perform this action');
+                            }
                         }
                         _a = request;
                         return [4 /*yield*/, {
