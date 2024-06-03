@@ -23,7 +23,7 @@ export class NotesService{
         return await this.noteRepository.findOne({where:{note_code:notesCode}});
     }
 
-    async updateNote(noteId:string,updateInfo:NoteUpdateDto,userId:string):Promise<Note>{
+    async updateNote(groupId:string,noteId:string,updateInfo:NoteUpdateDto,userId:string):Promise<Note>{
 
         const note = await this.findOneByNoteId(noteId,userId);
         if(!note){
@@ -74,10 +74,11 @@ export class NotesService{
     }
 
     //this is a data/inforamtion available to the public 
-    async findOneByNoteId(noteId:string,userId?:string):Promise<Note>{
+    async findOneByNoteId(groupId:string,noteId:string,userId?:string):Promise<Note>{
         
         return await this.noteRepository.findOne({
         where:{
+                group_id:groupId,
                 id:noteId,
                 ...(!userId && {view_type:'public'}),
                 is_active:true,

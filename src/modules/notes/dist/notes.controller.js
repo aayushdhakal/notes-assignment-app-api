@@ -81,7 +81,7 @@ var NotesController = /** @class */ (function () {
             });
         });
     };
-    NotesController.prototype.getNotesForUser = function (req) {
+    NotesController.prototype.getNotesofUsers = function (req) {
         return __awaiter(this, void 0, void 0, function () {
             var notes;
             return __generator(this, function (_a) {
@@ -91,11 +91,11 @@ var NotesController = /** @class */ (function () {
         });
     };
     //this is a single note available to the public or anyone
-    NotesController.prototype.getNote = function (id) {
+    NotesController.prototype.getNote = function (id, req) {
         return __awaiter(this, void 0, void 0, function () {
             var notes;
             return __generator(this, function (_a) {
-                notes = this.notesService.findOneByNoteId(id);
+                notes = this.notesService.findOneByNoteId(req.query.group, id);
                 return [2 /*return*/, notes];
             });
         });
@@ -130,7 +130,7 @@ var NotesController = /** @class */ (function () {
                         if (isActive) {
                             tempVal.is_active = isActive;
                         }
-                        return [4 /*yield*/, this.notesService.updateNote(id, tempVal, req.user.id)];
+                        return [4 /*yield*/, this.notesService.updateNote(req.query.group, id, tempVal, req.user.id)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -155,11 +155,11 @@ var NotesController = /** @class */ (function () {
         common_1.Get('user-notes'),
         roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_USER)),
         __param(0, common_1.Request())
-    ], NotesController.prototype, "getNotesForUser");
+    ], NotesController.prototype, "getNotesofUsers");
     __decorate([
         common_1.Get(':id'),
         roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_USER)),
-        __param(0, common_1.Param('id', common_1.ParseUUIDPipe))
+        __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Request)
     ], NotesController.prototype, "getNote");
     __decorate([
         common_1.Post(''),

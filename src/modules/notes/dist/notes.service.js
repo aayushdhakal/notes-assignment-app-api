@@ -85,7 +85,7 @@ var NotesService = /** @class */ (function () {
             });
         });
     };
-    NotesService.prototype.updateNote = function (noteId, updateInfo, userId) {
+    NotesService.prototype.updateNote = function (groupId, noteId, updateInfo, userId) {
         return __awaiter(this, void 0, Promise, function () {
             var note, newNote;
             return __generator(this, function (_a) {
@@ -173,12 +173,12 @@ var NotesService = /** @class */ (function () {
         });
     };
     //this is a data/inforamtion available to the public 
-    NotesService.prototype.findOneByNoteId = function (noteId, userId) {
+    NotesService.prototype.findOneByNoteId = function (groupId, noteId, userId) {
         return __awaiter(this, void 0, Promise, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.noteRepository.findOne({
-                            where: __assign(__assign(__assign({ id: noteId }, (!userId && { view_type: 'public' })), { is_active: true }), (userId && { user_id: userId })),
+                            where: __assign(__assign(__assign({ group_id: groupId, id: noteId }, (!userId && { view_type: 'public' })), { is_active: true }), (userId && { user_id: userId })),
                             include: [{ model: users_model_1.User, as: 'user', attributes: ['id', 'username'] }]
                         })];
                     case 1: return [2 /*return*/, _a.sent()];

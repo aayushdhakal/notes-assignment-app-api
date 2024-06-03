@@ -35,7 +35,7 @@ export class NotesController {
 
     @Get('user-notes')
     @Roles(getMaximumRolesPrivilege(ROLE_USER))
-    async getNotesForUser(@Request() req){
+    async getNotesofUsers(@Request() req){
         const notes = this.notesService.findAllthePersonelNotes(req.user.id);
         return notes;
     }
@@ -43,8 +43,8 @@ export class NotesController {
     //this is a single note available to the public or anyone
     @Get(':id')
     @Roles(getMaximumRolesPrivilege(ROLE_USER))
-    async getNote(@Param('id',ParseUUIDPipe) id:string,){
-        const notes = this.notesService.findOneByNoteId(id);
+    async getNote(@Param('id',ParseUUIDPipe) id:string,@Request() req){
+        const notes = this.notesService.findOneByNoteId(req.query.group,id);
         return notes; 
     }
 
@@ -71,7 +71,7 @@ export class NotesController {
         if(viewType){tempVal.view_type=viewType}
         if(isActive){tempVal.is_active=isActive}
         
-        return await this.notesService.updateNote(id,tempVal,req.user.id); 
+        return await this.notesService.updateNote(req.query.group,id,tempVal,req.user.id); 
     }
 
     @Delete(':id')
