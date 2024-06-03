@@ -140,7 +140,7 @@ var NotesController = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.notesService.deleteNote(id, req.user.id)];
+                    case 0: return [4 /*yield*/, this.notesService.deleteNote(req.query.group, id, req.user.id)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -159,7 +159,7 @@ var NotesController = /** @class */ (function () {
     __decorate([
         common_1.Get(':id'),
         roles_guard_1.Roles(roles_list_1.getMaximumRolesPrivilege(constants_1.ROLE_USER)),
-        __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Request)
+        __param(0, common_1.Param('id', common_1.ParseUUIDPipe)), __param(1, common_1.Request())
     ], NotesController.prototype, "getNote");
     __decorate([
         common_1.Post(''),
