@@ -3,11 +3,6 @@ import { NOTE_REPOSITORY } from "src/core/constants";
 import { Note } from "src/core/db/models/notes.model";
 import { NoteCreateDto ,NoteUpdateDto } from "./dto/notes.dto";
 import { User } from "../../core/db/models/users.model";
-import { log } from "console";
-
-const Sequelize = require('sequelize')
-
-
 
 @Injectable()
 export class NotesService{
@@ -36,8 +31,8 @@ export class NotesService{
         return  newNote || null;
     }
 
-    async deleteNote(noteId:string,userId:string):Promise<Boolean>{
-        let note = await this.findOneByNoteId(noteId);
+    async deleteNote(groupId:string,noteId:string,userId:string):Promise<Boolean>{
+        let note = await this.findOneByNoteId(groupId,noteId);
         await note.destroy();
         return true;
     }

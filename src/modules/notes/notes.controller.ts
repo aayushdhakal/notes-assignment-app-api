@@ -77,7 +77,7 @@ export class NotesController {
     @Delete(':id')
     @Roles(getMaximumRolesPrivilege(ROLE_ADMIN))
     async deleteNote(@Param('id',ParseUUIDPipe) id:string,@Request() req){
-        return await this.notesService.deleteNote(id,req.user.id)
+        return await this.notesService.deleteNote(req.query.group,id,req.user.id)
     }
 
 }

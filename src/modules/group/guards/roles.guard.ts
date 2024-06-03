@@ -67,7 +67,7 @@ export class RolesGuard implements CanActivate{
             
             
             if(runningClassname.className == "NotesController" && runningClassname.handlerName != "createNote"){
-                const note =await  this.noteService.findOneByNoteId(request.query.note);
+                const note =await  this.noteService.findOneByNoteId(request.query.group,request.query.note);
                 if(note.dataValues.user_id == request.user.id){
                     request.isNoteOwner = true;
                 }

@@ -104,7 +104,7 @@ var RolesGuard = /** @class */ (function () {
                             groupName: valueTemp[0].group.dataValues.name
                         };
                         if (!(runningClassname.className == "NotesController" && runningClassname.handlerName != "createNote")) return [3 /*break*/, 4];
-                        return [4 /*yield*/, this.noteService.findOneByNoteId(request.query.note)];
+                        return [4 /*yield*/, this.noteService.findOneByNoteId(request.query.group, request.query.note)];
                     case 3:
                         note = _b.sent();
                         if (note.dataValues.user_id == request.user.id) {

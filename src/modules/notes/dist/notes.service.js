@@ -60,7 +60,6 @@ exports.NotesService = void 0;
 var common_1 = require("@nestjs/common");
 var constants_1 = require("src/core/constants");
 var users_model_1 = require("../../core/db/models/users.model");
-var Sequelize = require('sequelize');
 var NotesService = /** @class */ (function () {
     function NotesService(noteRepository) {
         this.noteRepository = noteRepository;
@@ -107,12 +106,12 @@ var NotesService = /** @class */ (function () {
             });
         });
     };
-    NotesService.prototype.deleteNote = function (noteId, userId) {
+    NotesService.prototype.deleteNote = function (groupId, noteId, userId) {
         return __awaiter(this, void 0, Promise, function () {
             var note;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.findOneByNoteId(noteId)];
+                    case 0: return [4 /*yield*/, this.findOneByNoteId(groupId, noteId)];
                     case 1:
                         note = _a.sent();
                         return [4 /*yield*/, note.destroy()];
